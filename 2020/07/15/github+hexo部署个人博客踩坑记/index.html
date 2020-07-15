@@ -316,7 +316,7 @@ hexo g	# 生成新主题的静态文件</code></pre>
 <h2 id="4-安装宝塔-Nginx"><a href="#4-安装宝塔-Nginx" class="headerlink" title="4. 安装宝塔+Nginx"></a>4. 安装宝塔+Nginx</h2><ul>
 <li>安装宝塔</li>
 </ul>
-<pre><code class="hljs shell">yum install -y wget &amp;&amp; wget -O install.sh http://download.bt.cn/install/install_6.0.sh &amp;&amp; sh install.sh</code></pre>
+<pre><code class="hljs bash">yum install -y wget &amp;&amp; wget -O install.sh http://download.bt.cn/install/install_6.0.sh &amp;&amp; sh install.sh</code></pre>
 
 <ul>
 <li><table>
@@ -408,11 +408,11 @@ hexo g	# 生成新主题的静态文件</code></pre>
 <li><p><code>vim /root/hexo/myblog/_config.yml</code></p>
 </li>
 </ul>
-<pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash"> 将光标下滑至文件的末尾</span>
+<pre><code class="hljs bash"><span class="hljs-comment"># 将光标下滑至文件的末尾</span>
 deploy:
-  type: git
+  <span class="hljs-built_in">type</span>: git
   repository:
-    github: git@github.com:xiaoming/xiaoming.github.io.git	# 这里的xiaoming改成自己的仓库名
+    github: git@github.com:xiaoming/xiaoming.github.io.git	<span class="hljs-comment"># 这里的xiaoming改成自己的仓库名</span>
   branch: master</code></pre>
 
 <ul>
@@ -469,11 +469,11 @@ deploy:
 </tbody></table>
 </li>
 </ul>
-<h2 id="6-发布文章"><a href="#6-发布文章" class="headerlink" title="6. 发布文章"></a>6. 发布文章</h2><pre><code class="hljs shell">cd /root/hexo/myblog	# 切换到hexo环境下
-hexo new hello-world	# 生成名为hello-world的文章
-hexo clean	# 清除静态文件
-hexo g	# 生成静态文件
-hexo d	# 同步到github</code></pre>
+<h2 id="6-发布文章"><a href="#6-发布文章" class="headerlink" title="6. 发布文章"></a>6. 发布文章</h2><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /root/hexo/myblog	<span class="hljs-comment"># 切换到hexo环境下</span>
+hexo new hello-world	<span class="hljs-comment"># 生成名为hello-world的文章</span>
+hexo clean	<span class="hljs-comment"># 清除静态文件</span>
+hexo g	<span class="hljs-comment"># 生成静态文件</span>
+hexo d	<span class="hljs-comment"># 同步到github</span></code></pre>
 
 <ul>
 <li>几分钟后访问xiaoming.github.io就可以看到自己的发布的文章了。(这里的xiaoming为自己的用户名)</li>
@@ -483,20 +483,20 @@ hexo d	# 同步到github</code></pre>
 <li>还有发布文章要内嵌图片的话，需要用markdown格式的链接。有个大坑需要注意，白嫖gitee的仓库做图床的话，访问着没有登录gitee账号是无法加载图片的。本博客用的是阿里云oss+picgo做的图床。(阿里云oss如何部署图床自行百度，这里不写出来了。)</li>
 <li>hexo常用命令缩写</li>
 </ul>
-<pre><code class="hljs shell">hexo g # 完整命令为hexo generate,用于生成静态文件
-hexo s # 完整命令为hexo server,用于启动服务器，主要用来本地预览
-hexo d # 完整命令为hexo deploy,用于将本地文件发布到github上
-hexo n # 完整命令为hexo new,用于新建一篇文章
+<pre><code class="hljs bash">hexo g <span class="hljs-comment"># 完整命令为hexo generate,用于生成静态文件</span>
+hexo s <span class="hljs-comment"># 完整命令为hexo server,用于启动服务器，主要用来本地预览</span>
+hexo d <span class="hljs-comment"># 完整命令为hexo deploy,用于将本地文件发布到github上</span>
+hexo n <span class="hljs-comment"># 完整命令为hexo new,用于新建一篇文章</span>
 ------ 分割线 -------
-hexo new “postName” # 新建文章
-hexo new page “pageName” # 新建页面
-hexo generate # 生成静态页面至public目录
-hexo server # 开启预览访问端口（默认端口4000，“ctrl + c”关闭server）
-hexo deploy # 部署到GitHub
-hexo help # 查看帮助
-hexo version # 查看Hexo的版本
-hexo s -g # 生成并本地预览
-hexo d -g # 生成并上传</code></pre>
+hexo new “postName” <span class="hljs-comment"># 新建文章</span>
+hexo new page “pageName” <span class="hljs-comment"># 新建页面</span>
+hexo generate <span class="hljs-comment"># 生成静态页面至public目录</span>
+hexo server <span class="hljs-comment"># 开启预览访问端口（默认端口4000，“ctrl + c”关闭server）</span>
+hexo deploy <span class="hljs-comment"># 部署到GitHub</span>
+hexo <span class="hljs-built_in">help</span> <span class="hljs-comment"># 查看帮助</span>
+hexo version <span class="hljs-comment"># 查看Hexo的版本</span>
+hexo s -g <span class="hljs-comment"># 生成并本地预览</span>
+hexo d -g <span class="hljs-comment"># 生成并上传</span></code></pre>
 
 
 
