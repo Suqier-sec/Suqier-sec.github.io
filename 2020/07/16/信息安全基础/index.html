@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>github+hexo部署个人博客踩坑记 - Suqier&#39;s Blog</title>
+  <title>信息安全基础 - Suqier&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -152,7 +152,7 @@
 </nav>
 
     <div class="banner intro-2" id="background" parallax=true
-         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200715093125.jpg') no-repeat center center;
+         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200716150805.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -165,8 +165,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-07-15 11:04">
-      July 15, 2020 am
+    <time datetime="2020-07-16 15:03">
+      July 16, 2020 pm
     </time>
   </div>
 
@@ -176,7 +176,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.3k 字
+      1.6k 字
     </span>
   
 
@@ -217,94 +217,143 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="1-git"><a href="#1-git" class="headerlink" title="1.  git"></a>1.  git</h2><ol>
-<li><p>安装</p>
-<ul>
-<li><p><code>yum update &amp;&amp; yum install git -y</code></p>
+              <h1 id="信息安全基础"><a href="#信息安全基础" class="headerlink" title="信息安全基础"></a>信息安全基础</h1><ol>
+<li><p>信息安全概念：保护信息系统的硬件，软件及相关数据，使之不因为偶然或而已的侵犯而遭受到破坏，更改和泄露；保证信息系统中的机密性，完整性，和可用性</p>
 </li>
-<li><p>安装完成后进行验证</p>
+<li><p><strong>信息安全管理体系</strong>：是组织在整体或特定范围内建立的信息安全方针和目标，以及完善这些目标所采用的方法和手段所构成的体系</p>
+<ol>
+<li>信息安全管理体系<ul>
+<li>密码管理</li>
+<li>网络管理</li>
+<li>设备管理</li>
+<li>人员管理</li>
+</ul>
 </li>
-<li><table>
-<thead>
-<tr>
-<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200714154845.png" srcset="/img/loading.gif" alt=""></th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-</tr>
-</tbody></table>
-</li>
-<li><p>如果这里使用的是阿里云的服务器的话是自带有git的，完全不用安装。</p>
+<li>密码管理<ul>
+<li>密码管理：基于密码机制的安全系统</li>
+<li>商用密码管理原则：统一领导，集中管理，定点研制，专控经营，满足使用。</li>
+<li>商用密码应用：不涉及国家秘密内容但又具有敏感性的内部信息，行政事务信息，经济信息等进行加密保护</li>
+<li>无线局域网产品使用系列密码算法：<ul>
+<li>对称密码算法：SMS4</li>
+<li>签名算法：ECDSA</li>
+<li>密钥协商算法：ECDH</li>
+<li>杂凑算法：SHA-256</li>
+<li>随机数生成算法：自行选择</li>
+</ul>
 </li>
 </ul>
 </li>
-<li><p>配置</p>
-<pre><code class="hljs shell">git config --global user.name "name"	# 这里的name填的是githhub的用户名
-git config --global user.email "emali" # emalie则是github的邮件
-git config user.name	# 输出绑定的用户
-git config user.email	# 输出绑定的邮箱
-<span class="hljs-meta">#</span><span class="bash"> 生成免密key</span>
-ssh-keygen -t rsa -C "emali"	
-<span class="hljs-meta">#</span><span class="bash"> emali 指的是上面的github邮件，这一步主要是生成ssh密钥，后续将博客同步到github时用的</span></code></pre>
-
-<ul>
-<li><p>验证</p>
+<li>网络管理<ul>
+<li>网络管理：配置管理，性能管理，安全管理，故障管理等。<ul>
+<li>网络管理体系结构包括：协议，表示，安全，对象</li>
+<li>网络管理特征：统一化，智能化，安全化，主动化</li>
+</ul>
 </li>
-<li><table>
-<thead>
-<tr>
-<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200714195255.png" srcset="/img/loading.gif" alt=""></th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-</tr>
-</tbody></table>
+<li>设备管理<ul>
+<li>包括设备的选型，检测，安装，登记，使用，维护和存储管理等。</li>
+</ul>
 </li>
-<li><p>最后面的生成ssh密钥已经生成过了，就不再次生成了。</p>
+<li>安全设备选取原则：<ul>
+<li>严禁使用未经国家信息安全评测机构认可的信息安全产品</li>
+<li>尽量避免直接使用境外的密码设备，必须采用境外的信息安全产品时，该产品需通过国家信息安全测评机构的认可</li>
+<li>眼睛使用未经国家密码管理部门批准和未通过国家信息安全质量认证的密码设备</li>
+</ul>
+</li>
+<li>人员管理<ul>
+<li>确保有关业务人员的思想素质，职业道德，和业务素质</li>
+<li>人员管理的安全教育对象：包括信息安全相关的所有人员</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>信息安全等级保护1.0(GB17859-1999)<ul>
+<li>等级保护划分依据：信息系统的安全保护等级应对根据信息系统在国家安全，经济建设，社会生活中的重要程度，信息系统遭到破坏后对国家安全，社会秩序，公共利益以及公民，法人和其他组织的合法权益的危害程度等因素</li>
+<li>信息安全等级保护<ol>
+<li>用户自主保护级：隔离用户与数据</li>
+<li>系统审计保护级：在自主访问控制的基础上控制访问权限扩散。</li>
+<li>安全标记级：具有系统审计保护级所有的功能，提供有关安全策略模型，数据标记，具备准确地标记输出信息的能力，消除通过测试发现的任何错误。</li>
+<li>结构化保护级：在安全标记级实施的自主和强制访问控制基础上，进一步扩展到所有的主体和客体，能够审计利用隐蔽存储信道时可能被使用的事件。</li>
+<li>访问验证保护级：满足访问监视器需求，访问监视器仲裁主体对客体的全部访问</li>
+</ol>
+</li>
+<li>涉密信息系统安全分级保护根据其涉密信息系统处理的最高密级，可以划分为秘密级，机密级和机密(增强)级，绝密级。</li>
+<li>分类保护<ul>
+<li>秘密级：包含有最高为秘密级的国家秘密，其防护水平不低于国家信息安全等级保护三级的要求。</li>
+<li>机密级：包含有最高为机密级的国家密码，其防护水平不低于国家安全等级保护四级的要求<ul>
+<li>绝密级：包含有最高为绝密级的国家密码，其防护水平不低于国家信息安全等级保护五级的要求</li>
+</ul>
+</li>
+</ul>
 </li>
 </ul>
 </li>
 </ol>
-<h2 id="2-安装node-js"><a href="#2-安装node-js" class="headerlink" title="2. 安装node.js"></a>2. 安装node.js</h2><pre><code class="hljs shell">yum update gcc -y	# 安装gcc后续用来编译安装node.js
-yum install gcc+ gcc-c++ -y
-wget https://npm.taobao.org/mirrors/node/v10.13.0/node-v10.13.0.tar.gz	# 下载node.js的安装文件
-tar xvf node-v10.13.0.tar.gz
-cd node-v10.13.0/
-./configure	# 生成文件
-make	# 编译这一步超级久，看服务器配置吧，反正我编译了一个钟
-make install# 安装</code></pre>
-
+</li>
+<li><p>网络隔离</p>
 <ul>
-<li>上面的操作都已经装过了,且不方便再重复一次,这里不贴图了。</li>
+<li>网络隔离是一项网络安全技术，目标是确保有害的攻击隔离，在可信网络之外保证可信网络内部信息不外泄的前提下，完成网络数据的安全交换。</li>
+<li>网络隔离<ul>
+<li>第一代-完全隔离：完全的物理隔离</li>
+<li>第二代-硬件卡隔离：增加硬件卡隔离</li>
+<li>第三代-数据传播隔离：利用传播系统分时复制文件的途径来实现隔离</li>
+<li>第四代-空气开关隔离：使用单刀双掷开关</li>
+<li>第五代-安全通道隔离：通过专用通信硬件和专有安全协议等安全机制来实现内外网络的隔离和数据交换</li>
 </ul>
-<h2 id="3-安装hexo"><a href="#3-安装hexo" class="headerlink" title="3. 安装hexo"></a>3. 安装hexo</h2><pre><code class="hljs shell">cd /root &amp;&amp; mkdir hexo	# 切换到root目录下生成hexo文件
-npm config set registry https://registry.npm.taobao.org	# 将npm源更换为淘宝的,如果不更换,默认源下载慢到怀疑人生.
-cd hexo
-npm install -g hexo-cli #安装hexo
-hexo init myblog # hexo 生成myblog文件夹在其中进行初始化
-npm install
-hexo g	# 生成静态文件</code></pre>
-
+</li>
+<li>网络隔离安全要点：<ul>
+<li>要具有高度的自身安全性</li>
+<li>要确保网络之间是隔离的</li>
+<li>要保证网间交换的只是应用数据</li>
+<li>要对内网的访问进行严格的控制和检查</li>
+<li>要在坚持隔离的前提下保证网络畅通和应用畅通</li>
+</ul>
+</li>
+<li>网络隔离的关键是在对于通信数据的控制，即通过不可路由协议来完成内网数据交换</li>
+</ul>
+</li>
+<li><p>安全监控</p>
 <ul>
-<li>访问<a href="http://localhost:4000" target="_blank" rel="noopener">http://localhost:4000</a> 就可以看到生成的博客了。</li>
-<li>设置主题</li>
-<li>hexo 官网上提供了三百多款主题，想要哪个可以自己选择：<a href="https://hexo.io/themes/" target="_blank" rel="noopener">https://hexo.io/themes/</a> (没有科学上网的话访问较慢)</li>
+<li>系统安全监控，是指对系统的运行状况和系统中的用户的行为进行监视，控制和记录。安全监控的内容包括主机系统监视，网络状态监视，用户操作监视，主机应用监视，主机外设监视，网络连接监视等。</li>
+<li>安全监控的分类<ul>
+<li>网络安全监控：全面的网络安全控制，细粒度的控制，网络审计和其他包括日志，报警和拦截等功能。</li>
+<li>主机安全监控功能：访问控制，系统监控，系统审计，系统漏洞检查</li>
 </ul>
-<pre><code class="hljs shell">git clone 主题链接
-tar -xvf 主题压缩包
-<span class="hljs-meta">#</span><span class="bash"> 解压之后会有一个主题名</span>
-vim /root/hexo/myblog/_config.yml
-在theme：后换上解压出来的主题名就算是应用主题了。
-hexo clean	# 清除静态文件
-hexo g	# 生成新主题的静态文件</code></pre>
-
+</li>
+</ul>
+</li>
+<li><p>信息安全风险评估管理</p>
 <ul>
-<li><table>
+<li><p>信息安全风险评估：是依据有关信息安全技术标准，对信息系统及尤其处理，传输和存储的信息的保密性，完整性，可用性等安全属性进行科学评价的过程</p>
+</li>
+<li><p>风险评估方法分为三类：定量评估方法，定性评估方法，定性和定量结合的综合评估方法。</p>
+<table>
 <thead>
 <tr>
-<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200714201954.png" srcset="/img/loading.gif" alt=""></th>
+<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200716104824.png" srcset="/img/loading.gif" alt=""></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>风险评估方法</p>
+<table>
+<thead>
+<tr>
+<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200716105127.png" srcset="/img/loading.gif" alt=""></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>降低风险的途径</p>
+<table>
+<thead>
+<tr>
+<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200716105407.png" srcset="/img/loading.gif" alt=""></th>
 </tr>
 </thead>
 <tbody><tr>
@@ -313,113 +362,13 @@ hexo g	# 生成新主题的静态文件</code></pre>
 </tbody></table>
 </li>
 </ul>
-<h2 id="4-安装宝塔-Nginx"><a href="#4-安装宝塔-Nginx" class="headerlink" title="4. 安装宝塔+Nginx"></a>4. 安装宝塔+Nginx</h2><ul>
-<li>安装宝塔</li>
-</ul>
-<pre><code class="hljs bash">yum install -y wget &amp;&amp; wget -O install.sh http://download.bt.cn/install/install_6.0.sh &amp;&amp; sh install.sh</code></pre>
-
-<ul>
-<li><table>
-<thead>
-<tr>
-<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200715093804.png" srcset="/img/loading.gif" alt=""></th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-</tr>
-</tbody></table>
 </li>
-<li><p>安装配置Nginx</p>
-</li>
-<li><p>在软件商店搜索nginx，那个免费的就是了。因为安装过了，显示的是卸载。</p>
-</li>
-<li><table>
-<thead>
-<tr>
-<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200714205444.png" srcset="/img/loading.gif" alt=""></th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-</tr>
-</tbody></table>
-</li>
-<li><p>下载之后点击右侧的设置，修改配置。</p>
-</li>
-<li><p>第一行改成 <code>user root www</code> 这里的用户不是root的话可能没有权限</p>
-</li>
-<li><table>
-<thead>
-<tr>
-<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200715082056.png" srcset="/img/loading.gif" alt=""></th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-</tr>
-</tbody></table>
-</li>
-<li><p>第六十五行改成也就是nginx网站根目录<code>root  /root/hexo/myblog/public;</code></p>
-</li>
-<li><table>
-<thead>
-<tr>
-<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200715113613.png" srcset="/img/loading.gif" alt=""></th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-</tr>
-</tbody></table>
-</li>
-<li><p>再返回nginx管理，将nginx进行重启。</p>
-</li>
-<li><table>
-<thead>
-<tr>
-<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200715082627.png" srcset="/img/loading.gif" alt=""></th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-</tr>
-</tbody></table>
-</li>
-<li><p>到这一步就已经配置好网站了，可以使用ip或域名的形式访问前面部署好的hexo了。</p>
-</li>
-</ul>
-<h2 id="5-部署到github"><a href="#5-部署到github" class="headerlink" title="5. 部署到github"></a>5. 部署到github</h2><ul>
-<li><p>新建仓库，访问github.com 在首页点击创建仓库。<strong>（！！！仓库名前缀一定要和用户名一致，不然会连接不上）</strong></p>
-</li>
-<li><table>
-<thead>
-<tr>
-<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200715083252.png" srcset="/img/loading.gif" alt=""></th>
-</tr>
-</thead>
-<tbody><tr>
-<td></td>
-</tr>
-</tbody></table>
-</li>
-<li><p>接下来就是修改hexo的配置文件，配置好github链接</p>
-</li>
-<li><p><code>vim /root/hexo/myblog/_config.yml</code></p>
-</li>
-</ul>
-<pre><code class="hljs bash"><span class="hljs-comment"># 将光标下滑至文件的末尾</span>
-deploy:
-  <span class="hljs-built_in">type</span>: git
-  repository:
-    github: git@github.com:xiaoming/xiaoming.github.io.git	<span class="hljs-comment"># 这里的xiaoming改成自己的仓库名</span>
-  branch: master</code></pre>
-
+<li><p>信息安全法律法规</p>
 <ul>
 <li><table>
 <thead>
 <tr>
-<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200715084018.png" srcset="/img/loading.gif" alt=""></th>
+<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200716110548.png" srcset="/img/loading.gif" alt=""></th>
 </tr>
 </thead>
 <tbody><tr>
@@ -427,14 +376,12 @@ deploy:
 </tr>
 </tbody></table>
 </li>
-<li><p>安装同步到github的插件<code>npm install hexo-deployer-git --save</code></p>
-</li>
-<li><p>查看前面生成的ssh密钥<code>cat /root/.ssh/id_rsa.pub</code>将其复制</p>
+<li><p>知识产权保护期限</p>
 </li>
 <li><table>
 <thead>
 <tr>
-<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200715084946.png" srcset="/img/loading.gif" alt=""></th>
+<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200716144629.png" srcset="/img/loading.gif" alt=""></th>
 </tr>
 </thead>
 <tbody><tr>
@@ -442,12 +389,12 @@ deploy:
 </tr>
 </tbody></table>
 </li>
-<li><p>返回github点击右上角的头像，然后settting，再ssh key and gpg keys 添加新的ssh密钥</p>
+<li><p>产权人确定</p>
 </li>
 <li><table>
 <thead>
 <tr>
-<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200715085421.png" srcset="/img/loading.gif" alt=""></th>
+<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200716144757.png" srcset="/img/loading.gif" alt=""></th>
 </tr>
 </thead>
 <tbody><tr>
@@ -455,12 +402,12 @@ deploy:
 </tr>
 </tbody></table>
 </li>
-<li><p>返回服务器，在终端输入 <code>ssh -T git@github.com</code> 验证连接。提示这个显示连接成功。</p>
+<li><p>侵权判断</p>
 </li>
 <li><table>
 <thead>
 <tr>
-<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200715114702.png" srcset="/img/loading.gif" alt=""></th>
+<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200716144921.png" srcset="/img/loading.gif" alt=""></th>
 </tr>
 </thead>
 <tbody><tr>
@@ -469,36 +416,38 @@ deploy:
 </tbody></table>
 </li>
 </ul>
-<h2 id="6-发布文章"><a href="#6-发布文章" class="headerlink" title="6. 发布文章"></a>6. 发布文章</h2><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> /root/hexo/myblog	<span class="hljs-comment"># 切换到hexo环境下</span>
-hexo new hello-world	<span class="hljs-comment"># 生成名为hello-world的文章</span>
-hexo clean	<span class="hljs-comment"># 清除静态文件</span>
-hexo g	<span class="hljs-comment"># 生成静态文件</span>
-hexo d	<span class="hljs-comment"># 同步到github</span></code></pre>
-
+</li>
+<li><p>标准的分类</p>
 <ul>
-<li>几分钟后访问xiaoming.github.io就可以看到自己的发布的文章了。(这里的xiaoming为自己的用户名)</li>
+<li><p>标准的分类</p>
+</li>
+<li><table>
+<thead>
+<tr>
+<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200716145356.png" srcset="/img/loading.gif" alt=""></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>标准代号的识别</p>
+</li>
+<li><table>
+<thead>
+<tr>
+<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200716145854.png" srcset="/img/loading.gif" alt=""></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+</tr>
+</tbody></table>
+</li>
 </ul>
-<h2 id="7-踩坑总结"><a href="#7-踩坑总结" class="headerlink" title="7. 踩坑总结"></a>7. 踩坑总结</h2><ul>
-<li>默认的是next的主题，很简洁，如果要个性化的话，可以去hexo访问的主题商店，很多主题都会有文档的，有的写的很详细，有的一笔带过。这里不推荐第一次接触就去弄那种很复杂的主题，因为会怀疑人生了。(我就是折腾了大几天，自闭了都)</li>
-<li>还有发布文章要内嵌图片的话，需要用markdown格式的链接。有个大坑需要注意，白嫖gitee的仓库做图床的话，访问着没有登录gitee账号是无法加载图片的。本博客用的是阿里云oss+picgo做的图床。(阿里云oss如何部署图床自行百度，这里不写出来了。)</li>
-<li>hexo常用命令缩写</li>
-</ul>
-<pre><code class="hljs bash">hexo g <span class="hljs-comment"># 完整命令为hexo generate,用于生成静态文件</span>
-hexo s <span class="hljs-comment"># 完整命令为hexo server,用于启动服务器，主要用来本地预览</span>
-hexo d <span class="hljs-comment"># 完整命令为hexo deploy,用于将本地文件发布到github上</span>
-hexo n <span class="hljs-comment"># 完整命令为hexo new,用于新建一篇文章</span>
------- 分割线 -------
-hexo new “postName” <span class="hljs-comment"># 新建文章</span>
-hexo new page “pageName” <span class="hljs-comment"># 新建页面</span>
-hexo generate <span class="hljs-comment"># 生成静态页面至public目录</span>
-hexo server <span class="hljs-comment"># 开启预览访问端口（默认端口4000，“ctrl + c”关闭server）</span>
-hexo deploy <span class="hljs-comment"># 部署到GitHub</span>
-hexo <span class="hljs-built_in">help</span> <span class="hljs-comment"># 查看帮助</span>
-hexo version <span class="hljs-comment"># 查看Hexo的版本</span>
-hexo s -g <span class="hljs-comment"># 生成并本地预览</span>
-hexo d -g <span class="hljs-comment"># 生成并上传</span></code></pre>
-
-
+</li>
+</ol>
 
             </article>
             <hr>
@@ -508,7 +457,7 @@ hexo d -g <span class="hljs-comment"># 生成并上传</span></code></pre>
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/linux/">linux</a>
+                      <a class="hover-with-bg" href="/categories/%E8%80%83%E8%AF%81/">考证</a>
                     
                   </div>
                 
@@ -516,7 +465,7 @@ hexo d -g <span class="hljs-comment"># 生成并上传</span></code></pre>
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%9D%82%E9%A1%B9/">杂项</a>
+                      <a class="hover-with-bg" href="/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/">信息安全</a>
                     
                   </div>
                 
@@ -529,18 +478,12 @@ hexo d -g <span class="hljs-comment"># 生成并上传</span></code></pre>
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/07/15/%E4%BF%A1%E5%B7%A5%E8%80%83%E8%AF%81/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">信工考证</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/07/14/hello-world/">
-                        <span class="hidden-mobile">hello-world</span>
+                      <a href="/2020/07/15/%E4%BF%A1%E5%B7%A5%E8%80%83%E8%AF%81/">
+                        <span class="hidden-mobile">信工考证</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -679,7 +622,7 @@ hexo d -g <span class="hljs-comment"># 生成并上传</span></code></pre>
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "github+hexo部署个人博客踩坑记&nbsp;",
+        "信息安全基础&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
