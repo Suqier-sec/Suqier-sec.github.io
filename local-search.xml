@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>python_threading乱序问题</title>
+    <link href="/2020/07/18/python-threading%E4%B9%B1%E5%BA%8F%E9%97%AE%E9%A2%98/"/>
+    <url>/2020/07/18/python-threading%E4%B9%B1%E5%BA%8F%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<h1 id="python-threading-随笔"><a href="#python-threading-随笔" class="headerlink" title="python threading 随笔"></a>python threading 随笔</h1><h3 id="Semaphore类"><a href="#Semaphore类" class="headerlink" title="Semaphore类"></a>Semaphore类</h3><ul><li><p>写程序多线程执行的时候，经常碰到一个问题就是线程乱序，一直抱着又不是不能用的心理所以放着没解决。今天恰好又碰到了，索性就把这个问题处理了</p></li><li><p>Semaphore是python 内置模块threading中的一个类</p></li><li><p>Semaphore管理着一个计数器，计数器的值默认为1，值不能小于0，计数器的值为0时，调用acquire()的线程就会堵塞。</p><ul><li>每调用一次acquire()方法，计数器减一</li><li>调用一次release()方法，计数器加一</li><li>因此可以利用Semaphore这个类的特征来控制线程数量</li></ul></li><li><p>demo</p><pre><code class="hljs python"><span class="hljs-keyword">import</span> time<span class="hljs-keyword">from</span> threading <span class="hljs-keyword">import</span> *<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">func</span><span class="hljs-params">(a)</span>:</span>    print(t.name)  <span class="hljs-comment"># 输出线程的名字</span>    print(a)    time.sleep(<span class="hljs-number">1</span>)    sem.release()  <span class="hljs-comment"># 释放 semaphore</span>sem = Semaphore(<span class="hljs-number">2</span>)  <span class="hljs-comment"># 设置计数器的值为 5</span><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, <span class="hljs-number">11</span>):    sem.acquire()  <span class="hljs-comment"># 获取一个 semaphore</span>    t = Thread(target=func, args=(i,))    t.start()<span class="hljs-comment"># 当执行两次acquire()方法后,sem中的值为零，线程开始堵塞，func需要延迟一秒才执行结束。</span><span class="hljs-comment"># func执行一次release()，sem的值开始+1，for循环又可以继续执行了</span></code></pre></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>python</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>threading</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>信息安全基础</title>
     <link href="/2020/07/16/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/"/>
     <url>/2020/07/16/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/</url>
@@ -70,7 +95,7 @@
     
     <tags>
       
-      <tag>杂项</tag>
+      <tag>hexo</tag>
       
     </tags>
     
