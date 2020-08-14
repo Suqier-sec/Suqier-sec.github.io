@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>sqli手注基础 - SuQieR&#39;s Blog</title>
+  <title>解决firefox复制url会自动encodeurl - SuQieR&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -152,7 +152,7 @@
 </nav>
 
     <div class="banner intro-2" id="background" parallax=true
-         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200727145833.jpg') no-repeat center center;
+         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814130818.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -165,8 +165,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-07-27 11:29">
-      July 27, 2020 am
+    <time datetime="2020-07-30 11:29">
+      July 30, 2020 am
     </time>
   </div>
 
@@ -176,7 +176,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      794 字
+      111 字
     </span>
   
 
@@ -186,7 +186,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      1
        分钟
     </span>
   
@@ -217,106 +217,24 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h1 id="sql-labs-手注"><a href="#sql-labs-手注" class="headerlink" title="sql-labs 手注"></a>sql-labs 手注</h1><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><ul>
-<li>早在之前就接触过sql-labs，前两次加起来好像是过了前面十几关把，且也没有详细的做笔记。一两个月没接触，基本忘的差不多了，所以才有了这次三刷sql-labs。</li>
-<li>靶场搭建，其实很简单改一下数配置文件数据库连接密码就行了。这里这里直接略过，不会的话移步百度。</li>
-</ul>
-<h2 id="sql注入基础知识"><a href="#sql注入基础知识" class="headerlink" title="sql注入基础知识"></a>sql注入基础知识</h2><ol>
-<li><p>sql注入的分类</p>
+              <h1 id="解决firefox-复制url-会自动encodeurl"><a href="#解决firefox-复制url-会自动encodeurl" class="headerlink" title="解决firefox 复制url 会自动encodeurl"></a>解决firefox 复制url 会自动encodeurl</h1><ul>
+<li><p>问题记录：复制url之后会默认将明文encodeurl</p>
 <ul>
-<li>基于服务器接受到的响应分类<ul>
-<li>基于错误的sql注入</li>
-<li>联合查询的类型</li>
-<li>堆查询注入</li>
-<li>sql盲注<ul>
-<li>基于布尔的sql盲注</li>
-<li>基于时间的sql盲注</li>
-<li>基于报错的sql盲注</li>
+<li>明文地址：<a href="http://192.168.5.135/sqli/Less-1/?id=-1&#39;" target="_blank" rel="noopener">http://192.168.5.135/sqli/Less-1/?id=-1&#39;</a> or 1=1 –+</li>
+<li>经过encodeurl后的地址：<a href="http://192.168.5.135/sqli/Less-1/?id=1%27%20!%20=" target="_blank" rel="noopener">http://192.168.5.135/sqli/Less-1/?id=1%27%20!%20=</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li>基于如何处理输入的sql注入<ul>
-<li>字符串类型</li>
-<li>数字类型</li>
-</ul>
-</li>
-<li>基于程度和顺序的注入<ul>
-<li>一阶注入(一阶注入指的是输入的sql语句直接对web服务产生了影响)</li>
-<li>二阶注入(二阶则是类似存储xss，指提交的sql语句无法对web服务产生影响，但可以通过其他辅助间接触发对web的伤害)</li>
-</ul>
-</li>
-<li>基于注入点的分类<ul>
-<li>通过用户输入的表单域的注入</li>
-<li>通过cookie的注入</li>
-<li>通过服务器变量的注入(头部注入)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>常用函数</p>
+<li><p>解决方法：</p>
 <ul>
-<li>系统函数<ul>
-<li>version()  –&gt; Mysql版本</li>
-<li>user() –&gt; 数据库用户名</li>
-<li>database() –&gt; 数据库名</li>
-<li>@@datadir –&gt;数据库路径</li>
-<li>@@version_compile_os –&gt; 操作系统版本</li>
-</ul>
+<li><p>firefox 地址栏输入about:config进入浏览器配置界面，接受风险并继续</p>
+<p><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814105934.png" srcset="/img/loading.gif" alt=""></p>
 </li>
-<li>字符串连接函数<ul>
-<li>concat(str1,str2,…) 没有分隔符的连接字符串</li>
-<li>concat_ws((separator,str1, str2) 含有分割符的连接字符串</li>
-<li>group_concat(str1,str2)  连接一个组的所有字符串，并以逗号分隔每一条数据</li>
-<li>上面的解释比较抽象，其实也不用了解的这么详细，只需要知道这三个函数能一次性查出信息就行了</li>
-</ul>
+<li><p>搜索<code>browser.urlbar.decodeURLsOnCopy</code> 点右侧按钮将false 切切换为true即解决</p>
+<p><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814110048.png" srcset="/img/loading.gif" alt=""></p>
 </li>
 </ul>
 </li>
-<li><p>一般用于尝试的语句</p>
-<ul>
-<li><p>–+ 可以用#替换，url提交过程中#号经过url编码后为%23</p>
-<ul>
-<li>or 1=1 –+</li>
-<li>‘  or 1=1 –+</li>
-<li>“  or 1=1 –+</li>
-<li>) or 1=1 –+</li>
-<li>‘) or 1=1 –+</li>
-<li>“) or 1=1 –+</li>
-<li>“)) or 1=1 –+</li>
 </ul>
-</li>
-<li><p>一般的代码为:</p>
-<pre><code class="hljs php">$id = $_GET[<span class="hljs-string">'id'</span>];
-$sql = <span class="hljs-string">"SELECT * FROM users WHERE id ='$id'LIMIT 0,1"</span></code></pre>
-
-<ul>
-<li>此处应该考虑两个点，一个是闭合前面的’，一个是处理后面的’，采用两种思路，闭合后面的引号或者注释点，注释采用–+或#(%23)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>information_schema数据库</p>
-<ul>
-<li><p>information_schema数据库只有在mysql5.0以上的版本才有，该数据库中存放着其他数据库的信息，这里需要记得是里面的几个表是干嘛的就行了</p>
-<ul>
-<li>SCHEMATA –&gt; 存储数据库名，关键字段：SCHEMA_NAME，表示数据库名称。show databases()的结果就是取自于此。</li>
-<li>TABLES –&gt; 存储表名，关键字段：TABLE_SCHEMA表示表所属的数据库名称;TABLE_NAME表示表的名称。</li>
-<li>COLUMNS —-―&gt;存储字段名，关键字段：TABLE_SCHEMA表示表所属的数据库名称;TABLE_NAME表示所属的表的名称，COLUMN_NAME表示字段名。</li>
-</ul>
-<pre><code class="hljs sql">猜数据库
-<span class="hljs-keyword">select</span> schema_name <span class="hljs-keyword">from</span> information_schema.schemata 
-猜某库的表
-<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=’xxxxx’ 
-猜某表的列
-<span class="hljs-keyword">Select</span> column_name <span class="hljs-keyword">from</span> information_schema.columns <span class="hljs-keyword">where</span> table_name=’xxxxx’ 
-获取某列的所有内容
-<span class="hljs-keyword">Select</span> *** <span class="hljs-keyword">from</span> ****</code></pre>
-
-</li>
-</ul>
-</li>
-</ol>
 
             </article>
             <hr>
@@ -326,7 +244,7 @@ $sql = <span class="hljs-string">"SELECT * FROM users WHERE id ='$id'LIMIT 0,1"<
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/web%E6%B8%97%E9%80%8F/">web渗透</a>
+                      <a class="hover-with-bg" href="/categories/%E6%9D%82%E9%A1%B9/">杂项</a>
                     
                   </div>
                 
@@ -334,7 +252,7 @@ $sql = <span class="hljs-string">"SELECT * FROM users WHERE id ='$id'LIMIT 0,1"<
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/sql%E6%B3%A8%E5%85%A5/">sql注入</a>
+                      <a class="hover-with-bg" href="/tags/firefox/">firefox</a>
                     
                   </div>
                 
@@ -347,9 +265,9 @@ $sql = <span class="hljs-string">"SELECT * FROM users WHERE id ='$id'LIMIT 0,1"<
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/07/30/%E8%A7%A3%E5%86%B3firefox_%E5%A4%8D%E5%88%B6url_%E4%BC%9A%E8%87%AA%E5%8A%A8encodeurl/">
+                      <a href="/2020/07/30/sqli_less_1-4/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">解决firefox复制url会自动encodeurl</span>
+                        <span class="hidden-mobile">sqli_less1-4</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -357,8 +275,8 @@ $sql = <span class="hljs-string">"SELECT * FROM users WHERE id ='$id'LIMIT 0,1"<
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/07/24/docker-compose%E5%B0%8F%E8%AE%B0/">
-                        <span class="hidden-mobile">docker-compose小记</span>
+                      <a href="/2020/07/27/sqli%E6%89%8B%E6%B3%A8%E5%9F%BA%E7%A1%80/">
+                        <span class="hidden-mobile">sqli手注基础</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -517,7 +435,7 @@ $sql = <span class="hljs-string">"SELECT * FROM users WHERE id ='$id'LIMIT 0,1"<
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "sqli手注基础&nbsp;",
+        "解决firefox复制url会自动encodeurl&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
