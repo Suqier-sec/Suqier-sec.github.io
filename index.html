@@ -180,20 +180,84 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/08/24/sqli-less17-23/" target="_self">
-          <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200824224256.jpg" srcset="/img/loading.gif" alt="sqli-less17-23">
+        <a href="/2020/08/04/sqli-less23-less28a/" target="_self">
+          <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200825031721.jpg" srcset="/img/loading.gif" alt="sqli-less23-28a">
         </a>
       </div>
     
     <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/08/24/sqli-less17-23/">sqli-less17-23</a>
+      <a class="index-header" href="/2020/08/04/sqli-less23-less28a/">sqli-less23-28a</a>
 
-      <a href="/2020/08/24/sqli-less17-23/" class="index-excerpt">
+      <a href="/2020/08/04/sqli-less23-less28a/" class="index-excerpt">
         
         
           
         
-        <div>less17 - less23mysql函数介绍
+        <div>less23 -  less28aless 23
+less23 在sql语句进行查询前，对id参数进行了#,--注释符号过滤。
+直接上payload
+
+
+
+
+http://192.168.5.139/Less-23/?id=-1&#39;union select 1,database(),’3
+
+
+
+
+
+
+
+解释一下为什么payload这么构造
+
+此处的sql语句为
+select * from u</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-08-04
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/sqli-labs/">sqli-labs</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/sql%E6%B3%A8%E5%85%A5/">sql注入</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2020/08/03/sqli-less17-23/" target="_self">
+          <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200824224256.jpg" srcset="/img/loading.gif" alt="sqli-less17-22">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/2020/08/03/sqli-less17-23/">sqli-less17-22</a>
+
+      <a href="/2020/08/03/sqli-less17-23/" class="index-excerpt">
+        
+        
+          
+        
+        <div>less17 - less22mysql函数介绍
 在前面的sql注入中经常用到的语句就是增删改查了，前面都是查，在这里把增删改补上。
 
 增
@@ -215,7 +279,7 @@ insert into users values("16","daming","man")
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-08-24
+            <i class="iconfont icon-date"></i>&nbsp;2020-08-03
           </div>
         
         
@@ -688,66 +752,6 @@ Semaphore管理着一个计数器，计数器的值默认为1，值不能小于0
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/threading/">threading</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/07/16/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" target="_self">
-          <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200716150805.jpg" srcset="/img/loading.gif" alt="信安理论">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/07/16/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/">信安理论</a>
-
-      <a href="/2020/07/16/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" class="index-excerpt">
-        
-        
-          
-        
-        <div>信息安全基础
-信息安全概念：保护信息系统的硬件，软件及相关数据，使之不因为偶然或而已的侵犯而遭受到破坏，更改和泄露；保证信息系统中的机密性，完整性，和可用性
-
-信息安全管理体系：是组织在整体或特定范围内建立的信息安全方针和目标，以及完善这些目标所采用的方法和手段所构成的体系
-
-信息安全管理体系
-密码管理
-网络管理
-设备管理
-人员管理
-
-
-密码管理
-密码管理：基于密码机制的安全系统
-商用密码管理原则</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-16
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E4%BF%A1%E5%B7%A5%E8%80%83%E8%AF%81/">信工考证</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
             
           </div>
         
