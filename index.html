@@ -180,33 +180,35 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/08/06/xss+setookit%E7%9B%97%E5%8F%96%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF/" target="_self">
-          <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827034615.png" srcset="/img/loading.gif" alt="xss+setookit窃取账户信息">
+        <a href="/2020/08/07/xss-challgens/" target="_self">
+          <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827064025.jpg" srcset="/img/loading.gif" alt="xss-challgens通关记录">
         </a>
       </div>
     
     <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/08/06/xss+setookit%E7%9B%97%E5%8F%96%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF/">xss+setookit窃取账户信息</a>
+      <a class="index-header" href="/2020/08/07/xss-challgens/">xss-challgens通关记录</a>
 
-      <a href="/2020/08/06/xss+setookit%E7%9B%97%E5%8F%96%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF/" class="index-excerpt">
+      <a href="/2020/08/07/xss-challgens/" class="index-excerpt">
         
         
           
         
-        <div>XSS+setookit盗取账户信息xss修改网页链接应用场景
-存在xss漏洞的地方，将当前网页的a标签里的href链接全部修改成恶意链接。
+        <div>xss-challgens环境介绍
+xss-challgens， 一个日本安全研究员开发的xss靶场，官方推荐配合ie使用。（ie有多垃圾，谁用谁知道）
+这里的环境用的是firefox+ietest,部分关卡没有特殊版本的ie可能做不出来。
 
-payload：
-&lt;script&gt;
-window.onload = function()&#123;
-var link=document.getElementsByTagName("a");
-for(j=0;j&lt;link.length;j</div>
+stage1-无过滤的xss
+探测漏洞，随便输入一段不可能冲突的字符串，提交后F12查看源代码
+
+
+
+发现用户的输出会直接嵌入到标签中，那么就可以存在xss</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-08-06
+            <i class="iconfont icon-date"></i>&nbsp;2020-08-07
           </div>
         
         
@@ -233,29 +235,27 @@ for(j=0;j&lt;link.length;j</div>
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/08/06/xss-challgens/" target="_self">
-          <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827064025.jpg" srcset="/img/loading.gif" alt="xss-challgens通关记录">
+        <a href="/2020/08/06/xss+setookit%E7%9B%97%E5%8F%96%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF/" target="_self">
+          <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827034615.png" srcset="/img/loading.gif" alt="xss+setookit窃取账户信息">
         </a>
       </div>
     
     <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/08/06/xss-challgens/">xss-challgens通关记录</a>
+      <a class="index-header" href="/2020/08/06/xss+setookit%E7%9B%97%E5%8F%96%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF/">xss+setookit窃取账户信息</a>
 
-      <a href="/2020/08/06/xss-challgens/" class="index-excerpt">
+      <a href="/2020/08/06/xss+setookit%E7%9B%97%E5%8F%96%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF/" class="index-excerpt">
         
         
           
         
-        <div>xss-challgens环境介绍
-xss-challgens， 一个日本安全研究员开发的xss靶场，官方推荐配合ie使用。（ie有多垃圾，谁用谁知道）
-这里的环境用的是firefox+ietest,部分关卡没有特殊版本的ie可能做不出来。
+        <div>XSS+setookit盗取账户信息xss修改网页链接应用场景
+存在xss漏洞的地方，将当前网页的a标签里的href链接全部修改成恶意链接。
 
-stage1-无过滤的xss
-探测漏洞，随便输入一段不可能冲突的字符串，提交后F12查看源代码
-
-
-
-发现用户的输出会直接嵌入到标签中，那么就可以存在xss</div>
+payload：
+&lt;script&gt;
+window.onload = function()&#123;
+var link=document.getElementsByTagName("a");
+for(j=0;j&lt;link.length;j</div>
       </a>
 
       <div class="index-btm post-metas">
