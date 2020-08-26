@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>xss跨站脚本分类</title>
+    <link href="/2020/08/05/xss%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E5%88%86%E7%B1%BB/"/>
+    <url>/2020/08/05/xss%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E5%88%86%E7%B1%BB/</url>
+    
+    <content type="html"><![CDATA[<h2 id="XSS跨站脚本分类"><a href="#XSS跨站脚本分类" class="headerlink" title="XSS跨站脚本分类"></a>XSS跨站脚本分类</h2><h3 id="xss介绍"><a href="#xss介绍" class="headerlink" title="xss介绍"></a><strong>xss介绍</strong></h3><blockquote><ul><li>跨站脚本攻击 (Cross Site Scripting) 为了不和层叠样式表(Cascading Style Sheets CSS)的缩写混淆，故交跨站脚本攻击缩写为XSS，而已攻击者往Web页面里插入恶意script代码，当用户浏览该页知识，嵌入其中Web里面的script代码会被执行，从而达到而已攻击用户的目的</li></ul></blockquote><h3 id="反射型XSS"><a href="#反射型XSS" class="headerlink" title="反射型XSS"></a><strong>反射型XSS</strong></h3><blockquote><ul><li><p>攻击者通过邮件等形式将包含XSS代码的连接发送给正常用户，当用户点击时，服务器接收该用户的请求并进行处理，然后把带有XSS的代码发送给用户。用户浏览器解析执行代码，触发XSS漏洞</p></li><li><p>例如</p><ul><li><?php echo$_GET("uname")?>  </li><li>当用户访问url?<code>uname=&lt;script&gt;alert(&quot;hello&quot;)&lt;/script&gt;</code>时，触发代码，弹出对话框</li></ul></li><li><p>以dvwa为例</p><ul><li>弹出自定义内容</li></ul><table><thead><tr><th align="center"><code>&lt;scrip&gt;alert(&#39;hello&#39;) &lt;/script?&gt;</code></th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200826201538.png" srcset="/img/loading.gif" alt=""></td></tr></tbody></table><ul><li>弹出当前网页cookie</li></ul><table><thead><tr><th align="center"><code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code></th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200826201642.png" srcset="/img/loading.gif" alt=""></td></tr></tbody></table></li></ul></blockquote><h3 id="存储型XSS"><a href="#存储型XSS" class="headerlink" title="存储型XSS"></a><strong>存储型XSS</strong></h3><blockquote><ul><li><p>存储型XSS又称持久型XSS，攻击脚本存储在目标服务器的数据库中，具有更强的隐蔽性</p><ul><li>攻击者在论坛，博客，留言板中，发帖的过程嵌入XSS代码，帖子被目标服务器存储在数据库中，当用户进行正常访问时，触发XSS代码</li></ul></li><li><p>案例</p><ul><li>点击提交就会不断的弹出弹框</li></ul><table><thead><tr><th align="center"><code>&lt;script&gt;alert(&quot;this is test&quot;)&lt;/script&gt;</code></th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200826201759.png" srcset="/img/loading.gif" alt=""></td></tr></tbody></table></li></ul></blockquote><h3 id="DOM型XSS"><a href="#DOM型XSS" class="headerlink" title="DOM型XSS"></a><strong>DOM型XSS</strong></h3><blockquote><ul><li>全称Document Object Model,使用DOM动态访问更新文档的内容，结构及样式</li></ul><table><thead><tr><th align="center">DOM结构图</th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200826201915.png" srcset="/img/loading.gif" alt=""></td></tr></tbody></table><ul><li>HTML标签都是节点，节点组成了节点树。通过HTML DOM可以树上的所有结点进行修改</li><li>服务器响应不会处理攻击者脚本，而是用户浏览器处理这个响应时，DOM对象就会处理XSS代码，触发XSS漏洞。</li><li>案例</li></ul><table><thead><tr><th align="center">在url default中输入值可以插入到网页中</th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200826201951.png" srcset="/img/loading.gif" alt=""></td></tr></tbody></table><table><thead><tr><th align="center"><code>&lt;script&gt;alert(&quot;hello world&quot;)&lt;/script&gt;</code></th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200826202029.png" srcset="/img/loading.gif" alt=""></td></tr><tr><td align="center">发现代码已经嵌入网页内</td></tr></tbody></table></blockquote><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul><li>xss本应叫css的，但为了不和层叠样式表重名，特意叫成xss</li><li>反射型xss，由服务端发送到浏览器，最后浏览器解析恶意代码。</li><li>存储型xss，和反射型的区别在于，存储型xss将恶意代码存储到了服务器中，能够持久化攻击</li><li>dom型xss，不同于前两者，dom型xss是基础dom文档对象模型的一种漏洞</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>xss-challenges</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>xss跨站脚本</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>sqli-less23-28a</title>
     <link href="/2020/08/04/sqli-less23-less28a/"/>
     <url>/2020/08/04/sqli-less23-less28a/</url>
