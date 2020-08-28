@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>csrf漏洞利用 - SuQieR&#39;s Blog</title>
+  <title>快速上手ssrf - SuQieR&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -152,7 +152,7 @@
 </nav>
 
     <div class="banner intro-2" id="background" parallax=true
-         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827162136.jpg') no-repeat center center;
+         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200828191816.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -165,8 +165,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-08-08 08:54">
-      August 8, 2020 am
+    <time datetime="2020-08-09 22:14">
+      August 9, 2020 pm
     </time>
   </div>
 
@@ -176,7 +176,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      415 字
+      1.2k 字
     </span>
   
 
@@ -186,7 +186,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      5
+      17
        分钟
     </span>
   
@@ -217,139 +217,206 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h1 id="csrf漏洞利用"><a href="#csrf漏洞利用" class="headerlink" title="csrf漏洞利用"></a>csrf漏洞利用</h1><h3 id="漏洞定义"><a href="#漏洞定义" class="headerlink" title="漏洞定义"></a>漏洞定义</h3><ul>
-<li>CSRF(Cross-site request forery,跨站请求伪造)，也被称为One click attack 或者Session Riding，通常缩写为CSRF或者XSRF</li>
-<li>XSS与CSRF区别：<ul>
-<li>XSS利用站点内的信任用户，盗取cookie</li>
-<li>CSRF通过伪装成受信任用户请求受信任的网站</li>
+              <h1 id="快速上手SSRF"><a href="#快速上手SSRF" class="headerlink" title="快速上手SSRF"></a>快速上手SSRF</h1><h3 id="SSRF漏洞定义"><a href="#SSRF漏洞定义" class="headerlink" title="SSRF漏洞定义"></a><strong>SSRF漏洞定义</strong></h3><ul>
+<li>SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。一般情况下，SSRF是要目标网站的内部系统。（因为他是从内部系统访问的，所有可以通过它攻击外网无法访问的内部系统，也就是把目标网站当中间人）</li>
+<li>形成原因：服务端提供了从其他服务器应用获取数据的功能，且没有对目标地址做过滤与限制。比如从指定URL地址获取网页文本内容，加载指定地址的图片，文档，等等。</li>
+<li>主要利用方式：<ul>
+<li>对外网服务器所在内网，进行本地端口扫描，获取banner信息</li>
+<li>测试运行在内网或本地的应用程序</li>
+<li>利用file协议读取本地文件等</li>
 </ul>
 </li>
-<li>漏洞原理<ul>
-<li>利用目标用户的合法身份，以目标用户的名义执行某些非法操作</li>
 </ul>
-</li>
-</ul>
-<h2 id="环境部署"><a href="#环境部署" class="headerlink" title="环境部署"></a>环境部署</h2><ul>
-<li><p>漏洞环境bwapp安装</p>
+<h2 id="漏洞位置及php危险函数"><a href="#漏洞位置及php危险函数" class="headerlink" title="漏洞位置及php危险函数"></a><strong>漏洞位置及php危险函数</strong></h2><ul>
+<li><p><strong>SSRF漏洞可能存在的地方</strong></p>
 <ul>
-<li>下载url:<a href="https://sourceforge.net/projects/bwapp/" target="_blank" rel="noopener">https://sourceforge.net/projects/bwapp/</a></li>
-<li>安装后解压到wamp集成环境下的www目录</li>
-<li>点击admim目录，</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center"><code>打开settings.php修改数据库密码</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827153629.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-<ul>
-<li>修改后访问<a href="http://localhost/bawpp/install.php" target="_blank" rel="noopener">http://localhost/bawpp/install.php</a></li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center"><code>点击开始安装，即可安装完成</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827153726.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-<ul>
-<li>登录账户密码默认为bee/bug</li>
+<li>社交分享功能：获取超链接的标题等内容进行显示</li>
+<li>转码服务：通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览</li>
+<li>在线翻译：给网址翻译对应网页的内容</li>
+<li>图片加载/下载：例如富文本编辑器中的点击下载图片到本地；通过URL地址加载或下载图片</li>
+<li>图片/文章收藏功能：主要其会取URL地址中title以及文本的内容作为显示以求一个好的用具体验</li>
+<li>云服务厂商：它会远程执行一些命令来判断网站是否存活等，所以如果可以捕获相应的信息，就可以进行ssrf测试</li>
+<li>网站采集，网站抓取的地方：一些网站会针对你输入的url进行一些信息采集工作</li>
+<li>数据库内置功能：数据库的比如mongodb的copyDatabase函数</li>
+<li>邮件系统：比如接收邮件服务器地址</li>
+<li>编码处理, 属性信息处理，文件处理：比如ffpmg，ImageMagick，docx，pdf，xml处理器等</li>
+<li>公开的api实现以及其他扩展调用URL的功能：可以利用google 语法加上这些关键字去寻找SSRF漏洞一些的url中的关键字：share、wap、url、link、src、source、target、u、3g、display、sourceURl、imageURL、domain……</li>
+<li>从远程服务器请求资源（upload from url 如discuz！；import &amp; expost rss feed 如web blog；使用了xml引擎对象的地方 如wordpress xmlrpc.php）</li>
 </ul>
 </li>
-</ul>
-<h2 id="csrf-demo"><a href="#csrf-demo" class="headerlink" title="csrf demo"></a>csrf demo</h2><ul>
-<li>将级别调至low，</li>
-</ul>
+<li><p><strong>可能存在SSRF的php函数</strong></p>
 <table>
 <thead>
 <tr>
-<th align="center"><code>登陆后选择A8第一关，点击hack</code></th>
+<th align="center"><code>file_get_contents()</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827153926.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-<ul>
-<li><p>修改密码，F12抓包。</p>
-<ul>
-<li>请求头中包含了用户的账号密码</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center"><code>将其复制</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827154101.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200828185240.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 <table>
 <thead>
 <tr>
-<th align="center"><code>粘贴到记事本</code></th>
+<th align="center"><code>fsockopen()</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827160945.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200828185317.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center"><code>curl_exec()</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200828185344.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 </li>
 </ul>
+<h2 id="靶场搭建"><a href="#靶场搭建" class="headerlink" title="靶场搭建"></a><strong>靶场搭建</strong></h2><ul>
+<li><p>这里使用的是webug4.0虚拟机靶场环境</p>
 <ul>
-<li><p>创建一个新用户</p>
+<li><a href="https://pan.baidu.com/s/15msVjvX1RZ3vbYxQyy1sUg" target="_blank" rel="noopener">下载链接</a>，提取码: k415</li>
+<li>下载后解压虚拟机文件(其他的为cms源码文件)，解压完成后即可打开虚拟机</li>
+<li>简洁手册中有源码搭建和虚拟机搭建的教程</li>
+</ul>
+</li>
+<li><p>虚拟机登录密码为空，回车即可登录。打开后启动phpstuday环境即运行。</p>
+</li>
+<li><p>访问http://靶机地址，就可以到达网站登录页面</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>用户密码默认为admin/admin</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200828185619.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>如果新环境没有开启Apache重写未开启，可能导致导致The requested URL /xxxx.html was not found on this server</p>
 <ul>
-<li>F12将密码的类型改成text就可以看到明文了</li>
+<li><p>解决方法</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>修改http.conf文件</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>#LoadModule rewrite_module modules/mod_rewrite.so去掉前面的＃号</code></td>
+</tr>
+<tr>
+<td align="center"><code>AllowOverride None =&gt;改为 AllowOverride All</code></td>
+</tr>
+<tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200828185748.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>修改完之后重启phpstuday即可</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><ul>
+<li><p>启动靶场</p>
+<ul>
+<li>在靶场目录往下拖动找到ssrf靶场，点击访问</li>
 </ul>
 <table>
 <thead>
 <tr>
-<th align="center"><code>邮件这里随便填，不要勾选验证邮箱就行</code></th>
+<th align="center"><code>也可以直接在右上角搜索ssrf</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827154250.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200828185904.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 </li>
-<li><p>登录新用户</p>
+<li><p>打开链接之后默认是404页面,</p>
 <table>
 <thead>
 <tr>
-<th align="center"><code>粘贴url，可以看到直接提示密码更改成功</code></th>
+<th align="center"><code>可能是在靶机团队做的测试忘记删除了</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827161153.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200828185950.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 </li>
-<li><p>再次登录</p>
+<li><p>将?url=后面的链接全部删除，利用file协议访问本地文件</p>
+<ul>
+<li>读取系统配置文件</li>
+</ul>
 <table>
 <thead>
 <tr>
-<th align="center"><code>提示密码错误</code></th>
+<th align="center"><code>?url=file://C:/windows/win.ini</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827161315.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200828190103.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
-</li>
-<li><p>daming用户登录不上是因为，访问了bee用户构造的恶意链接，未经验证就直接访问，导致直接修改了daming账户的密码</p>
+<ul>
+<li>读取任意文件(前提是需要知道路径,不知道的话可以尝试爆破目录)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"><code>?url=file://C:/phpstudy/www/flag.txt</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200828190149.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+<tr>
+<td align="center"><code>如果文件存在但又访问不了，可能就是因为windows文件路径坑爹的斜杠反斜杠机制，两种斜杠都尝试访问一下说不定有惊喜。</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>探测内网主机端口是否开放获取banner信息</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"><code>?url=http://host:port</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200828190301.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+<ul>
+<li>访问22端口(直接返回了banner)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"><code>?url=http://host:22</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200828190330.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
 </li>
 </ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>csrf实际就是利用目标用户的合法身份，以目标用户的名义执行某些非法操作</li>
-<li>csrf必须保证用户处于登录状态，有cookie，才能进一步利用</li>
+<h2 id="防护措施"><a href="#防护措施" class="headerlink" title="防护措施"></a><strong>防护措施</strong></h2><ul>
+<li>禁止跳转</li>
+<li>过滤返回信息，验证远程服务器对请求的响应是比较容易的方法。如果web应用是去获取某一种类型的文件。那么在把返回结果展示给用户之前先验证返回的信息是否符合标准。</li>
+<li>禁用不需要的协议，仅仅允许http和https请求。可以防止类似于file://, gopher://, ftp:// 等引起的问题</li>
+<li>设置URL白名单或者限制内网IP（使用gethostbyname()判断是否为内网IP）</li>
+<li>限制请求的端口为http常用的端口，比如 80、443、8080、8090</li>
+<li>统一错误信息，避免用户可以根据错误信息来判断远端服务器的端口状态。</li>
 </ul>
 
             </article>
@@ -368,7 +435,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/csrf/">csrf</a>
+                      <a class="hover-with-bg" href="/tags/ssrf/">ssrf</a>
                     
                   </div>
                 
@@ -381,18 +448,12 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/08/09/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8BSSRF/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">快速上手ssrf</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/08/07/xss-challgens/">
-                        <span class="hidden-mobile">xss-challgens通关记录</span>
+                      <a href="/2020/08/08/csrf%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8/">
+                        <span class="hidden-mobile">csrf漏洞利用</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -577,7 +638,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "csrf漏洞利用&nbsp;",
+        "快速上手ssrf&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
