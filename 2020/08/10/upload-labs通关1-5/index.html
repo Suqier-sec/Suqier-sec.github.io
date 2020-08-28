@@ -217,10 +217,10 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h1 id="··upload-labs1-5通关"><a href="#··upload-labs1-5通关" class="headerlink" title="··upload-labs1-5通关"></a>··upload-labs1-5通关</h1><h3 id="环境部署"><a href="#环境部署" class="headerlink" title="环境部署"></a>环境部署</h3><ul>
+              <h1 id="upload-labs1-5通关"><a href="#upload-labs1-5通关" class="headerlink" title="upload-labs1-5通关"></a>upload-labs1-5通关</h1><h3 id="环境部署"><a href="#环境部署" class="headerlink" title="环境部署"></a>环境部署</h3><ul>
 <li>这里的靶场用的是upload-labs，下载及搭建教程移步github<a href="https://github.com/c0ny1/upload-labs" target="_blank" rel="noopener">项目地址</a></li>
 </ul>
-<h3 id="pass1-绕过js验证"><a href="#pass1-绕过js验证" class="headerlink" title="pass1-绕过js验证"></a>pass1-绕过js验证</h3><p><strong>源码分析</strong></p>
+<h2 id="pass1-绕过js验证"><a href="#pass1-绕过js验证" class="headerlink" title="pass1-绕过js验证"></a>pass1-绕过js验证</h2><p><strong>源码分析</strong></p>
 <ul>
 <li><p>后台代码对用户上传的文件以点为分隔符将其后缀当作文件格式</p>
 <table>
@@ -257,7 +257,7 @@
 </tbody></table>
 </li>
 </ul>
-<h3 id="pass2-绕过MIME-Type验证"><a href="#pass2-绕过MIME-Type验证" class="headerlink" title="pass2-绕过MIME-Type验证"></a>pass2-绕过MIME-Type验证</h3><p><strong>什么是MIME-Type</strong></p>
+<h2 id="pass2-绕过MIME-Type验证"><a href="#pass2-绕过MIME-Type验证" class="headerlink" title="pass2-绕过MIME-Type验证"></a>pass2-绕过MIME-Type验证</h2><p><strong>什么是MIME-Type</strong></p>
 <ul>
 <li>mime(Multipurpose Internet Mail EXtensions)多用途互联网邮件扩展类型。设定某种扩展名的文件用一种应用恒旭来打开的方式类型，当该扩展名被访问时候，浏览器会自动使用指定应用程序来打开。 多用于指定一些客户端自定义的文件名，以及一些媒体文件打开方式。    </li>
 </ul>
@@ -333,7 +333,7 @@
 </tbody></table>
 </li>
 </ul>
-<h3 id="pass3-绕过黑名单验证"><a href="#pass3-绕过黑名单验证" class="headerlink" title="pass3-绕过黑名单验证"></a>pass3-绕过黑名单验证</h3><p><strong>基于后缀名验证</strong></p>
+<h2 id="pass3-绕过黑名单验证"><a href="#pass3-绕过黑名单验证" class="headerlink" title="pass3-绕过黑名单验证"></a>pass3-绕过黑名单验证</h2><p><strong>基于后缀名验证</strong></p>
 <ul>
 <li>对于文件上传模块来说，尽量避免上传可执行的脚本文件。为了防止上传脚本需要设置对应的验证方式。最简单的就是设置文件名后缀验证。</li>
 <li>基于文件后缀名验证方式的分类：<ul>
@@ -421,7 +421,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="pass4-绕过黑名单-htaccess"><a href="#pass4-绕过黑名单-htaccess" class="headerlink" title="pass4-绕过黑名单(.htaccess)"></a>pass4-绕过黑名单(.htaccess)</h3><p><strong>.htaccess文件介绍</strong></p>
+<h2 id="pass4-绕过黑名单-htaccess"><a href="#pass4-绕过黑名单-htaccess" class="headerlink" title="pass4-绕过黑名单(.htaccess)"></a>pass4-绕过黑名单(.htaccess)</h2><p><strong>.htaccess文件介绍</strong></p>
 <ul>
 <li>.htaccess文件是apache服务器中的一个配置文件，它负责相关目录下的网页配置。通过htaccess文件，可以实现以下功能：网页301重定向，自定义404错误界面，改变文件扩展名，允许/阻止特定的用户或者目录的访问，禁止目录列表，配置默认文档等功能</li>
 <li>其中.htaccess文件内容：<ul>
@@ -493,7 +493,7 @@ phpinfo();
 </tbody></table>
 </li>
 </ul>
-<h3 id="pass5-绕过黑名单验证"><a href="#pass5-绕过黑名单验证" class="headerlink" title="pass5-绕过黑名单验证"></a>pass5-绕过黑名单验证</h3><p><strong>大小写绕过原理</strong></p>
+<h2 id="pass5-绕过黑名单验证"><a href="#pass5-绕过黑名单验证" class="headerlink" title="pass5-绕过黑名单验证"></a>pass5-绕过黑名单验证</h2><p><strong>大小写绕过原理</strong></p>
 <ul>
 <li>Windows系统下，对文件名中的大小写不敏感。例如test.php和TeSt.PHP是一样的。</li>
 <li>Linux系统下，对文件名大小写异常敏感，例如test.php和TeSt.PHP是不一样的。</li>
