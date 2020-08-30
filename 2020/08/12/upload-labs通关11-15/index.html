@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>upload-labs6-10通关 - SuQieR&#39;s Blog</title>
+  <title>upload-labs11-15通关 - SuQieR&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -152,7 +152,7 @@
 </nav>
 
     <div class="banner intro-2" id="background" parallax=true
-         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830183200.jpg') no-repeat center center;
+         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830204132.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -165,8 +165,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-08-11 04:12">
-      August 11, 2020 am
+    <time datetime="2020-08-12 11:28">
+      August 12, 2020 am
     </time>
   </div>
 
@@ -217,333 +217,262 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h1 id="upload-labs6-10通关"><a href="#upload-labs6-10通关" class="headerlink" title="upload-labs6-10通关"></a>upload-labs6-10通关</h1><h3 id="pass6-空格绕过"><a href="#pass6-空格绕过" class="headerlink" title="pass6-空格绕过"></a>pass6-空格绕过</h3><p><strong>空格绕过原理</strong></p>
+              <h1 id="upload-labs11-15通关"><a href="#upload-labs11-15通关" class="headerlink" title="upload-labs11-15通关"></a>upload-labs11-15通关</h1><h3 id="pass11-00截断绕过"><a href="#pass11-00截断绕过" class="headerlink" title="pass11-00截断绕过"></a>pass11-00截断绕过</h3><p><strong>00截断原理</strong></p>
 <ul>
-<li>windows系统下，对于文件名中空格会被作为空处理，程序中的检测代码却不能自动删除空格。从而绕过黑名单</li>
-<li>针对这样的情况，需要使用burpsuite截断请求之后，修改文件名，添加空格</li>
+<li>0x00是十六进制表示方法，是ascii码为0的字符，在有些函数处理时，会把字符当作结束符。</li>
+<li>系统对文件名读取时，如果遇到0x00，就会认为读取结束</li>
+<li>在php5.3之后的版本中完全修改00截断，并且00截断受限GPC(这里的GPC指的是php.ini中的magic_quotes_gpc)</li>
 </ul>
-<p><strong>基于黑名单验证的代码分析</strong></p>
+<p><strong>GET型00截断</strong></p>
 <ul>
-<li><p>可以看到源代码对一系列的后缀名都进行了过滤</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>但是并没有对空格进行处理</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830175944.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
+<li>GET型提交的内容会被自动进行URL编码<ul>
+<li>注意:一定要关闭GPC，否则无法成功</li>
+</ul>
 </li>
 </ul>
+<p><strong>验证代码分析</strong></p>
 <ul>
-<li><p>burp绕过黑名单验证</p>
+<li><p>pass11从前面的黑名单验证变成了白名单验证</p>
 <table>
 <thead>
 <tr>
-<th align="center"><code>截断请求，在文件名后面添加空格</code></th>
+<th align="center"><code>前面的红框，对用户上传的文件进行了随机化命名，而再拼接绿框中的后缀名</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830180037.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th align="center"><code>上传成功，复制图像地址访问，输出了php探针</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830180136.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830193429.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 </li>
 </ul>
-<h2 id="pass7-号绕过"><a href="#pass7-号绕过" class="headerlink" title="pass7-.号绕过"></a>pass7-.号绕过</h2><p><strong>.号绕过原理</strong></p>
+<p><strong>burp进行00截断</strong></p>
 <ul>
-<li><p>windows系统下    ，文件后缀名最后一个点会被自动去除</p>
+<li><p>上传名为1.jpg但是内容为phpinfo的文件</p>
 <table>
 <thead>
 <tr>
-<th align="center"><code>在桌面新建了一个2.php.的文件</code></th>
+<th align="center"><code>在保存路径后添加文件名1.php然后%00进行截断</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830180300.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830193552.png" srcset="/img/loading.gif" alt="">`</td>
+</tr>
+<tr>
+<td align="center"><code>绕过了白名单验证，复制图像地址进行访问发现报错找不到文件</code></td>
+</tr>
+<tr>
+<td align="center">:———————————————————-:</td>
+</tr>
+<tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830193640.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
+</li>
+<li><p>因为%00已经截断了后面的随机化文件名,实际地址为</p>
 <table>
 <thead>
 <tr>
-<th align="center"><code>保存之后，可以看到最后面的点不见了</code></th>
+<th align="center"><code>前面的2.php删除后面问号后面的内容就能访问了</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830180332.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830193741.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 </li>
 </ul>
-<p><strong>黑名单验证代码分析</strong></p>
+<p><strong>POST型00截断</strong></p>
 <ul>
-<li><p>先是常规的黑名单验证，接着就是去除空格，也就是说明不能使用空格进行绕过</p>
+<li><p>在POST请求中，%00不会被自动解码，需要在十六进制中进行修改00</p>
 </li>
-<li><p>接着转换了大小写，出去了$data字符，首尾去空</p>
+<li><p>pass12代码分析</p>
 <table>
 <thead>
 <tr>
-<th align="center"><code>仔细看到话可以发现少了去除文件名最后边点的处理，可以利用windows系统特性，绕过黑名单</code></th>
+<th align="center"><code>同样是和pass11一样采用随机化命名+拼接后缀名的方法，不过提交方法变成了POST</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830180500.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830193830.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 </li>
-</ul>
-<p> burp绕过验证</p>
-<ul>
-<li><p>利用burpsuite工具截断http请求，上传文件,加.号绕过上传</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>添加.号后，转发</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830180539.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-<li><p>回到pass7页面，发现显示出了一张图片，说明绕过上传成功</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>复制图像地址进行访问，成功输出phpinfo</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830180619.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<h2 id="pass8-特殊符号绕过"><a href="#pass8-特殊符号绕过" class="headerlink" title="pass8-特殊符号绕过"></a>pass8-特殊符号绕过</h2><p><strong>特殊符号绕过原理</strong></p>
-<ul>
-<li><p>Windows系统下，如果上传的文件名中test.php::$DATA会在服务器上生成一个test.php的文件，其中内容和所上传文件内容相同，并会被解析</p>
-</li>
-<li><p>例如</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>windows系统下新建一个文件名为1.php::$DATA的文件，查看效果。但是在windows下新建的文件名中包特殊符号不能创建成功</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830180733.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th align="center"><code>虽然windows下无法新建，但linux可以。</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830180822.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<p><strong>黑名单验证的代码分析</strong></p>
-<ul>
-<li><p>先是常规的黑名单，去空格，首尾去空，去末尾的点，首尾去空。</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>但是并没有过滤点 ::$DATE</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830180924.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<p><strong>kali系统下绕过验证</strong></p>
-<ul>
-<li><p><code>echo &#39;&lt;?php phpinfo(); ? &gt;&#39; &gt;&gt; haha.php::$data</code>生成特殊符号的文件</p>
-<ul>
-<li>在终端下生辰特殊符号的文件可能只会显示haha.php:: 可以在桌面右键修改文件名即可</li>
-</ul>
-</li>
-<li><p>在kali下进行上传</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>且没有触发任何过滤</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830181105.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-<li><p>右键复制图像地址进行访问</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>正常情况是访问失败的</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830181142.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th align="center"><code>只需要将haha.php::$data后的::$data进行删除就可以访问成功了</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830181210.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<h2 id="pass9-路径拼接绕过"><a href="#pass9-路径拼接绕过" class="headerlink" title="pass9-路径拼接绕过"></a>pass9-路径拼接绕过</h2><p><strong>路径拼接绕过原理</strong></p>
-<ul>
-<li>在没有对上传的文件重命名的情况下，用户可以自定义文件名，并在服务器中上传新建，就会造成对应的绕过黑名单</li>
 </ul>
 <ul>
-<li>例如：<ul>
-<li>新建1.php.+空格+.</li>
-<li>deldot删除最后一个点之后不再进行删除，trim删除空格，那么最终上传的文件名为1.php.</li>
-<li>利用windows自动去除最后一个点，导致成功上传1.php</li>
-</ul>
-</li>
-</ul>
-<p><strong>黑名单验代码分析</strong></p>
-<ul>
-<li><p>先是一顿常规操作，过滤前面关卡的所有绕过方式</p>
-</li>
-<li><p>但是从红框中可以看到</p>
+<li><p>burpsuite截断，进行添加00</p>
 <table>
 <thead>
 <tr>
-<th align="center"><code>并没有对用户上传的文件名进行随机化命名，而是直接保存到服务器</code></th>
+<th align="center"><code>在upload后面添加3.php以及一个空格</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830181938.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<p><strong>burp修改文件名进行绕过</strong></p>
-<ul>
-<li><p>截断http请求，在文件名后添加空格和点</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>修改后直接进行转发</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830182015.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-<li><p>切换回pass9</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>成功上传</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830182100.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194012.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 <table>
 <thead>
 <tr>
-<th align="center"><code>复制图像地址进行访问，成功输出了phpinfo()</code></th>
+<th align="center"><code>接着转到hex，找到那个空格也就是20，将其修改为00，接着转发</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830182134.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194039.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
-</tbody></table>
-</li>
-</ul>
-<h2 id="pass10-双写绕过"><a href="#pass10-双写绕过" class="headerlink" title="pass10-双写绕过"></a>pass10-双写绕过</h2><p><strong>双写绕过原理</strong></p>
-<ul>
-<li><p>代码编写过程中，只对黑名单中的内容进行空替换，因为只替换一次，所以造成双写绕过</p>
-</li>
-<li><p>例如上传1.pphphp</p>
-<ul>
-<li>过滤了中间的php剩下的又形成了新的php</li>
-<li>从而造成了绕过过滤</li>
-</ul>
-</li>
-</ul>
-<p><strong>基于黑名单验证代码分析</strong></p>
-<ul>
-<li><p>str_ireplace()函数替换字符串中的一些字符(不区分大小写)</p>
-</li>
-<li><p>该函数必须遵循下列规则</p>
-<ul>
-<li>如果搜索的字符串是一个数组，那么它将返回一个数组</li>
-<li>如果搜索的字符串是一个数组，那么它将对数组中的每个元素进行查找替换</li>
-<li>如果同时需要对数组进行查找和替换，并且需要替换元素少于查找元素的量，那么多余的元素将会使用空进行替代</li>
-<li>如果对一个数组进行查找，但只对一个字符串进行替换那么替代字符串将会对所有查找到的值起作用。</li>
-</ul>
-</li>
-<li><p>注意：该函数不区分大小写，请使用str_replace()函数来执行区分大小写的搜索</p>
-<ul>
-<li>本关编写代码过程中，只对黑名单中的内容进行空替换</li>
-</ul>
-<table>
-<thead>
 <tr>
-<th align="center"><code>因为只替换一次，造成了双写绕过</code></th>
+<td align="center"><code>成功上传</code></td>
 </tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830182426.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<p><strong>绕过黑名单验证</strong></p>
-<ul>
-<li><p>直接将php文件后缀名修改为pphphp</p>
-<table>
-<thead>
 <tr>
-<th align="center"><code>上传1.pphphp，没有受到任何的过滤</code></th>
+<td align="center">:———————————————————-:</td>
 </tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830182509.png" srcset="/img/loading.gif" alt=""></td>
+<tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194122.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 <table>
 <thead>
 <tr>
-<th align="center"><code>复制图像地址进行访问，发现中间的php已经给过滤掉了</code></th>
+<th align="center"><code>复制图像地址进行访问也是和pass11报错</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830182538.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194151.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center"><code>一样需要将后面的随机化命名去掉访问3.php即可</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194215.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 </li>
 </ul>
+<p><strong>php编写简单的webshell</strong></p>
+<pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> 
+<span class="hljs-keyword">if</span>($_GET)&#123;
+	$cmd = $_GET[<span class="hljs-string">'cmd'</span>];
+	system($cmd)
+&#125;<span class="hljs-keyword">else</span>&#123;
+
+	<span class="hljs-keyword">echo</span> <span class="hljs-string">"no cmd"</span>
+&#125;
+<span class="hljs-meta">?&gt;</span></code></pre>
+
+
+
+<h2 id="pass12-图片webshell上传"><a href="#pass12-图片webshell上传" class="headerlink" title="pass12-图片webshell上传"></a>pass12-图片webshell上传</h2><p><strong>图片webshell制作</strong></p>
+<ul>
+<li><p>在服务端的php代码中，对于用户上传的文件做文件类型检查，查看文件格式是否符合上传规范。可以检查文件二进制格式的前几个字节，从而判断文件类型是否正确</p>
+</li>
+<li><p>针对这种情况可以直接新建要给1.jpg其中代码内容如下</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>GIF98A是为了声明这是一个图片文件,将文件命名为5.jpg</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194522.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<p><strong>上传图片webshell</strong></p>
+<ul>
+<li><p>将制作好的图片webshell上传到服务器</p>
+</li>
+<li><p>其中可能content-Type验证。修改为image/gif或image/jpg符合当前文件类型的MIME</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>将内容为phpinfo的5.jpg进行上传，没有触发任何过滤</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194644.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center"><code>右键复制图片地址进行访问，发现没有被当作php来解析</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194723.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<p><strong>文件包含漏洞分析</strong></p>
+<ul>
+<li><p>在php中，适用include，require，include_once,require_once函数包含的文件都会被当作php代码执行。无论文件的名称是什么，只要文件内容符合php代码规范，都会被当作php代码执行</p>
+</li>
+<li><p>编写文件包含代码</p>
+<pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> 
+$file=$_GET[<span class="hljs-string">'page'</span>];
+<span class="hljs-keyword">include</span>($file);
+<span class="hljs-meta">?&gt;</span></code></pre>
+<table>
+<thead>
+<tr>
+<th align="center"><code>结合文件包含输出phpinfo()</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830201318.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+<tr>
+<td align="center"><code>要像使用图片webshell需要结合文件包含漏洞</code></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="pass13-竞争条件"><a href="#pass13-竞争条件" class="headerlink" title="pass13-竞争条件"></a>pass13-竞争条件</h2><p><strong>文件上传过程介绍</strong></p>
+<ul>
+<li>文件上传过程<ul>
+<li>服务器获取文件 &gt; 保存上传临时文件 &gt; 重命名移动临时文件</li>
+</ul>
+</li>
+</ul>
+<p><strong>竞争条件原理介绍</strong></p>
+<ul>
+<li>网站逻辑：<ul>
+<li>网站允许上传任意文件，然后检查文件上传中是否博包含webshell，如果包含，删除该文件</li>
+<li>网站允许上传任意文件，但是如果不能指定文件类型，那么会使用unlink删除文件</li>
+<li>在删除之前访问上传的php文件，从而执行上传文件中的php代码</li>
+</ul>
+</li>
+</ul>
+<p><strong>竞争条件代码分析</strong></p>
+<ul>
+<li>先进行上传，后判断与删除，利用时间差进行webshell上传</li>
+<li>先是对文件进行判断是否符合规范，如果符合重命名上传，如果不符合调用unlink删除</li>
+</ul>
+<p>需要修改代码来达到绕过效果，环境有问题不做了。</p>
+<p><a href="https://baynk.blog.csdn.net/article/details/102910267" target="_blank" rel="noopener">参考链接</a></p>
+<h2 id="pass14-iis6-0解析漏洞"><a href="#pass14-iis6-0解析漏洞" class="headerlink" title="pass14-iis6.0解析漏洞"></a>pass14-iis6.0解析漏洞</h2><p><strong>iis6.0解析漏洞介绍</strong></p>
+<ul>
+<li><p>当建立<em>asa,,</em>.asp格式的文件夹时，其目录下的任意文件都将被iis当作asp文件解析。</p>
+</li>
+<li><p>当文件*.asp;1.jpg iis6.0同样会将文件作为asp文件解析</p>
+</li>
+<li><p>微软目前没有推出补丁，不认为是一个漏洞</p>
+</li>
+</ul>
+<p><strong>本关环境需要iis6.0， 没搭建，略过</strong></p>
+<p><a href="https://blog.csdn.net/weixin_41487522/article/details/106824929" target="_blank" rel="noopener">参考链接</a></p>
+<h2 id="pass15-apache解析漏洞"><a href="#pass15-apache解析漏洞" class="headerlink" title="pass15-apache解析漏洞"></a>pass15-apache解析漏洞</h2><p><strong>apache解析漏洞</strong></p>
+<ul>
+<li>因为apache认为一个文件可以拥有多个扩展名，哪怕没有文件名，也可以拥有多个扩展名。apache认为应该从右到左开始判断解析方法。如果最右侧的扩展名不可识别，就继续往左判断，知道判断到文件名为止。</li>
+</ul>
+<p><strong>这里也没准备环境，略过</strong></p>
+<p><a href="https://blog.csdn.net/qq_32434307/article/details/79480316" target="_blank" rel="noopener">参考链接</a></p>
+<p><strong>文件上传就到这里，好像最新版的upload-labs出到20多关，有时间再试试吧</strong></p>
 
             </article>
             <hr>
@@ -574,18 +503,12 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/08/12/upload-labs%E9%80%9A%E5%85%B311-15/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">upload-labs11-15通关</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/08/10/upload-labs%E9%80%9A%E5%85%B31-5/">
-                        <span class="hidden-mobile">upload-labs1-5通关</span>
+                      <a href="/2020/08/11/upload-labs%E9%80%9A%E5%85%B36-10/">
+                        <span class="hidden-mobile">upload-labs6-10通关</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -770,7 +693,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "upload-labs6-10通关&nbsp;",
+        "upload-labs11-15通关&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
