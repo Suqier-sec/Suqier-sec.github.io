@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>upload-labs11-15通关 - SuQieR&#39;s Blog</title>
+  <title>metasploitable2  webdav服务提权 - SuQieR&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -152,7 +152,7 @@
 </nav>
 
     <div class="banner intro-2" id="background" parallax=true
-         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830204132.jpg') no-repeat center center;
+         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831041913.jpg?x-oss-process=style/suqier-logo') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -165,8 +165,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-08-12 11:28">
-      August 12, 2020 am
+    <time datetime="2020-08-13 16:12">
+      August 13, 2020 pm
     </time>
   </div>
 
@@ -176,7 +176,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.3k 字
+      733 字
     </span>
   
 
@@ -186,7 +186,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      17
+      9
        分钟
     </span>
   
@@ -217,262 +217,266 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h1 id="upload-labs11-15通关"><a href="#upload-labs11-15通关" class="headerlink" title="upload-labs11-15通关"></a>upload-labs11-15通关</h1><h3 id="pass11-00截断绕过"><a href="#pass11-00截断绕过" class="headerlink" title="pass11-00截断绕过"></a>pass11-00截断绕过</h3><p><strong>00截断原理</strong></p>
+              <h1 id="metasploitable2-webdav服务提权"><a href="#metasploitable2-webdav服务提权" class="headerlink" title="metasploitable2  webdav服务提权"></a>metasploitable2  webdav服务提权</h1><h3 id="metasploitable2介绍与安装"><a href="#metasploitable2介绍与安装" class="headerlink" title="metasploitable2介绍与安装"></a>metasploitable2介绍与安装</h3><ul>
+<li><p>metasploitable2这款靶机是msf官方开发的一款配套msf进行训练的系统，该系统基于ubuntu进行定制，内置了常见的各种漏洞</p>
+</li>
+<li><p>metasploitable2下载安装，</p>
 <ul>
-<li>0x00是十六进制表示方法，是ascii码为0的字符，在有些函数处理时，会把字符当作结束符。</li>
-<li>系统对文件名读取时，如果遇到0x00，就会认为读取结束</li>
-<li>在php5.3之后的版本中完全修改00截断，并且00截断受限GPC(这里的GPC指的是php.ini中的magic_quotes_gpc)</li>
-</ul>
-<p><strong>GET型00截断</strong></p>
-<ul>
-<li>GET型提交的内容会被自动进行URL编码<ul>
-<li>注意:一定要关闭GPC，否则无法成功</li>
+<li>官方下载地址：<a href="https://sourceforge.net/projects/metasploitable/" target="_blank" rel="noopener">点这里跳转</a></li>
+<li>百度网盘<a href="https://pan.baidu.com/share/init?surl=ihvu8QPsUi35vRbbVBJbzA" target="_blank" rel="noopener">下载地址</a>提取码<code>6ezq</code></li>
+<li>下载完成之后解压压缩包，双击虚拟机vmx文件就能打开了默认账户密码msfadmin</li>
 </ul>
 </li>
+<li><p>这个靶机已经被人玩烂了，爆出来的漏洞网上都有文章参考，具体可以参考这位表哥的文章<a href="https://www.cnblogs.com/7-58/p/12890535.html" target="_blank" rel="noopener">点这里跳转</a></p>
+</li>
+<li><p><strong>这里主要是梭哈一下没有人曝光的漏洞</strong></p>
+</li>
 </ul>
-<p><strong>验证代码分析</strong></p>
+<h2 id="webdav服务提权"><a href="#webdav服务提权" class="headerlink" title="webdav服务提权"></a>webdav服务提权</h2><ul>
+<li>实验环境<ul>
+<li>靶机：metasploitable2      IP:192.168.3.15</li>
+<li>攻击机：kali linux 1.1 64位     IP:192.168.3.16</li>
+</ul>
+</li>
+<li>这里别问为什么用这么旧的kali，问就是新版删除了较多冷门的工具，这里刚好要用到</li>
+<li>关于webdav服务的介绍，<a href="https://baike.baidu.com/item/WebDAV/4610909?fr=aladdin#1" target="_blank" rel="noopener">点这里跳转</a></li>
+</ul>
+<p><strong>访问web服务</strong></p>
 <ul>
-<li><p>pass11从前面的黑名单验证变成了白名单验证</p>
+<li><p>默认的index页面提供了五个子目录</p>
 <table>
 <thead>
 <tr>
-<th align="center"><code>前面的红框，对用户上传的文件进行了随机化命名，而再拼接绿框中的后缀名</code></th>
+<th align="center"><code>这里要利用到的就是最后一个webdav了</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830193429.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831030219.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>打开msf常规搜索一波webdav的模块</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>有一个专门的扫描模块，试试看吧</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831030457.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center"><code>什么都没有扫描出来</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831030538.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>切换到nmap的script目录下，找一下nmap有没有提供webdav的扫描脚本</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>过滤一下，同样是什么都没有</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831030716.png" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 </li>
 </ul>
-<p><strong>burp进行00截断</strong></p>
-<ul>
-<li><p>上传名为1.jpg但是内容为phpinfo的文件</p>
+<h2 id="上传木马"><a href="#上传木马" class="headerlink" title="上传木马"></a><strong>上传木马</strong></h2><ul>
+<li><p>在终端输入dav发现好像有两个工具针对webdav服务的</p>
 <table>
 <thead>
 <tr>
-<th align="center"><code>在保存路径后添加文件名1.php然后%00进行截断</code></th>
+<th align="center"><code>第一个不是需要用到,第二个才是。顺手看了一下帮助信息</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830193552.png" srcset="/img/loading.gif" alt="">`</td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831030851.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>用davtest枚举webdav信息</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>爆出了一堆文件(其实也就是dav目录下的网页)</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831031027.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>访问看看</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>发现好像可以执行php文件</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831031129.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>生成木马</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>尝试在webdav服务进行上传</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831031227.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center"><code>在后台监听木马</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831032713.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>这里有个坑需要注意一下</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>msf生成的木马文件的php函数自带了一个注释,如果不删掉就木马就不执行</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831033233.png" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>使用davtest上传木马</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>第一个参数是指定文件,第二个参数是指定目录</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831035919.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
 </tr>
 <tr>
-<td align="center"><code>绕过了白名单验证，复制图像地址进行访问发现报错找不到文件</code></td>
+<td align="center"><code>访问该目录下的木马meter.php</code></td>
 </tr>
 <tr>
 <td align="center">:———————————————————-:</td>
 </tr>
 <tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830193640.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831035959.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 </li>
-<li><p>因为%00已经截断了后面的随机化文件名,实际地址为</p>
+<li><p>点击一下刚刚上传的木马</p>
 <table>
 <thead>
 <tr>
-<th align="center"><code>前面的2.php删除后面问号后面的内容就能访问了</code></th>
+<th align="center"><code>后台返回一个权限为www-data的shell</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830193741.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<p><strong>POST型00截断</strong></p>
-<ul>
-<li><p>在POST请求中，%00不会被自动解码，需要在十六进制中进行修改00</p>
-</li>
-<li><p>pass12代码分析</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>同样是和pass11一样采用随机化命名+拼接后缀名的方法，不过提交方法变成了POST</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830193830.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831040120.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 </li>
 </ul>
-<ul>
-<li><p>burpsuite截断，进行添加00</p>
+<h2 id="提权至Root"><a href="#提权至Root" class="headerlink" title="提权至Root"></a><strong>提权至Root</strong></h2><ul>
+<li><p>知道内核版本后，尝试进行提权</p>
 <table>
 <thead>
 <tr>
-<th align="center"><code>在upload后面添加3.php以及一个空格</code></th>
+<th align="center"><code>生成新的木马在原来的会话基础进行上传</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194012.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831040239.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>www-data权限的会话，可以派上用场了</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>为新上传的木马添加执行权限</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831040550.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 <table>
 <thead>
 <tr>
-<th align="center"><code>接着转到hex，找到那个空格也就是20，将其修改为00，接着转发</code></th>
+<th align="center"><code>通过第一个会话的meteperter窗口执行上传的第二个木马文件</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194039.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831040720.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
 </tr>
+</tbody></table>
+</li>
+<li><p>连接第二个木马反弹的shell</p>
+<table>
+<thead>
 <tr>
-<td align="center"><code>成功上传</code></td>
+<th align="center"><code>怎么又是www-data,这个payload好像有点问题算了再提一次</code></th>
 </tr>
-<tr>
-<td align="center">:———————————————————-:</td>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831040819.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
 </tr>
+</tbody></table>
+</li>
+<li><p>换了个sock的提权模块</p>
+<table>
+<thead>
 <tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194122.png" srcset="/img/loading.gif" alt=""></td>
+<th align="center"><code>同样是www-data权限，裂开了</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831040914.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>再换一个</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>info看了一下帮助信息，发现这个同时适用x64/x86平台</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831041027.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 <table>
 <thead>
 <tr>
-<th align="center"><code>复制图像地址进行访问也是和pass11报错</code></th>
+<th align="center"><code>总算提到root权限了</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194151.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th align="center"><code>一样需要将后面的随机化命名去掉访问3.php即可</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194215.png" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831041145.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 </li>
 </ul>
-<p><strong>php编写简单的webshell</strong></p>
-<pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> 
-<span class="hljs-keyword">if</span>($_GET)&#123;
-	$cmd = $_GET[<span class="hljs-string">'cmd'</span>];
-	system($cmd)
-&#125;<span class="hljs-keyword">else</span>&#123;
-
-	<span class="hljs-keyword">echo</span> <span class="hljs-string">"no cmd"</span>
-&#125;
-<span class="hljs-meta">?&gt;</span></code></pre>
-
-
-
-<h2 id="pass12-图片webshell上传"><a href="#pass12-图片webshell上传" class="headerlink" title="pass12-图片webshell上传"></a>pass12-图片webshell上传</h2><p><strong>图片webshell制作</strong></p>
-<ul>
-<li><p>在服务端的php代码中，对于用户上传的文件做文件类型检查，查看文件格式是否符合上传规范。可以检查文件二进制格式的前几个字节，从而判断文件类型是否正确</p>
-</li>
-<li><p>针对这种情况可以直接新建要给1.jpg其中代码内容如下</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>GIF98A是为了声明这是一个图片文件,将文件命名为5.jpg</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194522.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<p><strong>上传图片webshell</strong></p>
-<ul>
-<li><p>将制作好的图片webshell上传到服务器</p>
-</li>
-<li><p>其中可能content-Type验证。修改为image/gif或image/jpg符合当前文件类型的MIME</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>将内容为phpinfo的5.jpg进行上传，没有触发任何过滤</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194644.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th align="center"><code>右键复制图片地址进行访问，发现没有被当作php来解析</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830194723.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<p><strong>文件包含漏洞分析</strong></p>
-<ul>
-<li><p>在php中，适用include，require，include_once,require_once函数包含的文件都会被当作php代码执行。无论文件的名称是什么，只要文件内容符合php代码规范，都会被当作php代码执行</p>
-</li>
-<li><p>编写文件包含代码</p>
-<pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> 
-$file=$_GET[<span class="hljs-string">'page'</span>];
-<span class="hljs-keyword">include</span>($file);
-<span class="hljs-meta">?&gt;</span></code></pre>
-<table>
-<thead>
-<tr>
-<th align="center"><code>结合文件包含输出phpinfo()</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830201318.png" srcset="/img/loading.gif" alt=""></td>
-</tr>
-<tr>
-<td align="center"><code>要像使用图片webshell需要结合文件包含漏洞</code></td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<h2 id="pass13-竞争条件"><a href="#pass13-竞争条件" class="headerlink" title="pass13-竞争条件"></a>pass13-竞争条件</h2><p><strong>文件上传过程介绍</strong></p>
-<ul>
-<li>文件上传过程<ul>
-<li>服务器获取文件 &gt; 保存上传临时文件 &gt; 重命名移动临时文件</li>
-</ul>
-</li>
-</ul>
-<p><strong>竞争条件原理介绍</strong></p>
-<ul>
-<li>网站逻辑：<ul>
-<li>网站允许上传任意文件，然后检查文件上传中是否博包含webshell，如果包含，删除该文件</li>
-<li>网站允许上传任意文件，但是如果不能指定文件类型，那么会使用unlink删除文件</li>
-<li>在删除之前访问上传的php文件，从而执行上传文件中的php代码</li>
-</ul>
-</li>
-</ul>
-<p><strong>竞争条件代码分析</strong></p>
-<ul>
-<li>先进行上传，后判断与删除，利用时间差进行webshell上传</li>
-<li>先是对文件进行判断是否符合规范，如果符合重命名上传，如果不符合调用unlink删除</li>
-</ul>
-<p>需要修改代码来达到绕过效果，环境有问题不做了。</p>
-<p><a href="https://baynk.blog.csdn.net/article/details/102910267" target="_blank" rel="noopener">参考链接</a></p>
-<h2 id="pass14-iis6-0解析漏洞"><a href="#pass14-iis6-0解析漏洞" class="headerlink" title="pass14-iis6.0解析漏洞"></a>pass14-iis6.0解析漏洞</h2><p><strong>iis6.0解析漏洞介绍</strong></p>
-<ul>
-<li><p>当建立<em>asa,,</em>.asp格式的文件夹时，其目录下的任意文件都将被iis当作asp文件解析。</p>
-</li>
-<li><p>当文件*.asp;1.jpg iis6.0同样会将文件作为asp文件解析</p>
-</li>
-<li><p>微软目前没有推出补丁，不认为是一个漏洞</p>
-</li>
-</ul>
-<p><strong>本关环境需要iis6.0， 没搭建，略过</strong></p>
-<p><a href="https://blog.csdn.net/weixin_41487522/article/details/106824929" target="_blank" rel="noopener">参考链接</a></p>
-<h2 id="pass15-apache解析漏洞"><a href="#pass15-apache解析漏洞" class="headerlink" title="pass15-apache解析漏洞"></a>pass15-apache解析漏洞</h2><p><strong>apache解析漏洞</strong></p>
-<ul>
-<li>因为apache认为一个文件可以拥有多个扩展名，哪怕没有文件名，也可以拥有多个扩展名。apache认为应该从右到左开始判断解析方法。如果最右侧的扩展名不可识别，就继续往左判断，知道判断到文件名为止。</li>
-</ul>
-<p><strong>这里也没准备环境，略过</strong></p>
-<p><a href="https://blog.csdn.net/qq_32434307/article/details/79480316" target="_blank" rel="noopener">参考链接</a></p>
-<p><strong>文件上传就到这里，好像最新版的upload-labs出到20多关，有时间再试试吧</strong></p>
 
             </article>
             <hr>
@@ -490,7 +494,7 @@ $file=$_GET[<span class="hljs-string">'page'</span>];
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">文件上传</a>
+                      <a class="hover-with-bg" href="/tags/%E6%8F%90%E6%9D%83/">提权</a>
                     
                   </div>
                 
@@ -503,18 +507,12 @@ $file=$_GET[<span class="hljs-string">'page'</span>];
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/08/13/metasploitable2%E9%9D%B6%E6%9C%BAwebdav%E6%9C%8D%E5%8A%A1%E6%8F%90%E6%9D%83/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">metasploitable2  webdav服务提权</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/08/11/upload-labs%E9%80%9A%E5%85%B36-10/">
-                        <span class="hidden-mobile">upload-labs6-10通关</span>
+                      <a href="/2020/08/12/upload-labs%E9%80%9A%E5%85%B311-15/">
+                        <span class="hidden-mobile">upload-labs11-15通关</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -699,7 +697,7 @@ $file=$_GET[<span class="hljs-string">'page'</span>];
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "upload-labs11-15通关&nbsp;",
+        "metasploitable2  webdav服务提权&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
