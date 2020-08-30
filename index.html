@@ -180,6 +180,73 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2020/08/11/upload-labs%E9%80%9A%E5%85%B36-10/" target="_self">
+          <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200830183558.jpg" srcset="/img/loading.gif" alt="upload-labs6-10通关">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/2020/08/11/upload-labs%E9%80%9A%E5%85%B36-10/">upload-labs6-10通关</a>
+
+      <a href="/2020/08/11/upload-labs%E9%80%9A%E5%85%B36-10/" class="index-excerpt">
+        
+        
+          
+        
+        <div>upload-labs6-10通关pass6-空格绕过空格绕过原理
+
+windows系统下，对于文件名中空格会被作为空处理，程序中的检测代码却不能自动删除空格。从而绕过黑名单
+针对这样的情况，需要使用burpsuite截断请求之后，修改文件名，添加空格
+
+基于黑名单验证的代码分析
+
+可以看到源代码对一系列的后缀名都进行了过滤
+
+
+
+但是并没有对空格进行处理
+
+
+
+
+
+
+
+
+
+burp绕过黑名单验证</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-08-11
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Web-penetration/">Web penetration</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">文件上传</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2020/08/10/upload-labs%E9%80%9A%E5%85%B31-5/" target="_self">
           <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200828224848.jpg" srcset="/img/loading.gif" alt="upload-labs1-5通关">
         </a>
@@ -196,7 +263,7 @@
         <div>upload-labs1-5通关环境部署
 这里的靶场用的是upload-labs，下载及搭建教程移步github项目地址
 
-pass1-绕过js验证源码分析
+pass1-js验证绕过源码分析
 
 后台代码对用户上传的文件以点为分隔符将其后缀当作文件格式
 
@@ -672,60 +739,6 @@ insert into users values("16","daming","man")
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>&nbsp;2020-08-03
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Web-penetration/">Web penetration</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/sql%E6%B3%A8%E5%85%A5/">sql注入</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/08/02/sqli-less9-16/" target="_self">
-          <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200816194456.jpg" srcset="/img/loading.gif" alt="sqli-less9-16">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/08/02/sqli-less9-16/">sqli-less9-16</a>
-
-      <a href="/2020/08/02/sqli-less9-16/" class="index-excerpt">
-        
-        
-          
-        
-        <div>sqli-less9-16
-less8 是一个布尔盲注，和less5没什么区别，略过。
-
-less9
-从标题得知，less9&lt;基于时间-单引号&gt;,那这关明显是延迟注入了。
-
-闭合前一个单引号，构造的延迟注入语句。(延迟注入不贴图了，记录一下payload)
-# 数据库
-http:&#x2F;&#x2F;192.168.5.135&#x2F;sqli&#x2F;less-9&#x2F;?</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-08-02
           </div>
         
         
