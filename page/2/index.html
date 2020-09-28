@@ -180,6 +180,114 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2020/08/07/xss-challgens/" target="_self">
+          <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827064025.jpg" srcset="/img/loading.gif" alt="xss-challgens通关记录">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/2020/08/07/xss-challgens/">xss-challgens通关记录</a>
+
+      <a href="/2020/08/07/xss-challgens/" class="index-excerpt">
+        
+        
+          
+        
+        <div>xss-challgens环境介绍
+xss-challgens， 一个日本安全研究员开发的xss靶场，官方推荐配合ie使用。（ie有多垃圾，谁用谁知道）
+这里的环境用的是firefox+ietest,部分关卡没有特殊版本的ie可能做不出来。
+
+stage1-无过滤的xss
+探测漏洞，随便输入一段不可能冲突的字符串，提交后F12查看源代码
+
+
+
+发现用户的输出会直接嵌入到标签中，那么就可以存在xss</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-08-07
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Web-penetration/">Web penetration</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/xss/">xss</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2020/08/06/xss+setookit%E7%9B%97%E5%8F%96%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF/" target="_self">
+          <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827034615.png" srcset="/img/loading.gif" alt="xss+setookit窃取账户信息">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/2020/08/06/xss+setookit%E7%9B%97%E5%8F%96%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF/">xss+setookit窃取账户信息</a>
+
+      <a href="/2020/08/06/xss+setookit%E7%9B%97%E5%8F%96%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF/" class="index-excerpt">
+        
+        
+          
+        
+        <div>XSS+setookit盗取账户信息xss修改网页链接应用场景
+存在xss漏洞的地方，将当前网页的a标签里的href链接全部修改成恶意链接。
+
+payload：
+&lt;script&gt;
+window.onload = function()&#123;
+var link=document.getElementsByTagName("a");
+for(j=0;j&lt;link.length;j</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-08-06
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/Web-penetration/">Web penetration</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/xss/">xss</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2020/08/05/xss%E7%AA%83%E5%8F%96cookie%E5%88%A9%E7%94%A8/" target="_self">
           <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200827002715.jpg" srcset="/img/loading.gif" alt="xss窃取cookie利用">
         </a>
@@ -639,121 +747,6 @@ firefox</div>
             <i class="iconfont icon-tags"></i>
             
               <a href="/tags/firefox/">firefox</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/07/30/sqli-less1-4/" target="_self">
-          <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200814123753.jpg" srcset="/img/loading.gif" alt="sqli-less1-4">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/07/30/sqli-less1-4/">sqli-less1-4</a>
-
-      <a href="/2020/07/30/sqli-less1-4/" class="index-excerpt">
-        
-        
-          
-        
-        <div>sqli less 1-4less1
-直接在url后添加了‘号触发报错，效果如图
-
-
-
-http://172.18.9.66/sqli/Less-1/?id=1&#39;
-
-
-
-
-
-
-
-从上述错误中，可以看到1’经过sql语句构造后形成&#39;&#39;1&#39;&#39; LIMIT 0,1&#39; 多出了个单引号，从错误中得到想要的信息后，通过&#39;or 1=1 --+注释将多余的’</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-30
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Web-penetration/">Web penetration</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/sql%E6%B3%A8%E5%85%A5/">sql注入</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2020/07/27/sqli%E6%89%8B%E6%B3%A8%E5%9F%BA%E7%A1%80/" target="_self">
-          <img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200727145833.jpg" srcset="/img/loading.gif" alt="sqli手注基础">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 mx-auto index-info">
-      <a class="index-header" href="/2020/07/27/sqli%E6%89%8B%E6%B3%A8%E5%9F%BA%E7%A1%80/">sqli手注基础</a>
-
-      <a href="/2020/07/27/sqli%E6%89%8B%E6%B3%A8%E5%9F%BA%E7%A1%80/" class="index-excerpt">
-        
-        
-          
-        
-        <div>sql-labs 手注前言
-早在之前就接触过sql-labs，前两次加起来好像是过了前面十几关把，且也没有详细的做笔记。一两个月没接触，基本忘的差不多了，所以才有了这次三刷sql-labs。
-靶场搭建，其实很简单改一下数配置文件数据库连接密码就行了。这里这里直接略过，不会的话移步百度。
-
-sql注入基础知识
-sql注入的分类
-
-基于服务器接受到的响应分类
-基于错误的sql注入
-联合查询的类型
-堆查</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-27
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/Web-penetration/">Web penetration</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/sql%E6%B3%A8%E5%85%A5/">sql注入</a>
             
           </div>
         

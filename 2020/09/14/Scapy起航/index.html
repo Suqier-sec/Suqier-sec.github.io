@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>PicGo+阿里云OSS部署图床 - SuQieR&#39;s Blog</title>
+  <title>Scapy起航 - SuQieR&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -152,7 +152,7 @@
 </nav>
 
     <div class="banner intro-2" id="background" parallax=true
-         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200902023711.jpg?x-oss-process=style/suqier-logo') no-repeat center center;
+         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/bungalow_ocean_coast_187117_1920x1080.jpg?x-oss-process=style/suqier-logo') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -165,8 +165,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-09-01 01:56">
-      September 1, 2020 am
+    <time datetime="2020-09-14 11:54">
+      September 14, 2020 am
     </time>
   </div>
 
@@ -176,7 +176,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      994 字
+      982 字
     </span>
   
 
@@ -186,7 +186,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      12
+      13
        分钟
     </span>
   
@@ -217,268 +217,193 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h1 id="PicGo-阿里云oss部署图床"><a href="#PicGo-阿里云oss部署图床" class="headerlink" title="PicGo + 阿里云oss部署图床"></a>PicGo + 阿里云oss部署图床</h1><p><strong>哎，本来不想记这个的觉得很简单，可没过几周就忘记怎么设置了。。。</strong><br><strong>部分图片涉及了较多隐私进行了模糊处理</strong></p>
-<h3 id="PicGo介绍"><a href="#PicGo介绍" class="headerlink" title="PicGo介绍"></a>PicGo介绍</h3><ul>
-<li><p>用PicGo项目的介绍来说，PicGo就是<strong>一个用于快速上传图片并获取图片 URL 链接的工具</strong></p>
+              <h1 id="Scapy起航"><a href="#Scapy起航" class="headerlink" title="Scapy起航"></a>Scapy起航</h1><h2 id="scapy介绍"><a href="#scapy介绍" class="headerlink" title="scapy介绍"></a>scapy介绍</h2><ul>
+<li><p>scapy是一个python编写的框架,能够使用户发送,嗅探,解剖和伪造网络数据包。可以用来实现探测，扫描或攻击网络的工具。</p>
 </li>
-<li><p>github项目上的下载地址，<a href="https://github.com/Molunerfinn/PicGo/releases" target="_blank" rel="noopener">点这里跳转</a>，windows系统下载exe后缀名的即可</p>
+<li><p>且该程序在python中有对应的模块可以进行直接利用，通过结合python可以达到灵活多变的效果。</p>
 </li>
-<li><p>安装步骤，改一下默认地址就行了，剩下的一路下一步</p>
+<li><p>需要注意的是，不要将scrapy和scapy搞混，前者是一个web爬虫框架，后者则是操作网络数据包的工具。</p>
 </li>
-</ul>
-<h2 id="阿里云OSS"><a href="#阿里云OSS" class="headerlink" title="阿里云OSS"></a>阿里云OSS</h2><ul>
-<li>如果不知道阿里OSS是什么可以参考一下<a href="https://help.aliyun.com/document_detail/31947.html" target="_blank" rel="noopener">官方文档</a>，这里就不赘述了</li>
-</ul>
-<p><strong>创建BucKet存储对象</strong></p>
-<ul>
-<li><p>进入阿里云控制台，开通对象存储（开通不收费，使用才收费）</p>
+<li><p>在kali linux下自带的，其他系统需要安装的话使用<code>pip install scapy</code>来进行安装</p>
 </li>
-<li><p>开通以后进入对象存储配置中，进入bucket列表</p>
-<table>
-<thead>
-<tr>
-<th align="center">`点击创建bucket</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831044819.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th align="center"><code>名称和区域随意，读写权限这里需要更改成公共读</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831045229.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
+<li><p>官方的使用书册，全英文显示，有兴趣可以看一看，<a href="https://scapy.readthedocs.io/en/latest/" target="_blank" rel="noopener">点这里跳转</a></p>
 </li>
 </ul>
-<p><strong>获取AccessKey SecretKey</strong></p>
-<ul>
-<li><p>上传图片在配置PicGo的时候需要两个参数，这里用的是RAM子账户，使用主账号的话风险较大不建议使用</p>
-</li>
-<li><p>创建RAM子账户</p>
+<h2 id="常用函数介绍"><a href="#常用函数介绍" class="headerlink" title="常用函数介绍"></a>常用函数介绍</h2><ul>
+<li><strong>ls()</strong> 显示scapy支持的所有协议</li>
+</ul>
 <table>
 <thead>
 <tr>
-<th align="center"><code>点击阿里云控制台右上角的头像，展开之后就可以看到Access Key管理</code></th>
+<th align="center"><code>截取了一部分的输出。支持的协议挺多的，主要常用的协议Ether,ARP，IP,ICMP,TCP/UDP等</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831045910.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-<li><p>进去之后弹出一个对话框</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>选择开始使用子用户AssessKey</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831050019.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-<li><p>创建用户</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>账号密码看着来，下面的编程访问勾选上</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831050138.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-<li><p>创建好之后会获取到两个一连串的字符</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>第一个是keyid，第二个是keysecret。复制下来，等会配置PicGo的时候要用到</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831051107.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200928105504.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 <ul>
-<li><p>修改RAM子用户权限</p>
+<li><p><strong>lsc()</strong> 列出所有支持的命令</p>
 <table>
 <thead>
 <tr>
-<th align="center"><code>从红框这里进入</code></th>
+<th align="center"><code>内置的命令很多，常用的也就十多个</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831051343.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200928110147.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
+</li>
+<li><p><strong>show()</strong>显示指定数据包的信息</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>组建好数据包之后便可以使用show命令查看信息</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200928110625.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>sprintf</strong> 输出某一层某个参数的值，不存在则输出”??”</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>format格式:%[[fmt][r],][layer[:nb].]field%</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>layer:协议层的名字，如Ether、IP、Dot11、TCP等。</code></td>
+</tr>
+<tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200928111642.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>send()</strong>在第三层发送数据包</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>发送完毕后该命令就结束，不进行接收相应</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200928112636.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>sendp()</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>同样也是发送完毕后该命令就结束，不进行接收相应</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200928112602.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>sr()</strong>在第三层发送数据包，发送后返回响应数据包</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>目标返回多少响应则显示多少</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200928113010.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>sr1()</strong>在第三层发送数据包，但只接收第一个响应数据包</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>如果不定义变量的话会默认把返回的第一个响应包输出</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200928113236.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>srloop()</strong>,在第三层进行发包，同时可以指定发包的数量</p>
+<table>
+<thead>
+<tr>
+<th align="center"><code>inter指定数据包发送间隔时间，count指定数据包个数</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200928113436.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>srp()/srp1()/srploop()等函数同上面的sr()/sr1()/srloop()功能一致，但工作在第二层。这里不再进行赘述</p>
+</li>
+<li><p>还有一些乱七八糟的函数，虽然不常用但还是记一下</p>
+<pre><code class="hljs stylus">命令 							效果
+<span class="hljs-function"><span class="hljs-title">str</span><span class="hljs-params">(pkt)</span></span> 					组装数据包
+<span class="hljs-function"><span class="hljs-title">hexdump</span><span class="hljs-params">(pkt)</span></span> 				十六进制转储
+<span class="hljs-function"><span class="hljs-title">ls</span><span class="hljs-params">(pkt)</span></span> 					显示出字段值的列表
+pkt.summary() 				一行摘要
+pkt.show() 					针对数据包的展开试图
+pkt.show2() 				显示聚合的数据包（例如，计算好了校验和）
+pkt.sprintf() 				用数据包字段填充格式字符串
+pkt.decode_payload_as() 	改变payload的decode方式
+pkt.psdump() 				绘制一个解释说明的PostScript图表
+pkt.pdfdump() 				绘制一个解释说明的PDF
+pkt.command() 				返回可以生成数据包的Scapy命令
+<span class="hljs-function"><span class="hljs-title">summary</span><span class="hljs-params">()</span></span> 					显示一个关于每个数据包的摘要列表
+<span class="hljs-function"><span class="hljs-title">nsummary</span><span class="hljs-params">()</span></span> 					同上，但规定了数据包数量
+<span class="hljs-function"><span class="hljs-title">conversations</span><span class="hljs-params">()</span></span> 			显示一个会话图表
+<span class="hljs-function"><span class="hljs-title">show</span><span class="hljs-params">()</span></span> 						显示首选表示（通常用nsummary()）
+<span class="hljs-function"><span class="hljs-title">filter</span><span class="hljs-params">()</span></span> 					返回一个lambda过滤后的数据包列表
+<span class="hljs-function"><span class="hljs-title">hexdump</span><span class="hljs-params">()</span></span> 					返回所有数据包的一个hexdump
+<span class="hljs-function"><span class="hljs-title">hexraw</span><span class="hljs-params">()</span></span> 					返回所以数据包Raw layer的hexdump
+<span class="hljs-function"><span class="hljs-title">padding</span><span class="hljs-params">()</span></span> 					返回一个带填充的数据包的hexdump
+<span class="hljs-function"><span class="hljs-title">nzpadding</span><span class="hljs-params">()</span></span> 				返回一个具有非零填充的数据包的hexdump
+<span class="hljs-function"><span class="hljs-title">plot</span><span class="hljs-params">()</span></span> 						规划一个应用到数据包列表的lambda函数
+make table() 				根据lambda函数来显示表格</code></pre>
+
+
+
 </li>
 </ul>
-</li>
-<li><p>允许ARM子用户访问OSS</p>
+<h2 id="构造一个自定义内容的数据包"><a href="#构造一个自定义内容的数据包" class="headerlink" title="构造一个自定义内容的数据包"></a>构造一个自定义内容的数据包</h2><ul>
+<li><p>构造一个TCP数据包，发送前打开wireshark进行抓包</p>
 <table>
 <thead>
 <tr>
-<th align="center"><code>这里选择FullAccess</code></th>
+<th align="center"><code>src源地址，dst目的地址，sport源端口，dport目的端口，data为自定义数据</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831051524.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200928152327.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
 </li>
-<li><p>完成上面一步后, OSS算是配置完成了</p>
-</li>
-</ul>
-<h2 id="配置PicGo"><a href="#配置PicGo" class="headerlink" title="配置PicGo"></a>配置PicGo</h2><ul>
-<li><p>首先要做的是先把其他用不着的图床的显示给关了，看着碍眼</p>
+<li><p>回到wireshark筛选发送出的数据包</p>
 <table>
 <thead>
 <tr>
-<th><code>点击PicGo设置，滑到最下面，把多余的勾去掉，仅保留阿里云OSS</code></th>
+<th align="center"><code>筛选规则ip.src eq 172.18.9.1</code></th>
 </tr>
 </thead>
 <tbody><tr>
-<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831052750.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
+<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200928152647.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
 </tr>
 </tbody></table>
-</li>
-<li><p>接着就是配置阿里云OSS的参数了</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>有七个选项需要填写，带*的是必须填的</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200831053034.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-<li><p>返回阿里云控制台的OSS对象存储服务，获取上面所需的参数</p>
 <ul>
-<li>前面的keyId和KeySecret已经复制下来了</li>
-<li>第三个存储空间名为新建Bucket对象时的名称</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center"><code>打开bucket列表就能看到了，红框内就是存储空间名所需要填的参数了</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200902015612.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-<ul>
-<li>存储区域则是创建时选择的区域了</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center"><code>在Bucket列表进入对应的Bucket中，往下就能看到了</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200902015941.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
-</tr>
-<tr>
-<td align="center"><code>填外网访问的地域节点前的地域就行了</code></td>
-</tr>
-</tbody></table>
-<ul>
-<li>存储路径则是<code>img/</code></li>
+<li>IP层的源地址目的地址就是构造数据包时指定的地址，</li>
+<li>而TCP层之后附带了一个叫data的数据，从红框可以看到就是构造时的hello sina</li>
 </ul>
 </li>
-<li><p>倒数第二个空，就是用来设置水印的，如果不用给上传的图片添加水印的话到这一步就结束了</p>
-</li>
 </ul>
-<h2 id="给上传的图片添加水印"><a href="#给上传的图片添加水印" class="headerlink" title="给上传的图片添加水印"></a><strong>给上传的图片添加水印</strong></h2><ul>
-<li><p>在<code>Bucket</code>列表里选择数据处理</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>接着图片处理</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200902020603.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th align="center"><code>点击新建样式进行设置水印</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200902022537.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th><code>规则名称看着来，爱叫啥叫啥，等会需要用到这个规则名称</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200902020859.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th align="center"><code>红框选择文字水印、绿框则是水印的名称、黄框是水印的各种效果，这里默认就好了，蓝框则是水印的位置，默认是左下角</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200902021121.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-<li><p>返回设置网址后缀</p>
-<ul>
-<li><code>格式：?x-oss-process=style/规则名称</code></li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center"><code>这里的规则名称就是新建规则时所输入的名称</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200902021510.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
-</tr>
-</tbody></table>
-</li>
-</ul>
-<p><strong>到这一步水印规则算是设置好了，自定义域名这里忽略不填</strong></p>
-<ul>
-<li><p>返回上传区这里，可以选择上传后各种形式的图片连接</p>
-<table>
-<thead>
-<tr>
-<th align="center"><code>如果不是markdown格式的话，在markdown中是无法渲染的</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><img src="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20200902021802.png?x-oss-process=style/suqier-logo" srcset="/img/loading.gif" alt=""></td>
-</tr>
-<tr>
-<td align="center"><code>上传后图片的左下角多出了规则水印</code></td>
-</tr>
-</tbody></table>
-</li>
-<li><p>所有的参数设置好之后就可以愉快的上传图片了，如果在同一设备使用那么可以一直使用下去，完全不需要修改任何东西。</p>
-</li>
-</ul>
+<p><strong>对scapy的初步介绍到此结束，后续会持续更新其他构造常用协议数据包</strong></p>
 
             </article>
             <hr>
@@ -488,7 +413,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%9D%82%E9%A1%B9/">杂项</a>
+                      <a class="hover-with-bg" href="/categories/python/">python</a>
                     
                   </div>
                 
@@ -496,7 +421,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/oss%E5%9B%BE%E5%BA%8A/">oss图床</a>
+                      <a class="hover-with-bg" href="/tags/scapy/">scapy</a>
                     
                   </div>
                 
@@ -509,9 +434,9 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/09/14/Scapy%E8%B5%B7%E8%88%AA/">
+                      <a href="/2020/09/15/Python+Scapy_%E5%AE%9E%E7%8E%B0TCP%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Scapy起航</span>
+                        <span class="hidden-mobile">Python+Scapy实现TCP端口扫描</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -519,8 +444,8 @@
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/08/14/metasploitable2_tomcat5.5.%E5%BC%B1%E5%8F%A3%E4%BB%A4%E5%90%8E%E5%8F%B0%E4%B8%8A%E4%BC%A0%E6%9C%A8%E9%A9%AC/">
-                        <span class="hidden-mobile">metasploitable2靶机tomcat后台弱口令上传木马</span>
+                      <a href="/2020/09/01/Picgo+%E9%98%BF%E9%87%8C%E4%BA%91OSS%E9%83%A8%E7%BD%B2%E5%9B%BE%E5%BA%8A/">
+                        <span class="hidden-mobile">PicGo+阿里云OSS部署图床</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -705,7 +630,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "PicGo+阿里云OSS部署图床&nbsp;",
+        "Scapy起航&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
