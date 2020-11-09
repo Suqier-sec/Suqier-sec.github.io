@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>python迭代器 - SuQieR&#39;s Blog</title>
+  <title>python迭代对象与迭代器 - SuQieR&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -152,7 +152,7 @@
 </nav>
 
     <div class="banner intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
+         style="background: url('https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/20201109232924.jpg?x-oss-process=style/suqier-logo') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -165,8 +165,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-11-09 23:22">
-      November 9, 2020 pm
+    <time datetime="2020-10-11 00:43">
+      October 11, 2020 am
     </time>
   </div>
 
@@ -176,7 +176,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      737 字
+      743 字
     </span>
   
 
@@ -186,7 +186,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10
+      11
        分钟
     </span>
   
@@ -217,7 +217,7 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h1 id="python迭代器"><a href="#python迭代器" class="headerlink" title="python迭代器"></a>python迭代器</h1><h3 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h3><ul>
+              <h1 id="python迭代对象与迭代器"><a href="#python迭代对象与迭代器" class="headerlink" title="python迭代对象与迭代器"></a>python迭代对象与迭代器</h1><h3 id="迭代对象"><a href="#迭代对象" class="headerlink" title="迭代对象"></a>迭代对象</h3><ul>
 <li><p>可迭代对象：</p>
 <ul>
 <li>字面意思：对象？python中一切皆对象，一个实实在在的值，对象。</li>
@@ -239,7 +239,7 @@ l1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <s
 <span class="hljs-comment"># print("__iter__" in dir(l1))</span>
 print(<span class="hljs-string">"__iter__"</span> <span class="hljs-keyword">in</span> dir(range(<span class="hljs-number">10</span>)))</code></pre>
 </li>
-<li><p>小结：</p>
+<li><p>小结</p>
 <ul>
 <li>优点：<ul>
 <li>存储的数据比较直观。</li>
@@ -254,7 +254,7 @@ print(<span class="hljs-string">"__iter__"</span> <span class="hljs-keyword">in<
 </ul>
 </li>
 </ul>
-<h3 id="迭代器-1"><a href="#迭代器-1" class="headerlink" title="迭代器"></a>迭代器</h3><ul>
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><ul>
 <li><p>迭代器的定义</p>
 <ul>
 <li>字面意思：更新迭代，器：工具。更新迭代的工具。</li>
@@ -335,6 +335,20 @@ obj = iter(l1)  <span class="hljs-comment"># 将可迭代对象转换成迭代�
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/python/">python</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E8%BF%AD%E4%BB%A3%E5%99%A8/">迭代器</a>
+                    
+                  </div>
                 
               </div>
               
@@ -535,7 +549,7 @@ obj = iter(l1)  <span class="hljs-comment"># 将可迭代对象转换成迭代�
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "python迭代器&nbsp;",
+        "python迭代对象与迭代器&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
