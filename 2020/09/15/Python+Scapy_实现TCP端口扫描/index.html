@@ -1,14 +1,14 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
-
-
+<html lang="en" data-default-color-scheme=&#34;auto&#34;>
 
 
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/微信图片_20200713154033.jpg">
-  <link rel="icon" type="image/png" href="https://lynn-sec-blogimage.oss-cn-shenzhen.aliyuncs.com/img/微信图片_20200713154033.jpg">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -19,7 +19,7 @@
   <meta name="keywords" content="">
   <title>Python+Scapy实现TCP端口扫描 - SuQieR&#39;s Blog</title>
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.5.3/css/bootstrap.min.css" />
 
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -27,19 +27,25 @@
 
   
     
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.1.2/styles/github-gist.min.css" />
+    
   
 
   
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+  
+
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -47,8 +53,13 @@
 <!-- 自定义样式保持在最底部 -->
 
 
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.8.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null},"tajs":null}};
+  </script>
   <script  src="/js/utils.js" ></script>
-<meta name="generator" content="Hexo 4.2.1"></head>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
 
 
 <body>
@@ -56,7 +67,7 @@
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
-       href="/">&nbsp;<strong>SuQieR's Blog</strong>&nbsp;</a>
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -75,7 +86,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
-                主页
+                Home
               </a>
             </li>
           
@@ -87,7 +98,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
-                归档
+                Archives
               </a>
             </li>
           
@@ -99,7 +110,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
-                分类
+                Categories
               </a>
             </li>
           
@@ -111,7 +122,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
-                标签
+                Tags
               </a>
             </li>
           
@@ -123,27 +134,21 @@
             <li class="nav-item">
               <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/links/">
-                <i class="iconfont icon-link-fill"></i>
-                友链
+                About
               </a>
             </li>
           
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -156,27 +161,30 @@
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fade-in-up">
-            <span class="h2" id="subtitle">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Python+Scapy实现TCP端口扫描">
               
             </span>
 
             
-              
-  <div class="mt-3 post-meta">
-    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-09-15 14:19">
-      September 15, 2020 pm
-    </time>
-  </div>
-
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-09-15 14:19" pubdate>
+        September 15, 2020 pm
+      </time>
+    </span>
+  
+</div>
 
 <div class="mt-1">
   
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.3k 字
+      2.4k 字
     </span>
   
 
@@ -186,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      37
+      32
        分钟
     </span>
   
@@ -214,9 +222,11 @@
     <div class="col-lg-8 nopadding-md">
       <div class="container nopadding-md" id="board-ctn">
         <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Python+Scapy实现TCP端口扫描</h1>
             
-            <article class="markdown-body">
+            <div class="markdown-body">
               <h1 id="Python-Scapy-构造TCP数据包实现扫描端口"><a href="#Python-Scapy-构造TCP数据包实现扫描端口" class="headerlink" title="Python+Scapy 构造TCP数据包实现扫描端口"></a>Python+Scapy 构造TCP数据包实现扫描端口</h1><h3 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h3><ul>
 <li>面向连接的：使用TCP协议通信的双方必须先建立连接，然后才能开始数据的读写，TCP连接是全双工的，即双方的数据读写可以通过一个连接进行。完成数据交换之后，通信双方都必须断开 连接以释放资源。TCP协议的这种连接是一对一的，所以基于广播和多播（目标是多个主机地址) 的应用程序不能使用TCP。而无连接协议UDP则非常适合于广播和多播。</li>
 <li>流式服务：TCP的字节流服务的表现形式就体现在，发送端执行的写操作数和接收端执行的读操作次数之间没有任何数量关系，当发送端应用程序连续执行多次写操作的时，TCP模块先将这些数据放入TCP发送缓冲区中。当TCP模块真正开始发送数据的时候，发送缓冲区中这些等待发送的数据可能被封装成一个或多个TCP报文段发出。</li>
@@ -276,7 +286,7 @@
 </tr>
 <tr>
 <td align="center">flags</td>
-<td align="center">TCP标志位，总共有六个ACK/SYN/RST/URG/PSH/FIN, 关于标志位的介绍可以看这里<a href="https://blog.csdn.net/qq_38323666/article/details/85338477" target="_blank" rel="noopener">https://blog.csdn.net/qq_38323666/article/details/85338477</a></td>
+<td align="center">TCP标志位，总共有六个ACK/SYN/RST/URG/PSH/FIN, 关于标志位的介绍可以看这里<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38323666/article/details/85338477">https://blog.csdn.net/qq_38323666/article/details/85338477</a></td>
 </tr>
 <tr>
 <td align="center">window</td>
@@ -330,38 +340,39 @@
 <li>scapy库在python中并没有自带，需要手动安装，<code>pip install scapy</code></li>
 <li>导入时建议使用<code>from scapy.all import *</code>来进行导入，其他的方法导入很麻烦</li>
 </ul>
-<h3 id="扫描函数"><a href="#扫描函数" class="headerlink" title="扫描函数"></a>扫描函数</h3><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">scan</span><span class="hljs-params">(ip,port)</span>:</span>
+<h3 id="扫描函数"><a href="#扫描函数" class="headerlink" title="扫描函数"></a>扫描函数</h3><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">scan</span>(<span class="hljs-params">ip,port</span>):</span>
     <span class="hljs-keyword">try</span>:
-        packet = IP(dst=ip)/TCP(dport=port, flags=<span class="hljs-string">"S"</span>)	<span class="hljs-comment"># 构造标志位为syn的数据包</span>
+        packet = IP(dst=ip)/TCP(dport=port, flags=<span class="hljs-string">&quot;S&quot;</span>)	<span class="hljs-comment"># 构造标志位为syn的数据包</span>
         result = sr1(packet,timeout=<span class="hljs-number">0.5</span>, verbose=<span class="hljs-number">0</span>)
-        <span class="hljs-keyword">if</span> int(result[TCP].flags) == <span class="hljs-number">18</span>:
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">int</span>(result[TCP].flags) == <span class="hljs-number">18</span>:
             <span class="hljs-comment"># 通过判断响应的数据包中，是否存在第二次握手Ack+syn标志位，存在即端口开放</span>
             time.sleep(<span class="hljs-number">0.1</span>)
-            print(ip, <span class="hljs-string">"TCP"</span> , port, <span class="hljs-string">"open"</span>)
+            print(ip, <span class="hljs-string">&quot;TCP&quot;</span> , port, <span class="hljs-string">&quot;open&quot;</span>)
             <span class="hljs-comment"># 注意这里如果使用+号进行字符串拼接的话会导致报错，使用逗号即可拼接</span>
         <span class="hljs-keyword">return</span>
 
     <span class="hljs-keyword">except</span>:
-        <span class="hljs-keyword">pass</span></code></pre>
+        <span class="hljs-keyword">pass</span>
+</code></pre>
 
 <h3 id="参数获取"><a href="#参数获取" class="headerlink" title="参数获取"></a>参数获取</h3><ul>
 <li><p>获取用户输入的参数，并实例化</p>
 </li>
 <li><p>判断用户是扫i单个ip地址还是网段亦是读取ip地址文件</p>
-<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span>
 
-    parser = OptionParser(<span class="hljs-string">"Usage program -i &lt;target host&gt; -n &lt;website&gt; -p &lt;target port&gt;"</span>)
-    parser.add_option(<span class="hljs-string">"-i"</span>, <span class="hljs-string">'--host'</span>, type=<span class="hljs-string">"string"</span>,dest=<span class="hljs-string">"tgtIP"</span>,help=<span class="hljs-string">"specify target host or website"</span>)
-    parser.add_option(<span class="hljs-string">"-n"</span>,<span class="hljs-string">"--network"</span>, type=<span class="hljs-string">"string"</span>,dest=<span class="hljs-string">"tgtNetwork"</span>,help=<span class="hljs-string">"specify target Network"</span>)
-    parser.add_option(<span class="hljs-string">"-f"</span>, <span class="hljs-string">"--addressfile"</span>, type=<span class="hljs-string">"string"</span>, dest=<span class="hljs-string">"tgtFile"</span>, help=<span class="hljs-string">"specify target addressfile"</span>)
-    parser.add_option(<span class="hljs-string">"-p"</span>,<span class="hljs-string">"--port"</span>, type=<span class="hljs-string">"string"</span>,dest=<span class="hljs-string">"tgtPorts"</span>,help=<span class="hljs-string">"specify target port separated by comma"</span>)
+    parser = OptionParser(<span class="hljs-string">&quot;Usage program -i &lt;target host&gt; -n &lt;website&gt; -p &lt;target port&gt;&quot;</span>)
+    parser.add_option(<span class="hljs-string">&quot;-i&quot;</span>, <span class="hljs-string">&#x27;--host&#x27;</span>, <span class="hljs-built_in">type</span>=<span class="hljs-string">&quot;string&quot;</span>,dest=<span class="hljs-string">&quot;tgtIP&quot;</span>,<span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;specify target host or website&quot;</span>)
+    parser.add_option(<span class="hljs-string">&quot;-n&quot;</span>,<span class="hljs-string">&quot;--network&quot;</span>, <span class="hljs-built_in">type</span>=<span class="hljs-string">&quot;string&quot;</span>,dest=<span class="hljs-string">&quot;tgtNetwork&quot;</span>,<span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;specify target Network&quot;</span>)
+    parser.add_option(<span class="hljs-string">&quot;-f&quot;</span>, <span class="hljs-string">&quot;--addressfile&quot;</span>, <span class="hljs-built_in">type</span>=<span class="hljs-string">&quot;string&quot;</span>, dest=<span class="hljs-string">&quot;tgtFile&quot;</span>, <span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;specify target addressfile&quot;</span>)
+    parser.add_option(<span class="hljs-string">&quot;-p&quot;</span>,<span class="hljs-string">&quot;--port&quot;</span>, <span class="hljs-built_in">type</span>=<span class="hljs-string">&quot;string&quot;</span>,dest=<span class="hljs-string">&quot;tgtPorts&quot;</span>,<span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;specify target port separated by comma&quot;</span>)
     options,args = parser.parse_args()	<span class="hljs-comment"># 实例化用户输入的参数</span>
 
     tgtIP = options.tgtIP
     tgtNetwork = options.tgtNetwork <span class="hljs-comment"># 网段</span>
     tgtFile = options.tgtFile
     tgtPorts = options.tgtPorts
-  	tgtPorts = tgtPorts.split(<span class="hljs-string">","</span>) <span class="hljs-comment"># 将用户输入的多个端口以逗号分割生成列表</span>
+  	tgtPorts = tgtPorts.split(<span class="hljs-string">&quot;,&quot;</span>) <span class="hljs-comment"># 将用户输入的多个端口以逗号分割生成列表</span>
 
     <span class="hljs-keyword">if</span> tgtPorts <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">or</span> tgtNetwork <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> tgtIP <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> tgtFile <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>  :	<span class="hljs-comment"># 判断用户是否输入参数</span>
         print(parser.usage)	<span class="hljs-comment"># 如果没有输入参数则输出帮助信息，然后退出程序</span>
@@ -371,29 +382,29 @@
 
     <span class="hljs-keyword">if</span> tgtIP:	<span class="hljs-comment"># 输入单个ip地址时的操作</span>
         <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> tgtPorts:
-            port = int(p)
+            port = <span class="hljs-built_in">int</span>(p)
             t = Thread(target=scan,args=(tgtIP,port))
             t.start()
 
     <span class="hljs-keyword">if</span> tgtNetwork:	<span class="hljs-comment"># 输入整个网段时的操作</span>
-        prefix = tgtNetwork.split(<span class="hljs-string">"."</span>)[<span class="hljs-number">0</span>] + <span class="hljs-string">"."</span> + tgtNetwork.split(<span class="hljs-string">"."</span>)[<span class="hljs-number">1</span>] + <span class="hljs-string">"."</span> + tgtNetwork.split(<span class="hljs-string">"."</span>)[<span class="hljs-number">2</span>] + <span class="hljs-string">"."</span>	<span class="hljs-comment"># 将用户输入的网段提取提取前三位当作前缀</span>
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,<span class="hljs-number">255</span>):
-            ip = prefix + str(i)	<span class="hljs-comment"># 和前缀结合形成网段内所有的地址</span>
+        prefix = tgtNetwork.split(<span class="hljs-string">&quot;.&quot;</span>)[<span class="hljs-number">0</span>] + <span class="hljs-string">&quot;.&quot;</span> + tgtNetwork.split(<span class="hljs-string">&quot;.&quot;</span>)[<span class="hljs-number">1</span>] + <span class="hljs-string">&quot;.&quot;</span> + tgtNetwork.split(<span class="hljs-string">&quot;.&quot;</span>)[<span class="hljs-number">2</span>] + <span class="hljs-string">&quot;.&quot;</span>	<span class="hljs-comment"># 将用户输入的网段提取提取前三位当作前缀</span>
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">255</span>):
+            ip = prefix + <span class="hljs-built_in">str</span>(i)	<span class="hljs-comment"># 和前缀结合形成网段内所有的地址</span>
             <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> tgtPorts:
-                port = int(p)
+                port = <span class="hljs-built_in">int</span>(p)
                 t = Thread(target=scan, args=(ip,port))
                 t.start()
 
     <span class="hljs-keyword">if</span> tgtFile:	<span class="hljs-comment"># 如果时地址文件则进行的操作</span>
         <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(tgtFile):		<span class="hljs-comment"># 判断文件是否存在</span>
-            print(<span class="hljs-string">"File not found"</span>)
+            print(<span class="hljs-string">&quot;File not found&quot;</span>)
             sys.exit()
-        <span class="hljs-keyword">with</span> open(tgtFile,<span class="hljs-string">"r"</span>) <span class="hljs-keyword">as</span> f:	<span class="hljs-comment"># 读取地址文件</span>
+        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(tgtFile,<span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:	<span class="hljs-comment"># 读取地址文件</span>
             <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> f.readlines():
                 ip = i.strip()		<span class="hljs-comment"># 读取用户地址文件的地址，并去点换行空格</span>
                 <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> tgtPorts:
                     port = p.strip()
-                    port = int(port)	
+                    port = <span class="hljs-built_in">int</span>(port)	
                     t = Thread(target=scan,args=(ip,port))
                     t.start()	<span class="hljs-comment"># 多线程扫描</span></code></pre>
 
@@ -401,19 +412,19 @@
 </ul>
 <h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><pre><code class="hljs python"><span class="hljs-keyword">import</span> os
 <span class="hljs-keyword">import</span> time
-<span class="hljs-keyword">from</span> scapy.all <span class="hljs-keyword">import</span> *
+<span class="hljs-keyword">from</span> scapy.<span class="hljs-built_in">all</span> <span class="hljs-keyword">import</span> *
 <span class="hljs-keyword">from</span> optparse <span class="hljs-keyword">import</span> OptionParser
 <span class="hljs-keyword">from</span> threading <span class="hljs-keyword">import</span> Thread
 
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">scan</span><span class="hljs-params">(ip,port)</span>:</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">scan</span>(<span class="hljs-params">ip,port</span>):</span>
     <span class="hljs-keyword">try</span>:
-        packet = IP(dst=ip)/TCP(dport=port, flags=<span class="hljs-string">"S"</span>)	<span class="hljs-comment"># 构造标志位为syn的数据包</span>
+        packet = IP(dst=ip)/TCP(dport=port, flags=<span class="hljs-string">&quot;S&quot;</span>)	<span class="hljs-comment"># 构造标志位为syn的数据包</span>
         result = sr1(packet,timeout=<span class="hljs-number">0.5</span>, verbose=<span class="hljs-number">0</span>)
-        <span class="hljs-keyword">if</span> int(result[TCP].flags) == <span class="hljs-number">18</span>:
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">int</span>(result[TCP].flags) == <span class="hljs-number">18</span>:
             <span class="hljs-comment"># 通过判断响应的数据包中，是否存在第二次握手Ack+syn标志位，存在即端口开放</span>
             time.sleep(<span class="hljs-number">0.1</span>)
-            print(ip, <span class="hljs-string">"TCP"</span> , port, <span class="hljs-string">"open"</span>)
+            print(ip, <span class="hljs-string">&quot;TCP&quot;</span> , port, <span class="hljs-string">&quot;open&quot;</span>)
             <span class="hljs-comment"># 注意这里如果使用+号进行字符串拼接的话会导致报错，使用逗号即可拼接</span>
         <span class="hljs-keyword">return</span>
 
@@ -421,20 +432,20 @@
         <span class="hljs-keyword">pass</span>
 
 
-<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span>
 
-    parser = OptionParser(<span class="hljs-string">"Usage program -i &lt;target host&gt; -n &lt;website&gt; -p &lt;target port&gt;"</span>)
-    parser.add_option(<span class="hljs-string">"-i"</span>, <span class="hljs-string">'--host'</span>, type=<span class="hljs-string">"string"</span>,dest=<span class="hljs-string">"tgtIP"</span>,help=<span class="hljs-string">"specify target host or website"</span>)
-    parser.add_option(<span class="hljs-string">"-n"</span>,<span class="hljs-string">"--network"</span>, type=<span class="hljs-string">"string"</span>,dest=<span class="hljs-string">"tgtNetwork"</span>,help=<span class="hljs-string">"specify target Network"</span>)
-    parser.add_option(<span class="hljs-string">"-f"</span>, <span class="hljs-string">"--addressfile"</span>, type=<span class="hljs-string">"string"</span>, dest=<span class="hljs-string">"tgtFile"</span>, help=<span class="hljs-string">"specify target addressfile"</span>)
-    parser.add_option(<span class="hljs-string">"-p"</span>,<span class="hljs-string">"--port"</span>, type=<span class="hljs-string">"string"</span>,dest=<span class="hljs-string">"tgtPorts"</span>,help=<span class="hljs-string">"specify target port separated by comma"</span>)
+    parser = OptionParser(<span class="hljs-string">&quot;Usage program -i &lt;target host&gt; -n &lt;website&gt; -p &lt;target port&gt;&quot;</span>)
+    parser.add_option(<span class="hljs-string">&quot;-i&quot;</span>, <span class="hljs-string">&#x27;--host&#x27;</span>, <span class="hljs-built_in">type</span>=<span class="hljs-string">&quot;string&quot;</span>,dest=<span class="hljs-string">&quot;tgtIP&quot;</span>,<span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;specify target host or website&quot;</span>)
+    parser.add_option(<span class="hljs-string">&quot;-n&quot;</span>,<span class="hljs-string">&quot;--network&quot;</span>, <span class="hljs-built_in">type</span>=<span class="hljs-string">&quot;string&quot;</span>,dest=<span class="hljs-string">&quot;tgtNetwork&quot;</span>,<span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;specify target Network&quot;</span>)
+    parser.add_option(<span class="hljs-string">&quot;-f&quot;</span>, <span class="hljs-string">&quot;--addressfile&quot;</span>, <span class="hljs-built_in">type</span>=<span class="hljs-string">&quot;string&quot;</span>, dest=<span class="hljs-string">&quot;tgtFile&quot;</span>, <span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;specify target addressfile&quot;</span>)
+    parser.add_option(<span class="hljs-string">&quot;-p&quot;</span>,<span class="hljs-string">&quot;--port&quot;</span>, <span class="hljs-built_in">type</span>=<span class="hljs-string">&quot;string&quot;</span>,dest=<span class="hljs-string">&quot;tgtPorts&quot;</span>,<span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;specify target port separated by comma&quot;</span>)
     options,args = parser.parse_args()	<span class="hljs-comment"># 实例化用户输入的参数</span>
 
     tgtIP = options.tgtIP
     tgtNetwork = options.tgtNetwork <span class="hljs-comment"># 网段</span>
     tgtFile = options.tgtFile
     tgtPorts = options.tgtPorts
-  	tgtPorts = tgtPorts.split(<span class="hljs-string">","</span>) <span class="hljs-comment"># 将用户输入的多个端口以逗号分割生成列表</span>
+  	tgtPorts = tgtPorts.split(<span class="hljs-string">&quot;,&quot;</span>) <span class="hljs-comment"># 将用户输入的多个端口以逗号分割生成列表</span>
 
     <span class="hljs-keyword">if</span> tgtPorts <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">or</span> tgtNetwork <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> tgtIP <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> tgtFile <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>  :	<span class="hljs-comment"># 判断用户是否输入参数</span>
         print(parser.usage)	<span class="hljs-comment"># 如果没有输入参数则输出帮助信息，然后退出程序</span>
@@ -444,16 +455,16 @@
 
     <span class="hljs-keyword">if</span> tgtIP:	<span class="hljs-comment"># 输入单个ip地址时的操作</span>
         <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> tgtPorts:
-            port = int(p)
+            port = <span class="hljs-built_in">int</span>(p)
             t = Thread(target=scan,args=(tgtIP,port))
             t.start()
 
     <span class="hljs-keyword">if</span> tgtNetwork:	<span class="hljs-comment"># 输入整个网段时的操作</span>
-        prefix = tgtNetwork.split(<span class="hljs-string">"."</span>)[<span class="hljs-number">0</span>] + <span class="hljs-string">"."</span> + tgtNetwork.split(<span class="hljs-string">"."</span>)[<span class="hljs-number">1</span>] + <span class="hljs-string">"."</span> + tgtNetwork.split(<span class="hljs-string">"."</span>)[<span class="hljs-number">2</span>] + <span class="hljs-string">"."</span>	<span class="hljs-comment"># 将用户输入的网段提取提取前三位当作前缀</span>
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>,<span class="hljs-number">255</span>):
-            ip = prefix + str(i)	<span class="hljs-comment"># 和前缀结合形成网段内所有的地址</span>
+        prefix = tgtNetwork.split(<span class="hljs-string">&quot;.&quot;</span>)[<span class="hljs-number">0</span>] + <span class="hljs-string">&quot;.&quot;</span> + tgtNetwork.split(<span class="hljs-string">&quot;.&quot;</span>)[<span class="hljs-number">1</span>] + <span class="hljs-string">&quot;.&quot;</span> + tgtNetwork.split(<span class="hljs-string">&quot;.&quot;</span>)[<span class="hljs-number">2</span>] + <span class="hljs-string">&quot;.&quot;</span>	<span class="hljs-comment"># 将用户输入的网段提取提取前三位当作前缀</span>
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">255</span>):
+            ip = prefix + <span class="hljs-built_in">str</span>(i)	<span class="hljs-comment"># 和前缀结合形成网段内所有的地址</span>
             <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> tgtPorts:
-                port = int(p)
+                port = <span class="hljs-built_in">int</span>(p)
                 t = Thread(target=scan, args=(ip,port))
                 t.start()
 
@@ -461,20 +472,21 @@
 
     <span class="hljs-keyword">if</span> tgtFile:	<span class="hljs-comment"># 如果时地址文件则进行的操作</span>
         <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(tgtFile):		<span class="hljs-comment"># 判断文件是否存在</span>
-            print(<span class="hljs-string">"File not found"</span>)
+            print(<span class="hljs-string">&quot;File not found&quot;</span>)
             sys.exit()
-        <span class="hljs-keyword">with</span> open(tgtFile,<span class="hljs-string">"r"</span>) <span class="hljs-keyword">as</span> f:	<span class="hljs-comment"># 读取地址文件</span>
+        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(tgtFile,<span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:	<span class="hljs-comment"># 读取地址文件</span>
             <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> f.readlines():
                 ip = i.strip()		<span class="hljs-comment"># 读取用户地址文件的地址，并去点换行空格</span>
                 <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> tgtPorts:
                     port = p.strip()
-                    port = int(port)	
+                    port = <span class="hljs-built_in">int</span>(port)	
                     t = Thread(target=scan,args=(ip,port))
                     t.start()	<span class="hljs-comment"># 多线程扫描</span>
 
 
-<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">'__main__'</span>:
-    main()</code></pre>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:
+    main()
+</code></pre>
 
 
 
@@ -489,7 +501,7 @@
 </tr>
 </tbody></table>
 
-            </article>
+            </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
@@ -511,11 +523,11 @@
                 
               </div>
               
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
               
               
                 <div class="post-prevnext row">
-                  <div class="post-prev col-6">
+                  <article class="post-prev col-6">
                     
                     
                       <a href="/2020/10/04/pip%E5%A4%87%E5%BF%98%E5%BD%95/">
@@ -524,8 +536,8 @@
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
-                  </div>
-                  <div class="post-next col-6">
+                  </article>
+                  <article class="post-next col-6">
                     
                     
                       <a href="/2020/09/14/Scapy%E8%B5%B7%E8%88%AA/">
@@ -534,13 +546,13 @@
                         <i class="iconfont icon-arrowright"></i>
                       </a>
                     
-                  </div>
+                  </article>
                 </div>
               
             </div>
 
             
-          </div>
+          </article>
         </div>
       </div>
     </div>
@@ -548,7 +560,7 @@
       <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
         <div id="toc">
   <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
-  <div id="tocbot"></div>
+  <div class="toc-body" id="toc-body"></div>
 </div>
 
       </div>
@@ -560,16 +572,15 @@
 
 
     
-  </main>
 
-  
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
-  
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
      aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
@@ -590,77 +601,44 @@
     </div>
   </div>
 </div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
   
 
   
 
   
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Power by SuQieR</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Hexo theme by Fluid</span></a>
-    </div>
-    
-  <div class="statistics">
-    
-    
-
-    
-      
-        <!-- 不蒜子统计PV -->
-        <span id="busuanzi_container_site_pv" style="display: none">
-            总访问量 
-            <span id="busuanzi_value_site_pv"></span>
-             次
-          </span>
-      
-      
-        <!-- 不蒜子统计UV -->
-        <span id="busuanzi_container_site_uv" style="display: none">
-            总访客数 
-            <span id="busuanzi_value_site_uv"></span>
-             人
-          </span>
-      
-    
-  </div>
-
-
-    
-  <!-- 备案信息 -->
-  <div class="beian">
-    <a href="http://beian.miit.gov.cn/" target="_blank"
-       rel="nofollow noopener">京 ICP 备 20020711 号</a>
-    
-      <a
-        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20020711"
-        rel="nofollow noopener"
-        class="beian-police"
-        target="_blank"
-      >
-        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
-        
-          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
-        
-        <span>京公网安备 11010802032018 号</span>
-      </a>
-     
-  </div>
-
-
-    
-  </div>
 </footer>
 
 <!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+
+  <script  src="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.5.3/js/bootstrap.min.js" ></script>
 <script  src="/js/debouncer.js" ></script>
-<script  src="/js/main.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 <!-- Plugins -->
 
@@ -671,105 +649,51 @@
 
 
 
+  
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.12.0/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.3.0/anchor.min.js" ></script>
+
+
+
   <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
 
 
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
-
-
-
-
-
-  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      var boardCtn = $('#board-ctn');
-      var boardTop = boardCtn.offset().top;
-
-      tocbot.init({
-        tocSelector: '#tocbot',
-        contentSelector: 'article.markdown-body',
-        headingSelector: 'h1,h2,h3,h4,h5,h6',
-        linkClass: 'tocbot-link',
-        activeLinkClass: 'tocbot-active-link',
-        listClass: 'tocbot-list',
-        isCollapsedClass: 'tocbot-is-collapsed',
-        collapsibleClass: 'tocbot-is-collapsible',
-        collapseDepth: 0,
-        scrollSmooth: true,
-        headingsOffset: -boardTop
-      });
-      if ($('.toc-list-item').length > 0) {
-        $('#toc').css('visibility', 'visible');
-      }
-    });
-  </script>
 
 
 
   <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
   <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "Python+Scapy实现TCP端口扫描&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
       
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
-    }
-    anchors.add(res.join(", "))
+      typing(title)
+      
+    })(window, document);
   </script>
 
 
 
   <script  src="/js/local-search.js" ></script>
   <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      searchFunc(path, 'local-search-input', 'local-search-result');
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-  <script>
-    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
-      function () {
-        var element = document.createElement('a');
-        $(element).attr('data-fancybox', 'images');
-        $(element).attr('href', $(this).attr('src'));
-        $(this).wrap(element);
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
       }
-    );
+    })()
   </script>
 
 
@@ -778,55 +702,6 @@
 
 
 
-  
-  
-    <script type="text/javascript">
-      //定义获取词语下标
-      var a_idx = 0;
-      jQuery(document).ready(function ($) {
-        //点击body时触发事件
-        $("body").click(function (e) {
-          //需要显示的词语
-          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
-          //设置词语给span标签
-          var $i = $("<span/>").text(a[a_idx]);
-          //下标等于原来下标+1  余 词语总数
-          a_idx = (a_idx + 1) % a.length;
-          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
-          //获取x和y的指针坐标
-          var x = e.pageX, y = e.pageY;
-          //在鼠标的指针的位置给$i定义的span标签添加css样式
-          $i.css({
-            "z-index": 999,
-            "top": y - 20,
-            "left": x,
-            "position": "absolute",
-            "font-weight": "bold",
-            "color": rand_color()
-          });
-          // 随机颜色
-          function rand_color() {
-            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
-          }
-          //在body添加这个标签
-          $("body").append($i);
-          //animate() 方法执行 CSS 属性集的自定义动画。
-          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
-          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
-          $i.animate({
-            //将原来的位置向上移动180
-            "top": y - 180,
-            "opacity": 0
-            //1500动画的速度
-          }, 1500, function () {
-            //时间到了自动删除
-            $i.remove();
-          });
-        });
-      })
-      ;
-    </script>
-  
 
 
 
@@ -835,22 +710,8 @@
 
 
 
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
 
 
 
